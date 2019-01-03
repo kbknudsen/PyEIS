@@ -36,9 +36,9 @@ F = codata.physical_constants['Faraday constant'][0]
 Rg = codata.physical_constants['molar gas constant'][0]
 
 ### Importing EIS add-ons
-from Impedance_Analyzer_Data_extraction import *
-from Impedance_Analyzer_Lin_KK import *
-from Impedance_Analyzer_Advanced_tools import *
+from PyEIS_Data_extraction import *
+from PyEIS_Lin_KK import *
+from PyEIS_Advanced_tools import *
 #from Impedance_Analyzer_uelectrode import * # 
 #from Impedance_Analyzer_uelectrode_advanced import *
 
