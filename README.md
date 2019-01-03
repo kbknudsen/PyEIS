@@ -5,7 +5,7 @@
 This repository contains PyEIS, A Python-based Electrochemical Impedance Spectroscopy analyzer and simulator. The software is designed to perform impedance simulations and analyze experimental data through the application of circuit elements. Physical processes in an electrochemical system can be represented by analog circuits containing capacitors (C), resistors (R), inductors (I), and some distributed elements such as constant-phase-elements (Q) and Warburg elements (W). These features make it possible to understand kinetics, double-layers, and mass-transport for a large range of electrochemical applications. 
 
 PyEIS have eleven main features:
-- Currently contains 27 build-in equivalent circuits 
+- Currently contains 26 build-in equivalent circuits 
 - Capable of predicting kinetics following Butler-Volmer kinetics for any equivalent circuit
 - Capable of simulating double-layer capacitance following the theories of Stern and Gouy-Chapman for any equivalent circuit containing C's or Q's
 - Automated graphical representation in Nyquist and Bode plots with a number of plotting options
