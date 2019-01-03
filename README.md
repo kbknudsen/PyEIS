@@ -22,7 +22,7 @@ Author: Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
 ## How to use PyEIS
 PyEIS works in any python 3.x environment. It was build, tested, and automated in Jupyter lab and Spyder. To use PyEIS, an independent interface is not available as impedance fitting and post analysis of fitted parameters would become a two-step process. Instead PyEIS works directly in an Python interface and fitted parameters are automatically outputted in variables directly accessible to plot vs. potential, current, state-of-charge, cycle number, time, etc. allowing for fast analysis.
 
-The following two Jupyter notebooks are tutorials that in a step-by-step manner introduces the functionality of pyEIS:
+The following two notebooks are tutorials that in a step-by-step manner introduces the functionality of pyEIS:
 
 - Simulations with PyEIS (xxx hyperlink)
 - Experimental fitting with PyEIS (xxx hyperlink)
