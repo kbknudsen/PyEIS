@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/kbknudsen/PyOsEIS/blob/master/pyEIS_images/PyEIS_logo.png">
+  <img src="https://github.com/kbknudsen/PyEIS/blob/master/pyEIS_images/PyEIS_logo.png">
 </p>
 
 This repository contains pyEIS, A Python-based Electrochemical Impedance Spectroscopy analyzer and simulator (PyEIS). The software is designed perform impedance simulations and analyze experimental data through the application of circuit elements. Physical processes in an electrochemical system can be represented by analog circuits containing capacitors (C), resistors (R), inductors (I), and some distributed elements such as constant-phase-elements (Q) and Warburg elements (W). These features make it possible to understand kinetics, double-layers, and mass-transport for a large range of applications. 
@@ -29,10 +29,10 @@ The following two Jupyter notebooks are tutorials that in a step-by-step manner 
 
 Both tutorials covers how to use PyEIS in a step-by-step manner. This includes simulating and plotting impedance spectra’s with different build-in equivalent circuits, fitting generated data with equivalent circuits, and extracting fitted parameters. The "Experimental xxx" notebook covers how to import experimental data, perform linear Kramers-Kronig analysis of the experimental data to access data quality, how to mask data, fitting and plotting experimental data using equivalent circuits, assessing quality of fit using relative residuals, and extracting fitted parameters such as resistors and capacitors for further post-analysis.
 
-The build-in equivalent circuits are illustrated in the following figure. Here Boukamp's simple notation of circuits [xxx Boukamp B.A., "Equivalent Circuit. User Manual" University of Twente, The Netherlands, 1989, 2nd edn.] are used to in the "trivial term", while "Simulation function" describes the function that needs to be called to perform any simulations. "Fit string" describes each circuit string that needs be called in the fitting functions.
+The build-in equivalent circuits are illustrated in the following figure. Here Boukamp's simple notation of circuits [5] are used to in the "trivial term", while "Simulation function" describes the function that needs to be called to perform any simulations. "Fit string" describes each circuit string that needs be called in the fitting functions.
 
 <p align="center">
-  <img src="https://github.com/kbknudsen/PyOsEIS/blob/master/pyEIS_images/Equivalent_Circuits_avaliable.png">
+  <img src="https://github.com/kbknudsen/PyEIS/blob/master/pyEIS_images/Equivalent_Circuits_avaliable.png">
 </p>
 
 ## Software and Installation
@@ -40,7 +40,7 @@ The code in this software was written in Python 3.6, and it is not recommend usi
 
 The Packages essential for the code are listed in requirements.txt. To install these packages, or Python in general use your package manager or [Anaconda](https://anaconda.org).
 
-PyEIS utilizes core libraries essential for working with data in Python: In particiular lmfit [3], numpy [4], mpmath [5], pandas [6], and matplotlib [7].
+PyEIS utilizes core libraries essential for working with data in Python: In particiular lmfit [3], numpy [4], mpmath [6], pandas [7], and matplotlib [8].
 
 ## License
 All files in this repository, including code in the notebooks, readme, logos, and figures are released under the Apache 2.0 License. Read more at the [Open Source Initiative](https://opensource.org/licenses/Apache-2.0).
@@ -64,8 +64,10 @@ Funding is acknowledged from NASA ARMD Convergent Aeronautics Solutions (CAS) Pr
 
 [4] Oliphant T.E (2006) "A guide to NumPy" Trelgol Publishing
 
-[5] Johansson F. (2013) "Mpmath: A Python Library for arbitrary-precision floating-point arithmetric" v. 0.18, http://mpmath.org
+[5] Boukamp B.A., "Equivalent Circuit. User Manual" University of Twente, The Netherlands, 1989, 2nd edn.
 
-[6] McKinney W., Proceedings of the 9th Python in Science Conference, 51-56 (2010) "Data Structures for Statistical Computing in Python"
+[6] Johansson F. (2013) "Mpmath: A Python Library for arbitrary-precision floating-point arithmetric" v. 0.18, http://mpmath.org
 
-[7] Hunter, J.D. Computing in Science & Engineering, 9, 90-95 (2007) "Matplotlib: A 2D Graphics Environment", DOI:10.1109/MCSE.2007.55
+[7] McKinney W., Proceedings of the 9th Python in Science Conference, 51-56 (2010) "Data Structures for Statistical Computing in Python"
+
+[8] Hunter, J.D. Computing in Science & Engineering, 9, 90-95 (2007) "Matplotlib: A 2D Graphics Environment", DOI:10.1109/MCSE.2007.55
