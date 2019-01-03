@@ -22,10 +22,13 @@ Author: Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
 ## How to use PyEIS
 PyEIS works in any python 3.x environment. It was build, tested, and automated in Jupyter lab and Spyder. To use PyEIS, an independent interface is not available as impedance fitting and post analysis of fitted parameters would become a two-step process. Instead PyEIS works directly in an Python interface and fitted parameters are automatically outputted in variables directly accessible to plot vs. potential, current, state-of-charge, cycle number, time, etc. allowing for fast analysis.
 
+
 The following two notebooks are tutorials that in a step-by-step manner introduces the functionality of pyEIS:
+
 
 - Simulations with PyEIS (xxx hyperlink)
 - Experimental fitting with PyEIS (xxx hyperlink)
+
 
 Both tutorials covers how to use PyEIS in a step-by-step manner. This includes simulating and plotting impedance spectra’s with different build-in equivalent circuits, fitting generated data with equivalent circuits, and extracting fitted parameters. The "Experimental xxx" notebook covers how to import experimental data, perform linear Kramers-Kronig analysis of the experimental data to access data quality, how to mask data, fitting and plotting experimental data using equivalent circuits, assessing quality of fit using relative residuals, and extracting fitted parameters such as resistors and capacitors for further post-analysis.
 
@@ -49,7 +52,7 @@ All files in this repository, including code in the notebooks, readme, logos, an
 xxx
 
 ## Acknowledgements
-Kristian's work on PyEIS is the accumulation  of studying kinetics, double-layer and capacitive effects, and mass transport limitations in battery cells with Electrochemical Impedance Spectroscopy during his PhD at The Technical University of Denmark, Department of Energy under the supervision of Ass. Prof. Johan Hjelm. He currently has a Post Doctoral position at the University of California, Berkeley at the Department of Chemical Engineering with Ass. Prof. Bryan D. McCloskey. During this time Kristian developed PyEIS for batch analysis of complex EIS responses.
+PyEIS is the accumulation of studying kinetics, double-layer and capacitive effects, and mass transport limitations in cells with Electrochemical Impedance Spectroscopy during his PhD at The Technical University of Denmark, Department of Energy under the supervision of Ass. Prof. Johan Hjelm. He currently has a Post Doctoral position at the University of California, Berkeley at the Department of Chemical Engineering with Ass. Prof. Bryan D. McCloskey. During this time Kristian developed PyEIS for batch analysis of complex EIS responses.
 
 Funding is acknowledged from NASA ARMD Convergent Aeronautics Solutions (CAS) Project (cooperative agreement NNX16AR82A).
 
