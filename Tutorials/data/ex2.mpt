@@ -10,14 +10,14 @@ Electrode connection : standard
 Ewe ctrl range : min = -1.50 V, max = 0.50 V
 Safety Limits :
 	Do not start on E overload
-Acquisition started on : 04/21/2018 13:32:55
-Technique started on : 04/21/2018 18:20:54
+Acquisition started on : xx/xx/xxxx xx:xx:xx
+Technique started on : xx/xx/xxxx xx:xx:xx
 Saved on :
-	File : 180421-0,1MTBAClO4-DME_5mL-GC-PEIS_001_0,9V_-1,3V_10_PEIS_C01.mpr
-	Directory : C:\Users\Delilah\Box Sync\McCloskey Lab\Data\DELILAH\kknu\2018\O2_solvation\180421-0,1MTBAClO4-DME_5mL-GC\
-	Host : 169.254.253.15
-Device : VSP (SN 1366)
-Address : 169.254.49.246
+	File : xxx
+	Directory : xxx\
+	Host : xxx.xxx.xxx.xx
+Device : VSP (SN xxxx)
+Address : xxx.xxx.xx.xxx
 EC-Lab for windows v11.16 (software)
 Internet server v11.16 (firmware)
 Command interpretor v11.16 (firmware)
