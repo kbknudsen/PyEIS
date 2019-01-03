@@ -2,7 +2,7 @@
   <img src="https://github.com/kbknudsen/PyEIS/blob/master/pyEIS_images/PyEIS_logo.png">
 </p>
 
-This repository contains pyEIS, A Python-based Electrochemical Impedance Spectroscopy analyzer and simulator (PyEIS). The software is designed perform impedance simulations and analyze experimental data through the application of circuit elements. Physical processes in an electrochemical system can be represented by analog circuits containing capacitors (C), resistors (R), inductors (I), and some distributed elements such as constant-phase-elements (Q) and Warburg elements (W). These features make it possible to understand kinetics, double-layers, and mass-transport for a large range of applications. 
+This repository contains PyEIS, A Python-based Electrochemical Impedance Spectroscopy analyzer and simulator. The software is designed to perform impedance simulations and analyze experimental data through the application of circuit elements. Physical processes in an electrochemical system can be represented by analog circuits containing capacitors (C), resistors (R), inductors (I), and some distributed elements such as constant-phase-elements (Q) and Warburg elements (W). These features make it possible to understand kinetics, double-layers, and mass-transport for a large range of electrochemical applications. 
 
 PyEIS have eleven main features:
 - Currently contains 27 build-in equivalent circuits 
@@ -16,6 +16,10 @@ PyEIS have eleven main features:
 - Extraction of fitted parameters for fast post-analysis
 - Open-source platform that makes it feasible to include any new equivalent circuit
 - Tutorials for simulating impedance, importing experimental data, and fitting experimental data
+
+
+If you use this software in academic work, please use the following citation: 
+
 
 Author: Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
 
