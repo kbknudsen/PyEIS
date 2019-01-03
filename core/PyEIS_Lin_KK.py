@@ -5009,5 +5009,5 @@ def residual_imag(im, fit_re, fit_im):
     modulus_fit = (fit_re**2 + fit_im**2)**(1/2)
     return (im - fit_im) / modulus_fit
 
-print()
-print('---> Linear Kramers-Kronig Script Loaded (v. 0.0.9 - 11/11/18)')
+#print()
+#print('---> Linear Kramers-Kronig Script Loaded (v. 0.0.9 - 11/11/18)')

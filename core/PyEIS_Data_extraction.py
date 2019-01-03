@@ -111,6 +111,6 @@ def extract_dta(path, EIS_name):
     data.update({'im': np.abs(data.im)})
     data = data.assign(cycle_number = 1.0)
     return data
-
-print()
-print('---> Data Extraction Script Loaded (v. 0.0.2 - 06/27/18)')
+#
+#print()
+#print('---> Data Extraction Script Loaded (v. 0.0.2 - 06/27/18)')

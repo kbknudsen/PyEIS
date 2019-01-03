@@ -5977,6 +5977,6 @@ class EIS_sim:
         if savefig != 'none':
             fig.savefig(savefig) #saves figure if fix text is given
 
-print()
-print('---> PyEIS Core Loaded (v. 0.5.0 - 01/03/19)')
-print()
+#print()
+#print('---> PyEIS Core Loaded (v. 0.5.0 - 01/03/19)')
+#print()
