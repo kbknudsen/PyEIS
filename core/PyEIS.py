@@ -5978,5 +5978,5 @@ class EIS_sim:
             fig.savefig(savefig) #saves figure if fix text is given
 
 print()
-print('---> Impedance Analyzer Core Loaded (v. 0.4.9 - 11/27/18)')
+print('---> PyEIS Core Loaded (v. 0.5.0 - 01/03/19)')
 print()

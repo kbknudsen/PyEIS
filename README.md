@@ -23,13 +23,13 @@ Author: Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
 PyEIS works in any python 3.x environment. It was build, tested, and automated in Jupyter lab and Spyder. To use PyEIS, an independent interface is not available as impedance fitting and post analysis of fitted parameters would become a two-step process. Instead PyEIS works directly in an Python interface and fitted parameters are automatically outputted in variables directly accessible to plot vs. potential, current, state-of-charge, cycle number, time, etc. allowing for fast analysis.
 
 
-The following two notebooks are tutorials that in a step-by-step manner introduces the functionality of pyEIS:
+The following two notebooks are tutorials that in a step-by-step manner introduces the functionality of PyEIS:
 
 
 - [Simulations with PyEIS](https://github.com/kbknudsen/PyEIS/blob/master/Tutorials/PyEIS_simulation_tutorial.ipynb)
-- [Experimental fitting with PyEIS](https://github.com/kbknudsen/PyEIS/blob/master/Tutorials/PyEIS_experimental-data_tutorial.ipynb)
+- [Experimental Fitting with PyEIS](https://github.com/kbknudsen/PyEIS/blob/master/Tutorials/PyEIS_experimental-data_tutorial.ipynb)
 
-Both tutorials covers how to use PyEIS in a step-by-step manner. This includes simulating and plotting impedance spectra’s with different build-in equivalent circuits, fitting generated data with equivalent circuits, and extracting fitted parameters. The [Experimental fitting with PyEIS](https://github.com/kbknudsen/PyEIS/blob/master/Tutorials/PyEIS_experimental-data_tutorial.ipynb) notebook covers how to import experimental data, perform linear Kramers-Kronig analysis of the experimental data to access data quality, how to mask data, fitting and plotting experimental data using equivalent circuits, assessing quality of fit using relative residuals, and extracting fitted parameters such as resistors and capacitors for further post-analysis.
+Both tutorials covers how to use PyEIS in a step-by-step manner. The [Simulations with PyEIS](https://github.com/kbknudsen/PyEIS/blob/master/Tutorials/PyEIS_simulation_tutorial.ipynb) notebook covers simulating and plotting impedance spectra’s with different build-in equivalent circuits, fitting generated data with equivalent circuits, and extracting fitted parameters. The [Experimental Fitting with PyEIS](https://github.com/kbknudsen/PyEIS/blob/master/Tutorials/PyEIS_experimental-data_tutorial.ipynb) notebook covers how to import experimental data, perform linear Kramers-Kronig analysis of the experimental data to access data quality, how to mask data, fitting and plotting experimental data using equivalent circuits, assessing quality of fit using relative residuals, and extracting fitted parameters such as resistors and capacitors for further post-analysis.
 
 The build-in equivalent circuits are illustrated in the following figure. Here Boukamp's simple notation of circuits [5] are used to in the "trivial term", while "Simulation function" describes the function that needs to be called to perform any simulations. "Fit string" describes each circuit string that needs be called in the fitting functions.
 
