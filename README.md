@@ -51,11 +51,8 @@ PyEIS utilizes core libraries essential for working with data in Python: In part
 ## License
 All files in this repository, including code in the notebooks, readme, logos, and figures are released under the Apache 2.0 License. Read more at the [Open Source Initiative](https://opensource.org/licenses/Apache-2.0).
 
-## Release History
-xxx
-
 ## Acknowledgements
-PyEIS is the accumulation of studying kinetics, double-layer and capacitive effects, and mass transport limitations in cells with Electrochemical Impedance Spectroscopy during his PhD at The Technical University of Denmark, Department of Energy under the supervision of Ass. Prof. Johan Hjelm. He currently has a Post Doctoral position at the University of California, Berkeley at the Department of Chemical Engineering with Ass. Prof. Bryan D. McCloskey. During this time Kristian developed PyEIS for batch analysis of complex EIS responses.
+PyEIS is the accumulation of Kristian's work studying kinetics, double-layer and capacitive effects, and mass transport limitations in cells with Electrochemical Impedance Spectroscopy during his PhD at The Technical University of Denmark, Department of Energy under the supervision of Ass. Prof. Johan Hjelm. He currently maintains a Post Doctoral position at the University of California, Berkeley at the Department of Chemical Engineering with Ass. Prof. Bryan D. McCloskey and during this time Kristian developed PyEIS for batch analysis of complex EIS responses.
 
 Funding is acknowledged from NASA ARMD Convergent Aeronautics Solutions (CAS) Project (cooperative agreement NNX16AR82A).
 
