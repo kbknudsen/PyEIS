@@ -4,10 +4,8 @@
 
 This repository contains PyEIS, A Python-based Electrochemical Impedance Spectroscopy analyzer and simulator. The software is designed to perform impedance simulations and analyze experimental data through the application of circuit elements. Physical processes in an electrochemical system can be represented by analog circuits containing capacitors (C), resistors (R), inductors (I), and some distributed elements such as constant-phase-elements (Q) and Warburg elements (W). These features make it possible to understand kinetics, double-layers, and mass-transport for a large range of electrochemical applications. 
 
-PyEIS have eleven main features:
+PyEIS have nine main features:
 - Currently contains 26 build-in equivalent circuits 
-- Capable of predicting kinetics following Butler-Volmer kinetics for any equivalent circuit
-- Capable of simulating double-layer capacitance following the theories of Stern and Gouy-Chapman for any equivalent circuit containing C's or Q's
 - Automated graphical representation in Nyquist and Bode plots with a number of plotting options
 - Capable of importing experimental data from Bio-Logic's EC-Lab '.mpt' and Gamry's '.DTA' files
 - Experimental data validation and quality assessment through Boukamp's linear Kramers-Kronig analysis [1] with an automated optimization function that ensures an optimal number of -(RC)- elements ensuring data is neither over- or under-fitted [2]
@@ -24,7 +22,7 @@ If you use this software in academic work, please use the following citation:
 Author: Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
 
 ## How to use PyEIS
-PyEIS works in any python 3.x environment. It was build, tested, and automated in Jupyter lab and Spyder. To use PyEIS, an independent interface is not available as impedance fitting and post analysis of fitted parameters would become a two-step process. Instead PyEIS works directly in an Python interface and fitted parameters are automatically outputted in variables directly accessible to plot vs. potential, current, state-of-charge, cycle number, time, etc. allowing for fast analysis.
+PyEIS works in any python 3 environment. It was build, tested, and automated in Jupyter lab and Spyder. To use PyEIS, an independent interface is not available as impedance fitting and post analysis of fitted parameters would become a two-step process. Instead PyEIS works directly in an Python interface and fitted parameters are automatically outputted in variables directly accessible to plot vs. potential, current, state-of-charge, cycle number, time, etc. allowing for fast analysis.
 
 
 The following two notebooks are tutorials that in a step-by-step manner introduces the functionality of PyEIS:
