@@ -1,0 +1,6 @@
+README.md
+setup.py
+PyEIS.egg-info/PKG-INFO
+PyEIS.egg-info/SOURCES.txt
+PyEIS.egg-info/dependency_links.txt
+PyEIS.egg-info/top_level.txt
