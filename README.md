@@ -16,7 +16,7 @@ PyEIS have nine main features:
 - Tutorials for simulating impedance, importing experimental data, and fitting experimental data
 
 
-Following the license agreement, please use the following citation: 
+Following the license agreement, please use the following citation: TBD
 
 
 Author: Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
@@ -42,8 +42,11 @@ The build-in equivalent circuits are illustrated in the following figure. Here B
 ## Software and Installation
 PyEIS utilizes core libraries essential for working with data in Python: In particiular lmfit [3], numpy [4], mpmath [6], pandas [7], and matplotlib [8].
 
+more to follow..
+
+
 ## License
-All files in this repository, including code, readme, logos, and figures are released under the Apache 2.0 License. Learn more at the [Open Source Initiative](https://opensource.org/licenses/Apache-2.0).
+All files in this repository including code, readme, logos, and figures are released under the Apache 2.0 License. Learn more at the [Open Source Initiative](https://opensource.org/licenses/Apache-2.0).
 
 ## Acknowledgements
 PyEIS is the accumulation of Kristian's work studying kinetics, double-layer and capacitive effects, and mass transport limitations in electrochemical cells with Electrochemical Impedance Spectroscopy during his PhD at The Technical University of Denmark, Department of Energy under the supervision of Ass. Prof. Johan Hjelm. He currently maintains a Post Doctoral position at the University of California, Berkeley at the Department of Chemical Engineering with Ass. Prof. Bryan D. McCloskey and during this time Kristian developed PyEIS for batch analysis of complex EIS responses.
