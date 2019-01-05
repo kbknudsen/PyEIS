@@ -81,6 +81,6 @@ Description: <p align="center">
         [8] Hunter, J.D. Computing in Science & Engineering, 9, 90-95 (2007) "Matplotlib: A 2D Graphics Environment", DOI:10.1109/MCSE.2007.55
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
-Classifier: License :: OSI Approved :: Apache License, Version 2.0 (Apache-2.0)
+Classifier: License :: OSI Approved :: Apache Software License
 Classifier: Operating System :: OS Independent
 Description-Content-Type: text/markdown
