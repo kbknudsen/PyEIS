@@ -16,7 +16,7 @@ PyEIS have nine main features:
 - Tutorials for simulating impedance, importing experimental data, and fitting experimental data
 
 
-Following the license agreement, please use the following citation: TBD
+Following the license agreement, please use the following citation: [![DOI](https://zenodo.org/badge/159585045.svg)](https://zenodo.org/badge/latestdoi/159585045)
 
 
 Author: Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
