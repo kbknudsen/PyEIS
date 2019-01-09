@@ -44,7 +44,7 @@ PyEIS utilizes core libraries essential for working with data in Python: In part
 
 PyEIS is available on PyPI and can be install using the following command
 
-> pip install PyEIS
+> - pip install PyEIS
 
 ## License
 All files in this repository including code, readme, logos, and figures are released under the Apache 2.0 License. Learn more at the [Open Source Initiative](https://opensource.org/licenses/Apache-2.0).
