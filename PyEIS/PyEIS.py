@@ -36,9 +36,9 @@ F = codata.physical_constants['Faraday constant'][0]
 Rg = codata.physical_constants['molar gas constant'][0]
 
 ### Importing EIS add-ons
-from PyEIS_Data_extraction import *
-from PyEIS_Lin_KK import *
-from PyEIS_Advanced_tools import *
+#from PyEIS_Data_extraction import *
+#from PyEIS_Lin_KK import *
+#from PyEIS_Advanced_tools import *
 #from Impedance_Analyzer_uelectrode import * # 
 #from Impedance_Analyzer_uelectrode_advanced import *
 
@@ -350,7 +350,7 @@ def Randles_coeff(w, n_electron, A, E='none', E0='none', D_red='none', D_ox='non
     Z_Aw = sigma*(w**(-0.5))-1j*sigma*(w**(-0.5))
     return Z_Aw
 
-def cir_Randles(w, n_electron, D_red, D_ox, C_red, C_ox, Rs, Rct, n, E, A, Q='none', fs='none', E0=0, F=F, R=R, T=298.15):
+def cir_Randles(w, n_electron, D_red, D_ox, C_red, C_ox, Rs, Rct, n, E, A, Q='none', fs='none', E0=0, F=F, Rg=Rg, T=298.15):
     '''
     Simulation Function: Randles -Rs-(Q-(RW)-)-
     Return the impedance of a Randles circuit with full complity of the warbug constant

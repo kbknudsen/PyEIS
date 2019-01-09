@@ -12,7 +12,8 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/kbknudsen/PyEIS",
-    packages=setuptools.find_packages(),
+    packages=['PyEIS'],
+    scripts=['bin/PyEIS_script.py'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache Software License",
