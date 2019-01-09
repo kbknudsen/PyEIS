@@ -42,7 +42,9 @@ The build-in equivalent circuits are illustrated in the following figure. Here B
 ## Software and Installation
 PyEIS utilizes core libraries essential for working with data in Python: In particiular lmfit [3], numpy [4], mpmath [6], pandas [7], and matplotlib [8].
 
-> pip install PyEIS
+PyEIS is available on PyPI and can be install using the following command
+
+> - pip install PyEIS
 
 ## License
 All files in this repository including code, readme, logos, and figures are released under the Apache 2.0 License. Learn more at the [Open Source Initiative](https://opensource.org/licenses/Apache-2.0).
