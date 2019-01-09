@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="PyEIS",
-    version="1.0.0",
+    version="1.0.1",
     author="Kristian B. Knudsen",
     author_email="kknu@berkeley.edu",
     description="A Python-based Electrochemical Impedance Spectroscopy simulator and analyzer",
