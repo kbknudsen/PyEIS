@@ -40,28 +40,26 @@ The built-in equivalent circuits are illustrated in the following figure. Here B
 </p>
 
 ## Software and Installation
-PyEIS utilizes core libraries essential for working with data in Python: In particiular lmfit [3], numpy [4], mpmath [6], pandas [7], and matplotlib [8].
-
 PyEIS is available on PyPI and can be install using the following command
 
 > - pip install PyEIS
 
 ### Dependencies
-The following dependencies are required by PyEIS
+The following libraries are required by PyEIS
 
-- Numpy > 1.13.3
-- Scipy > 1.0.1
-- Pandas > 0.22.0
-- mpmath > 1.1.0
-- lmfit > 0.9.7
-- matplotlib > 2.2.2
-- seaborn > 0.8.1
+- Numpy >= 1.13.3
+- Scipy >= 1.0.1
+- Pandas >= 0.22.0
+- mpmath >= 1.1.0
+- lmfit >= 0.9.7
+- matplotlib >= 2.2.2
+- seaborn >= 0.8.1
 
 
 ## Version updates
 
 ### V. 1.0.4:
-A number of minor bugs and a additional add-on has been made avaliable.
+A number of minor bugs and an additional add-on has been made avaliable.
 - PyEIS is now compatable with Solartron's '*.z' data format
 - Import of experimental data is again possible
 - masking data could lead to nan values in the dateframe that made legends 'nan' strings and gave errors during fitting of linear KK analysis
