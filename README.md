@@ -59,13 +59,13 @@ The following libraries are required by PyEIS
 ## Version updates
 
 ### V. 1.0.4:
-A number of minor bugs have been fixed and an additional add-on has been made avaliable.
-- PyEIS is now compatable with Solartron's '*.z' data format
+A number of minor bugs have been fixed and an additional add-on has been made available.
+- PyEIS is now compatible with Solartron's '*.z' data format
 - Import of experimental data is again possible
-- Masking data could lead to nan values in the dateframe that made legends 'nan' strings and gave errors during fitting of linear KK analysis
+- Masking data could lead to nan values in the dataframe that made legends 'nan' strings and gave errors during fitting of linear KK analysis
 - Label settings for Nyquist and Bode plot have been simplified
 - Label settings from the relative residuals between fit and experimental data have been simplified
-- Auto-scaling of the plot described in c) have been optimized
+- Auto-scaling of the relative residuals between fit and experimental data have been optimized
 
 ## License
 All files in this repository including code, readme, logos, and figures are released under the Apache 2.0 License. Learn more at the [Open Source Initiative](https://opensource.org/licenses/Apache-2.0).
