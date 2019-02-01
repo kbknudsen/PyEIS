@@ -47,7 +47,8 @@ PyEIS is available on PyPI and can be install using the following command
 > - pip install PyEIS
 
 ### Dependencies
-The following dependencies needs to be installed
+The following dependencies are required by PyEIS
+
 - Numpy > 1.13.3
 - Scipy > 1.0.1
 - Pandas > 0.22.0
@@ -58,7 +59,8 @@ The following dependencies needs to be installed
 
 
 ## Version updates
-- V. 1.0.4:
+
+### V. 1.0.4:
 A number of minor bugs and a additional add-on has been made avaliable.
 - PyEIS is now compatable with Solartron's '*.z' data format
 - Import of experimental data is again possible
