@@ -7,7 +7,7 @@ This repository contains PyEIS, A Python-based Electrochemical Impedance Spectro
 PyEIS has nine main features:
 - Currently contains 26 built-in equivalent circuits 
 - Automated graphical representation in Nyquist and Bode plots with a number of plotting options
-- Capable of importing experimental data from Bio-Logic's EC-Lab '.mpt' and Gamry's '.DTA' files
+- Capable of importing experimental data from Bio-Logic's EC-Lab '*.mpt', Gamry's '*.DTA', and Solartron's '*.z' files
 - Experimental data validation and quality assessment through Boukamp's linear Kramers-Kronig analysis [1] with an automated optimization function that ensures an optimal number of -(RC)- elements ensuring data is neither over- or under-fitted [2]
 - Ability to fit experimental data through the weighed complex non-linear least squares fitting procedure using the lmfit package [3] with any built-in equivalent circuit
 - Batch fitting capabilities that do not require any additional key strokes
@@ -45,6 +45,27 @@ PyEIS utilizes core libraries essential for working with data in Python: In part
 PyEIS is available on PyPI and can be install using the following command
 
 > - pip install PyEIS
+
+### Dependencies
+The following dependencies needs to be installed
+- Numpy > 1.13.3
+- Scipy > 1.0.1
+- Pandas > 0.22.0
+- mpmath > 1.1.0
+- lmfit > 0.9.7
+- matplotlib > 2.2.2
+- seaborn > 0.8.1
+
+
+## Version updates
+- V. 1.0.4:
+A number of minor bugs and a additional add-on has been made avaliable.
+    a) PyEIS is now compatable with Solartron's '*.z' data format
+    a) Import of experimental data is again possible
+    b) masking data could lead to nan values in the dateframe that made legends 'nan' strings and gave errors during fitting of linear KK analysis
+    c) Label settings for Nyquist and Bode plot have been simplified
+    d) Label settings from the relative residuals between fit and experimental data have been simplified
+    e) Auto-scaling of the plot described in c) have been optimized
 
 ## License
 All files in this repository including code, readme, logos, and figures are released under the Apache 2.0 License. Learn more at the [Open Source Initiative](https://opensource.org/licenses/Apache-2.0).
