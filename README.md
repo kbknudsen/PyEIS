@@ -47,9 +47,9 @@ PyEIS is available on PyPI and can be install using the following command
 ### Dependencies
 The following libraries are required by PyEIS
 
-- Numpy >= 1.13.3
-- Scipy >= 1.0.1
-- Pandas >= 0.22.0
+- numpy >= 1.13.3
+- scipy >= 1.0.1
+- pandas >= 0.22.0
 - mpmath >= 1.1.0
 - lmfit >= 0.9.7
 - matplotlib >= 2.2.2
