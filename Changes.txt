@@ -2,7 +2,7 @@ PyEIS: A Python-Based Electrochemical Impedance Spectroscopy simulator and analy
 
 Author: Kristian B. Knudsen
 
-V. 1.0.6
+V. 1.0.10
 ———————————————
 Released February 1, 2019
 
