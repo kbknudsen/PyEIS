@@ -5,7 +5,6 @@ Created on Mon Mar  5 12:13:33 2018
 
 @author: Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
 """
-
 #Python dependencies
 from __future__ import division
 import pandas as pd
@@ -15,13 +14,12 @@ from pylab import *
 from scipy.optimize import curve_fit
 import mpmath as mp
 from lmfit import minimize, Minimizer, Parameters, Parameter, report_fit
-
-from scipy.optimize import leastsq
+#from scipy.optimize import leastsq
+pd.options.mode.chained_assignment = None
 
 #Plotting
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 import seaborn as sns
 import matplotlib.ticker as mtick
@@ -35,12 +33,10 @@ from scipy.constants import codata
 F = codata.physical_constants['Faraday constant'][0]
 Rg = codata.physical_constants['molar gas constant'][0]
 
-### Importing EIS add-ons
-#from PyEIS_Data_extraction import *
-#from PyEIS_Lin_KK import *
-#from PyEIS_Advanced_tools import *
-#from Impedance_Analyzer_uelectrode import * # 
-#from Impedance_Analyzer_uelectrode_advanced import *
+### Importing PyEIS add-ons
+from .PyEIS_Data_extraction import *
+from .PyEIS_Lin_KK import *
+from .PyEIS_Advanced_tools import *
 
 ### Frequency generator
 ##
@@ -2239,8 +2235,13 @@ class EIS_exp:
                 self.df_raw0.append(extract_mpt(path=path, EIS_name=data[j])) #reads all datafiles
             elif data[j].find(".DTA") != -1: #file is a .dta file
                 self.df_raw0.append(extract_dta(path=path, EIS_name=data[j])) #reads all datafiles
+            elif data[j].find(".z") != -1: #file is a .z file
+                self.df_raw0.append(extract_solar(path=path, EIS_name=data[j])) #reads all datafiles
+            else:
+                print('Data file(s) could not be identified')
+
             self.cycleno.append(self.df_raw0[j].cycle_number)
-            if np.min(self.cycleno[j]) < np.max(self.cycleno[j-1]):
+            if np.min(self.cycleno[j]) <= np.max(self.cycleno[j-1]):
                 if j > 0: #corrects cycle_number except for the first data file
                     self.df_raw0[j].update({'cycle_number': self.cycleno[j]+np.max(self.cycleno[j-1])}) #corrects cycle number
 #            else:
@@ -2284,25 +2285,30 @@ class EIS_exp:
         self.df_raw = self.df_raw.assign(w = 2*np.pi*self.df_raw.f) #creats a new coloumn with the angular frequency
 
         #Masking data to each cycle
-        self.df = []
+        self.df_pre = []
         self.df_limited = []
         self.df_limited2 = []
+        self.df = []
         if mask == ['none','none'] and cycle == 'off':
             for i in range(len(self.df_raw.cycle_number.unique())): #includes all data
-                self.df.append(self.df_raw[self.df_raw.cycle_number == self.df_raw.cycle_number.unique()[i]])
+                self.df.append(self.df_raw[self.df_raw.cycle_number == self.df_raw.cycle_number.unique()[i]])                
         elif mask == ['none','none'] and cycle != 'off':
             for i in range(len(cycle)):
-                self.df.append(self.df_raw[self.df_raw.cycle_number == cycle[i]]) #extracting dataframe for each cycle
+                self.df.append(self.df_raw[self.df_raw.cycle_number == cycle[i]]) #extracting dataframe for each cycle                                
         elif mask[0] != 'none' and mask[1] == 'none' and cycle == 'off':
-            for i in range(len(self.df_raw.cycle_number.unique())): #includes all data
-                self.df.append(self.df_raw.mask(self.df_raw.f > mask[0]))
+            self.df_pre = self.df_raw.mask(self.df_raw.f > mask[0])
+            self.df_pre.dropna(how='all', inplace=True)
+            for i in range(len(self.df_pre.cycle_number.unique())): #Appending data based on cycle number
+                self.df.append(self.df_pre[self.df_pre.cycle_number == self.df_pre.cycle_number.unique()[i]])
         elif mask[0] != 'none' and mask[1] == 'none' and cycle != 'off': # or [i for i, e in enumerate(mask) if e == 'none'] == [0]
             self.df_limited = self.df_raw.mask(self.df_raw.f > mask[0])
             for i in range(len(cycle)):
                 self.df.append(self.df_limited[self.df_limited.cycle_number == cycle[i]])
         elif mask[0] == 'none' and mask[1] != 'none' and cycle == 'off':
+            self.df_pre = self.df_raw.mask(self.df_raw.f < mask[1])
+            self.df_pre.dropna(how='all', inplace=True)
             for i in range(len(self.df_raw.cycle_number.unique())): #includes all data
-                self.df.append(self.df_raw.mask(self.df_raw.f < mask[1]))                
+                self.df.append(self.df_pre[self.df_pre.cycle_number == self.df_pre.cycle_number.unique()[i]])
         elif mask[0] == 'none' and mask[1] != 'none' and cycle != 'off': 
             self.df_limited = self.df_raw.mask(self.df_raw.f < mask[1])
             for i in range(len(cycle)):
@@ -2319,6 +2325,7 @@ class EIS_exp:
                 self.df.append(self.df_limited[self.df_limited2.cycle_number == self.df_raw.cycle_number.unique()[i]])
         else:
             print('__init__ error (#2)')
+
 
     def Lin_KK(self, num_RC='auto', legend='on', plot='residuals', bode='off', nyq_xlim='none', nyq_ylim='none', weight_func='Boukamp', savefig='none'):
         '''
@@ -4685,11 +4692,13 @@ class EIS_exp:
                 self.label_im_1.append("Z'' ("+str(np.round(np.average(self.df[i].E_avg), 2))+' V)')
                 self.label_cycleno.append(str(np.round(np.average(self.df[i].E_avg), 2))+' V')
 
+
+
         ### Nyquist Plot
         for i in range(len(self.df)):
             ax.plot(self.df[i].re, self.df[i].im, marker='o', ms=4, lw=2, color=colors[i], ls='-', label=self.label_cycleno[i])
             if fitting == 'on':
-                ax.plot(self.circuit_fit[i].real, -self.circuit_fit[i].imag, lw=0, marker='o', ms=8, mec='r', mew=1, mfc='none', label='Fit')
+                ax.plot(self.circuit_fit[i].real, -self.circuit_fit[i].imag, lw=0, marker='o', ms=8, mec='r', mew=1, mfc='none', label='')
 
         ### Bode Plot
         if bode=='on':
@@ -4697,7 +4706,7 @@ class EIS_exp:
                 ax1.plot(np.log10(self.df[i].f), self.df[i].re, color=colors_real[i], marker='D', ms=3, lw=2.25, ls='-', label=self.label_re_1[i])
                 ax1.plot(np.log10(self.df[i].f), self.df[i].im, color=colors_imag[i], marker='s', ms=3, lw=2.25, ls='-', label=self.label_im_1[i])
                 if fitting == 'on':
-                    ax1.plot(np.log10(self.df[i].f), self.circuit_fit[i].real, lw=0, marker='D', ms=8, mec='r', mew=1, mfc='none', label='Fit')
+                    ax1.plot(np.log10(self.df[i].f), self.circuit_fit[i].real, lw=0, marker='D', ms=8, mec='r', mew=1, mfc='none', label='')
                     ax1.plot(np.log10(self.df[i].f), -self.circuit_fit[i].imag, lw=0, marker='s', ms=8, mec='r', mew=1, mfc='none')
                 ax1.set_xlabel("log(f) [Hz]")
                 ax1.set_ylabel("Z', -Z'' [$\Omega$]")
@@ -4708,7 +4717,7 @@ class EIS_exp:
             for i in range(len(self.df)):
                 ax1.plot(np.log10(self.df[i].f), self.df[i].re, color=colors_real[i], marker='D', ms=3, lw=2.25, ls='-', label=self.label_cycleno[i])
                 if fitting == 'on':
-                    ax1.plot(np.log10(self.df[i].f), self.circuit_fit[i].real, lw=0, marker='D', ms=8, mec='r', mew=1, mfc='none', label='Fit')
+                    ax1.plot(np.log10(self.df[i].f), self.circuit_fit[i].real, lw=0, marker='D', ms=8, mec='r', mew=1, mfc='none', label='')
                 ax1.set_xlabel("log(f) [Hz]")
                 ax1.set_ylabel("Z' [$\Omega$]")
                 if legend == 'on' or legend =='potential':
@@ -4718,7 +4727,7 @@ class EIS_exp:
             for i in range(len(self.df)):
                 ax1.plot(np.log10(self.df[i].f), np.log10(self.df[i].re), color=colors_real[i], marker='D', ms=3, lw=2.25, ls='-', label=self.label_cycleno[i])
                 if fitting == 'on':
-                    ax1.plot(np.log10(self.df[i].f), np.log10(self.circuit_fit[i].real), lw=0, marker='D', ms=8, mec='r', mew=1, mfc='none', label='Fit')
+                    ax1.plot(np.log10(self.df[i].f), np.log10(self.circuit_fit[i].real), lw=0, marker='D', ms=8, mec='r', mew=1, mfc='none', label='')
                 ax1.set_xlabel("log(f) [Hz]")
                 ax1.set_ylabel("log(Z') [$\Omega$]")
                 if legend == 'on' or legend == 'potential': 
@@ -4728,7 +4737,7 @@ class EIS_exp:
             for i in range(len(self.df)):
                 ax1.plot(np.log10(self.df[i].f), self.df[i].im, color=colors_imag[i], marker='s', ms=3, lw=2.25, ls='-', label=self.label_cycleno[i])
                 if fitting == 'on':
-                    ax1.plot(np.log10(self.df[i].f), -self.circuit_fit[i].imag, lw=0, marker='s', ms=8, mec='r', mew=1, mfc='none', label='Fit')
+                    ax1.plot(np.log10(self.df[i].f), -self.circuit_fit[i].imag, lw=0, marker='s', ms=8, mec='r', mew=1, mfc='none', label='')
                 ax1.set_xlabel("log(f) [Hz]")
                 ax1.set_ylabel("-Z'' [$\Omega$]")
                 if legend == 'on' or legend == 'potential':
@@ -4738,7 +4747,7 @@ class EIS_exp:
             for i in range(len(self.df)):
                 ax1.plot(np.log10(self.df[i].f), np.log10(self.df[i].im), color=colors_imag[i], marker='s', ms=3, lw=2.25, ls='-', label=self.label_cycleno[i])
                 if fitting == 'on':
-                    ax1.plot(np.log10(self.df[i].f), np.log10(-self.circuit_fit[i].imag), lw=0, marker='s', ms=8, mec='r', mew=1, mfc='none', label='Fit')
+                    ax1.plot(np.log10(self.df[i].f), np.log10(-self.circuit_fit[i].imag), lw=0, marker='s', ms=8, mec='r', mew=1, mfc='none', label='')
                 ax1.set_xlabel("log(f) [Hz]")
                 ax1.set_ylabel("log(-Z'') [$\Omega$]")
                 if legend == 'on' or legend == 'potential':
@@ -4749,7 +4758,7 @@ class EIS_exp:
                 ax1.plot(np.log10(self.df[i].f), np.log10(self.df[i].re), color=colors_real[i], marker='D', ms=3, lw=2.25,  ls='-', label=self.label_re_1[i])
                 ax1.plot(np.log10(self.df[i].f), np.log10(self.df[i].im), color=colors_imag[i], marker='s', ms=3, lw=2.25,  ls='-', label=self.label_im_1[i])
                 if fitting == 'on':
-                    ax1.plot(np.log10(self.df[i].f), np.log10(self.circuit_fit[i].real), lw=0, marker='D', ms=8, mec='r', mew=1, mfc='none', label='Fit')
+                    ax1.plot(np.log10(self.df[i].f), np.log10(self.circuit_fit[i].real), lw=0, marker='D', ms=8, mec='r', mew=1, mfc='none', label='')
                     ax1.plot(np.log10(self.df[i].f), np.log10(-self.circuit_fit[i].imag), lw=0, marker='s', ms=8, mec='r', mew=1, mfc='none')
                 ax1.set_xlabel("log(f) [Hz]")
                 ax1.set_ylabel("log(Z', -Z'') [$\Omega$]")
@@ -4761,34 +4770,50 @@ class EIS_exp:
             if fitting == 'off':
                 print('Fitting has not been performed, thus the relative residuals cannot be determined')
             elif fitting == 'on':
+                self.rr_real = []
+                self.rr_imag = []
                 for i in range(len(self.df)):
-                    self.rr_real = residual_real(re=self.df[i].re, fit_re=self.circuit_fit[i].real, fit_im=-self.circuit_fit[i].imag)
-                    self.rr_imag = residual_imag(im=self.df[i].im, fit_re=self.circuit_fit[i].real, fit_im=-self.circuit_fit[i].imag)
-                    ax2.plot(np.log10(self.df[i].f), self.rr_real*100, color=colors_real[i], marker='D', ms=6, lw=1, ls='--', label="$\Delta$Z'")
-                    ax2.plot(np.log10(self.df[i].f), self.rr_imag*100, color=colors_imag[i], marker='s', ms=6, lw=1, ls='--', label="$\Delta$-Z''")
+                    self.rr_real.append(residual_real(re=self.df[i].re.values, fit_re=self.circuit_fit[i].real, fit_im=-self.circuit_fit[i].imag))
+                    self.rr_imag.append(residual_imag(im=self.df[i].im.values, fit_re=self.circuit_fit[i].real, fit_im=-self.circuit_fit[i].imag))
+                    if legend == 'on':
+                        ax2.plot(np.log10(self.df[i].f), self.rr_real[i]*100, color=colors_real[i], marker='D', ms=6, lw=1, ls='--', label='#'+str(i+1))
+                        ax2.plot(np.log10(self.df[i].f), self.rr_imag[i]*100, color=colors_imag[i], marker='s', ms=6, lw=1, ls='--',label='')
+                    elif legend == 'potential':
+                        ax2.plot(np.log10(self.df[i].f), self.rr_real[i]*100, color=colors_real[i], marker='D', ms=6, lw=1, ls='--', label=str(np.round(np.average(self.df[i].E_avg.values),2))+' V')
+                        ax2.plot(np.log10(self.df[i].f), self.rr_imag[i]*100, color=colors_imag[i], marker='s', ms=6, lw=1, ls='--',label='')
+
                     ax2.axhline(0, ls='--', c='k', alpha=.5)
                     ax2.set_xlabel("log(f) [Hz]")
                     ax2.set_ylabel("$\Delta$Z', $\Delta$-Z'' [%]")
 
-                    #setting subplot limits
-                    self.rr_im_min = np.min(self.rr_imag)
-                    self.rr_im_max = np.max(self.rr_imag)
-                    self.rr_re_min = np.min(self.rr_real)
-                    self.rr_re_max = np.max(self.rr_real)
-                    if self.rr_re_max > self.rr_im_max:
-                        self.rr_ymax = self.rr_re_max
-                    else:
-                        self.rr_ymax = self.rr_im_max
-                    if self.rr_re_min < self.rr_im_min:
-                        self.rr_ymin = self.rr_re_min
-                    else:
-                        self.rr_ymin  = self.rr_im_min
-                    if np.abs(self.rr_ymin ) > self.rr_ymax:
-                        ax2.set_ylim(self.rr_ymin *100*1.5, np.abs(self.rr_ymin )*100*1.5)
-                    elif np.abs(self.rr_ymin ) < self.rr_ymax:
-                        ax2.set_ylim(np.negative(self.rr_ymax)*100*1.5, np.abs(self.rr_ymax)*100*1.5)                    
-                    if legend == 'on' or legend == 'potential':
-                        ax2.legend(loc='best', fontsize=10, frameon=False)
+                #Automatic y-limits limits
+                self.rr_im_min = []
+                self.rr_im_max = []
+                self.rr_re_min = []
+                for i in range(len(self.df)): # needs to be within a loop if cycles have different number of data points     
+                    self.rr_im_min = np.min(self.rr_imag[i])
+                    self.rr_im_max = np.max(self.rr_imag[i])
+                    self.rr_re_min = np.min(self.rr_real[i])
+                    self.rr_re_max = np.max(self.rr_real[i])
+                if self.rr_re_max > self.rr_im_max:
+                    self.rr_ymax = self.rr_re_max
+                else:
+                    self.rr_ymax = self.rr_im_max
+                if self.rr_re_min < self.rr_im_min:
+                    self.rr_ymin = self.rr_re_min
+                else:
+                    self.rr_ymin  = self.rr_im_min
+                if np.abs(self.rr_ymin) > np.abs(self.rr_ymax):
+                    ax2.set_ylim(self.rr_ymin *100*1.5, np.abs(self.rr_ymin)*100*1.5)
+                    ax2.annotate("$\Delta$Z'", xy=(np.log10(np.min(self.df[0].f)), np.abs(self.rr_ymin )*100*1.2), color=colors_real[-1], fontsize=12)
+                    ax2.annotate("$\Delta$-Z''", xy=(np.log10(np.min(self.df[0].f)), np.abs(self.rr_ymin )*100*0.9), color=colors_imag[-1], fontsize=12)
+                elif np.abs(self.rr_ymin) < np.abs(self.rr_ymax):
+                    ax2.set_ylim(np.negative(self.rr_ymax)*100*1.5, np.abs(self.rr_ymax)*100*1.5)                    
+                    ax2.annotate("$\Delta$Z'", xy=(np.log10(np.min(self.df[0].f)), np.abs(self.rr_ymax)*100*1.2), color=colors_real[-1], fontsize=12)
+                    ax2.annotate("$\Delta$-Z''", xy=(np.log10(np.min(self.df[0].f)), np.abs(self.rr_ymax)*100*0.9), color=colors_imag[-1], fontsize=12)
+    
+                if legend == 'on' or legend == 'potential':
+                    ax2.legend(loc='best', fontsize=10, frameon=False)
 
         ### Figure specifics
         if legend == 'on' or legend == 'potential':
@@ -4803,6 +4828,25 @@ class EIS_exp:
         #Save Figure
         if savefig != 'none':
             fig.savefig(savefig) #saves figure if fix text is given
+
+    def Fit_uelectrode(self, params, circuit, D_ox, r, theta_real_red, theta_imag_red, n, T, F, R, Q='none', weight_func='modulus', nan_policy='raise'):
+        '''
+        Fit the reductive microdisk electrode impedance repsonse following either BV or MHC infinite kientics
+    
+        Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
+        '''
+        self.Fit = []
+        self.circuit_fit = []
+        
+        for i in range(len(self.df)):
+            self.Fit.append(minimize(leastsq_errorfunc_uelectrode, params, method='leastsq', args=(self.df[i].w, self.df[i].re, self.df[i].im, circuit, weight_func, np.average(self.df[i].E_avg), D_ox, r, theta_real_red, theta_imag_red, n, T, F, R), nan_policy=nan_policy, maxfev=9999990))
+            print(report_fit(self.Fit[i]))
+        
+            if circuit == 'R-(Q(RM)),BV_red':
+                if "'fs'" in str(self.Fit[i].params.keys()):
+                    self.circuit_fit.append(cir_Rs_QRM_BV_red(w=self.df[i].w, E=np.average(self.df[i].E_avg), E0=self.Fit[i].params.get('E0').value, Rs=self.Fit[i].params.get('Rs').value, fs=self.Fit[i].params.get('fs').value, n_Q=self.Fit[i].params.get('n_Q').value, Q='none', Rct=self.Fit[i].params.get('Rct').value, alpha=self.Fit[i].params.get('alpha').value, C_ox=self.Fit[i].params.get('C_ox').value, D_ox=D_ox, r=r, theta_real_red=theta_real_red, theta_imag_red=theta_imag_red, n=n, T=T, F=F, R=R))
+                elif "'Q'" in str(self.Fit[i].params.keys()):
+                    self.circuit_fit.append(cir_Rs_QRM_BV_red(w=self.df[i].w, E=np.average(self.df[i].E_avg), E0=self.Fit[i].params.get('E0').value, Rs=self.Fit[i].params.get('Rs').value, fs='none', n_Q=self.Fit[i].params.get('n_Q').value, Q=self.Fit[i].params.get('Q').value, Rct=self.Fit[i].params.get('Rct').value, alpha=self.Fit[i].params.get('alpha').value, C_ox=self.Fit[i].params.get('C_ox').value, D_ox=D_ox, r=r, theta_real_red=theta_real_red, theta_imag_red=theta_imag_red, n=n, T=T, F=F, R=R))
 
 
     def uelectrode(self, params, circuit, E, alpha, n, C_ox, D_red, D_ox, r, theta_real_red, theta_real_ox, theta_imag_red, theta_imag_ox, F, R, T, weight_func='modulus', nan_policy='raise'):
@@ -5978,5 +6022,5 @@ class EIS_sim:
             fig.savefig(savefig) #saves figure if fix text is given
 
 #print()
-#print('---> PyEIS Core Loaded (v. 0.5.0 - 01/03/19)')
+#print('---> PyEIS Core Loaded (v. 0.5.7 - 02/01/19)')
 #print()

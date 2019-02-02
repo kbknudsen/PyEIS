@@ -148,6 +148,6 @@ def C_redox_Estep_semihemisperhical(E, E0, n, C_ox, D_ox, D_red, T=298.15, R=R, 
     C_red0 = C_ox * ((Varsigma(D_ox, D_red)**2)/(1+Varsigma(D_ox, D_red)**2 * Theta(E, E0, n, T, F, R)))
     C_ox0 = C_ox * (1- (1/(1+Varsigma(D_ox, D_red)**2 * Theta(E, E0, n, T, F, R))))
     return C_red0, C_ox0
-
+#
 #print()
 #print('---> EIS Advanced Tools Loaded (v. 0.0.2 - 06/15/18)')
