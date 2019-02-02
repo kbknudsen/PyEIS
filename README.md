@@ -42,7 +42,7 @@ The built-in equivalent circuits are illustrated in the following figure. Here B
 ## Software and Installation
 PyEIS is available on PyPI and can be install using the following command
 
-> - pip install PyEIS
+> - pip install PyEIS==1.0.10
 
 ### Dependencies
 The following libraries are required by PyEIS
@@ -56,16 +56,9 @@ The following libraries are required by PyEIS
 - seaborn >= 0.8.1
 
 
-## Version updates
+## [Version Updates](https://github.com/kbknudsen/PyEIS/blob/master/Changes.txt)
 
-### V. 1.0.4:
-A number of minor bugs have been fixed and an additional add-on has been made available.
-- PyEIS is now compatible with Solartron's '*.z' data format
-- Import of experimental data is again possible
-- Masking data could lead to nan values in the dataframe that made legends 'nan' strings and gave errors during fitting of linear KK analysis
-- Label settings for Nyquist and Bode plot have been simplified
-- Label settings from the relative residuals between fit and experimental data have been simplified
-- Auto-scaling of the relative residuals between fit and experimental data have been optimized
+
 
 ## License
 All files in this repository including code, readme, logos, and figures are released under the Apache 2.0 License. Learn more at the [Open Source Initiative](https://opensource.org/licenses/Apache-2.0).

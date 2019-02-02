@@ -1,0 +1,17 @@
+PyEIS: A Python-Based Electrochemical Impedance Spectroscopy simulator and analyzer
+
+Author: Kristian B. Knudsen
+
+V. 1.0.6
+———————————————
+Released February 1, 2019
+
+Bugs:
+* Fixed import of experimental data, which was broken due to package issues
+* Fixed masking data could lead to nan values in the dataframe that made legends 'nan' strings and gave errors during fitting of linear KK analysis
+* Fixed Label settings for Nyquist and Bode plot have been simplified
+* Fixed Label settings from the relative residuals between fit and experimental data have been simplified
+* Fixed Auto-scaling of the relative residuals between fit and experimental data have been optimized
+
+Features and improvements:
+* PyEIS is now compatible with Solartron's '*.z' data format
