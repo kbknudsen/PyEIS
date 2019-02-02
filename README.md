@@ -56,9 +56,7 @@ The following libraries are required by PyEIS
 - seaborn >= 0.8.1
 
 
-## [Version Updates](https://github.com/kbknudsen/PyEIS/blob/master/Changes.txt)
-
-
+### [Release history](https://github.com/kbknudsen/PyEIS/blob/master/Changes.txt)
 
 ## License
 All files in this repository including code, readme, logos, and figures are released under the Apache 2.0 License. Learn more at the [Open Source Initiative](https://opensource.org/licenses/Apache-2.0).
