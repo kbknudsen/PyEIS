@@ -25,7 +25,7 @@ import seaborn as sns
 import matplotlib.ticker as mtick
 mpl.rc('mathtext', fontset='stixsans', default='regular')
 mpl.rcParams.update({'axes.labelsize':22})
-mpl.rc('xtick', labelsize=16) 
+mpl.rc('xtick', labelsize=16)
 mpl.rc('ytick', labelsize=16)
 mpl.rc('legend',fontsize=14)
 
@@ -44,20 +44,20 @@ from .PyEIS_Advanced_tools import *
 def freq_gen(f_start, f_stop, pts_decade=7):
     '''
     Frequency Generator with logspaced freqencies
-    
+
     Inputs
     ----------
     f_start = frequency start [Hz]
     f_stop = frequency stop [Hz]
     pts_decade = Points/decade, default 7 [-]
-    
+
     Output
     ----------
     [0] = frequency range [Hz]
     [1] = Angular frequency range [1/s]
     '''
     f_decades = np.log10(f_start) - np.log10(f_stop)
-    f_range = np.logspace(np.log10(f_start), np.log10(f_stop), num=np.around(pts_decade*f_decades), endpoint=True)
+    f_range = np.logspace(np.log10(f_start), np.log10(f_stop), num=np.around(pts_decade*f_decades).astype(int), endpoint=True)
     w_range = 2 * np.pi * f_range
     return f_range, w_range
 
@@ -68,9 +68,9 @@ def elem_L(w, L):
     '''
     Simulation Function: -L-
     Returns the impedance of an inductor
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
-    
+
     Inputs
     ----------
     w = Angular frequency [1/s]
@@ -81,18 +81,18 @@ def elem_L(w, L):
 def elem_C(w,C):
     '''
     Simulation Function: -C-
-    
+
     Inputs
     ----------
     w = Angular frequency [1/s]
-    C = Capacitance [F]    
+    C = Capacitance [F]
     '''
     return 1/(C*(w*1j))
 
 def elem_Q(w,Q,n):
     '''
     Simulation Function: -Q-
-    
+
     Inputs
     ----------
     w = Angular frequency [1/s]
@@ -108,19 +108,19 @@ def elem_Q(w,Q,n):
 def cir_RsC(w, Rs, C):
     '''
     Simulation Function: -Rs-C-
-    
+
     Inputs
     ----------
     w = Angular frequency [1/s]
     Rs = Series resistance [Ohm]
-    C = Capacitance [F]    
+    C = Capacitance [F]
     '''
     return Rs + 1/(C*(w*1j))
 
 def cir_RsQ(w, Rs, Q, n):
     '''
     Simulation Function: -Rs-Q-
-    
+
     Inputs
     ----------
     w = Angular frequency [1/s]
@@ -134,9 +134,9 @@ def cir_RQ(w, R='none', Q='none', n='none', fs='none'):
     '''
     Simulation Function: -RQ-
     Return the impedance of an Rs-RQ circuit. See details for RQ under cir_RQ_fit()
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
-    
+
     Inputs
     ----------
     w = Angular frequency [1/s]
@@ -157,9 +157,9 @@ def cir_RsRQ(w, Rs='none', R='none', Q='none', n='none', fs='none'):
     '''
     Simulation Function: -Rs-RQ-
     Return the impedance of an Rs-RQ circuit. See details for RQ under cir_RQ_fit()
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
-    
+
     Inputs
     ----------
     w = Angular frequency [1/s]
@@ -181,9 +181,9 @@ def cir_RC(w, C='none', R='none', fs='none'):
     '''
     Simulation Function: -RC-
     Returns the impedance of an RC circuit, using RQ definations where n=1. see cir_RQ() for details
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
-    
+
     Inputs
     ----------
     w = Angular frequency [1/s]
@@ -197,14 +197,14 @@ def cir_RsRQRQ(w, Rs, R='none', Q='none', n='none', fs='none', R2='none', Q2='no
     '''
     Simulation Function: -Rs-RQ-RQ-
     Return the impedance of an Rs-RQ circuit. See details for RQ under cir_RQ_fit()
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
-    
+
     Inputs
     ----------
     w = Angular frequency [1/s]
     Rs = Series Resistance [Ohm]
-    
+
     R = Resistance [Ohm]
     Q = Constant phase element [s^n/ohm]
     n = Constant phase element exponent [-]
@@ -228,18 +228,18 @@ def cir_RsRQRQ(w, Rs, R='none', Q='none', n='none', fs='none', R2='none', Q2='no
         Q2 = (1/(R2*(2*np.pi*fs2)**n2))
     elif n2 == 'none':
         n2 = np.log(Q2*R2)/np.log(1/(2*np.pi*fs2))
-        
+
     return Rs + (R/(1+R*Q*(w*1j)**n)) + (R2/(1+R2*Q2*(w*1j)**n2))
 
 def cir_RsRQQ(w, Rs, Q, n, R1='none', Q1='none', n1='none', fs1='none'):
     '''
     Simulation Function: -Rs-RQ-Q-
-    
+
     Inputs
     ----------
     w = Angular frequency [1/s]
     Rs = Series Resistance [ohm]
-    
+
     R1 = Resistance in (RQ) circuit [ohm]
     Q1 = Constant phase element in (RQ) circuit [s^n/ohm]
     n1 = Constant phase elelment exponent in (RQ) circuit [-]
@@ -253,12 +253,12 @@ def cir_RsRQQ(w, Rs, Q, n, R1='none', Q1='none', n1='none', fs1='none'):
 def cir_RsRQC(w, Rs, C, R1='none', Q1='none', n1='none', fs1='none'):
     '''
     Simulation Function: -Rs-RQ-C-
-    
+
     Inputs
     ----------
     w = Angular frequency [1/s]
     Rs = Series Resistance [ohm]
-    
+
     R1 = Resistance in (RQ) circuit [ohm]
     Q1 = Constant phase element in (RQ) circuit [s^n/ohm]
     n1 = Constant phase elelment exponent in (RQ) circuit [-]
@@ -271,12 +271,12 @@ def cir_RsRQC(w, Rs, C, R1='none', Q1='none', n1='none', fs1='none'):
 def cir_RsRCC(w, Rs, R1, C1, C):
     '''
     Simulation Function: -Rs-RC-C-
-    
+
     Inputs
     ----------
     w = Angular frequency [1/s]
     Rs = Series Resistance [ohm]
-    
+
     R1 = Resistance in (RQ) circuit [ohm]
     C1 = Constant phase element in (RQ) circuit [s^n/ohm]
 
@@ -287,12 +287,12 @@ def cir_RsRCC(w, Rs, R1, C1, C):
 def cir_RsRCQ(w, Rs, R1, C1, Q, n):
     '''
     Simulation Function: -Rs-RC-Q-
-    
+
     Inputs
     ----------
     w = Angular frequency [1/s]
     Rs = Series Resistance [ohm]
-    
+
     R1 = Resistance in (RQ) circuit [ohm]
     C1 = Constant phase element in (RQ) circuit [s^n/ohm]
 
@@ -300,20 +300,20 @@ def cir_RsRCQ(w, Rs, R1, C1, Q, n):
     n = Constant phase elelment exponent of series Q [-]
     '''
     return Rs + cir_RC(w, C=C1, R=R1, fs='none') + elem_Q(w,Q,n)
-    
+
 def Randles_coeff(w, n_electron, A, E='none', E0='none', D_red='none', D_ox='none', C_red='none', C_ox='none', Rg=Rg, F=F, T=298.15):
     '''
-    Returns the Randles coefficient sigma [ohm/s^1/2]. 
+    Returns the Randles coefficient sigma [ohm/s^1/2].
     Two cases: a) ox and red are both present in solution here both Cred and Dred are defined, b) In the particular case where initially
     only Ox species are present in the solution with bulk concentration C*_ox, the surface concentrations may be calculated as function
     of the electrode potential following Nernst equation. Here C_red and D_red == 'none'
-    
+
     Ref.:
-        - Lasia, A.L., ISBN: 978-1-4614-8932-0, "Electrochemical Impedance Spectroscopy and its Applications" 
+        - Lasia, A.L., ISBN: 978-1-4614-8932-0, "Electrochemical Impedance Spectroscopy and its Applications"
         - Bard A.J., ISBN: 0-471-04372-9, Faulkner L. R. (2001) "Electrochemical methods: Fundamentals and applications". New York: Wiley.
 
     Kristian B. Knudsen (kknu@berkeley.edu // kristianbknudsen@gmail.com)
-    
+
     Inputs
     ----------
     n_electron = number of e- [-]
@@ -329,7 +329,7 @@ def Randles_coeff(w, n_electron, A, E='none', E0='none', D_red='none', D_ox='non
         if reduced specie is absent == 'none'
     E0 = formal potential [V]
         if reduced specie is absent == 'none'
-    
+
     Returns
     ----------
     Randles coefficient [ohm/s^1/2]
@@ -353,7 +353,7 @@ def cir_Randles(w, n_electron, D_red, D_ox, C_red, C_ox, Rs, Rct, n, E, A, Q='no
     NOTE: This Randles circuit is only meant for semi-infinate linear diffusion
 
     Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
-    
+
     Inputs
     ----------
     n_electron = number of e- [-]
@@ -375,7 +375,7 @@ def cir_Randles(w, n_electron, D_red, D_ox, C_red, C_ox, Rs, Rct, n, E, A, Q='no
 
     Q = Constant phase element used to model the double-layer capacitance [F]
     n = expononent of the CPE [-]
-    
+
     Returns
     ----------
     The real and imaginary impedance of a Randles circuit [ohm]
@@ -390,9 +390,9 @@ def cir_Randles_simplified(w, Rs, R, n, sigma, Q='none', fs='none'):
     '''
     Simulation Function: Randles -Rs-(Q-(RW)-)-
     Return the impedance of a Randles circuit with a simplified
-    
+
     NOTE: This Randles circuit is only meant for semi-infinate linear diffusion
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
     '''
     if R == 'none':
@@ -401,11 +401,11 @@ def cir_Randles_simplified(w, Rs, R, n, sigma, Q='none', fs='none'):
         Q = (1/(R*(2*np.pi*fs)**n))
     elif n == 'none':
         n = np.log(Q*R)/np.log(1/(2*np.pi*fs))
-    
+
     Z_Q = 1/(Q*(w*1j)**n)
     Z_R = R
     Z_w = sigma*(w**(-0.5))-1j*sigma*(w**(-0.5))
-    
+
     return Rs + 1/(1/Z_Q + 1/(Z_R+Z_w))
 
 # Polymer electrolytes
@@ -413,15 +413,15 @@ def cir_Randles_simplified(w, Rs, R, n, sigma, Q='none', fs='none'):
 def cir_C_RC_C(w, Ce, Cb='none', Rb='none', fsb='none'):
     '''
     Simulation Function: -C-(RC)-C-
-    
+
     This circuit is often used for modeling blocking electrodes with a polymeric electrolyte, which exhibts a immobile ionic species in bulk that gives a capacitance contribution
     to the otherwise resistive electrolyte
-    
+
     Ref:
-    - MacCallum J.R., and Vincent, C.A. "Polymer Electrolyte Reviews - 1" Elsevier Applied Science Publishers LTD, London, Bruce, P. "Electrical Measurements on Polymer Electrolytes" 
-    
+    - MacCallum J.R., and Vincent, C.A. "Polymer Electrolyte Reviews - 1" Elsevier Applied Science Publishers LTD, London, Bruce, P. "Electrical Measurements on Polymer Electrolytes"
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
-    
+
     Inputs
     ----------
     w = Angular frequency [1/s]
@@ -437,17 +437,17 @@ def cir_C_RC_C(w, Ce, Cb='none', Rb='none', fsb='none'):
 def cir_Q_RQ_Q(w, Qe, ne, Qb='none', Rb='none', fsb='none', nb='none'):
     '''
     Simulation Function: -Q-(RQ)-Q-
-    
+
     Modified cir_C_RC_C() circuits that can be used if electrodes and bulk are not behaving like ideal capacitors
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
-    
+
     Inputs
     ----------
     w = Angular frequency [1/s]
     Qe = Interfacial capacitance modeled with a CPE [F]
     ne = Interfacial constant phase element exponent [-]
-    
+
     Rb = Bulk/series resistance [Ohm]
     Qb = Bulk capacitance modeled with a CPE [s^n/ohm]
     nb = Bulk constant phase element exponent [-]
@@ -466,19 +466,19 @@ def tanh(x):
 def cir_RCRCZD(w, L, D_s, u1, u2, Cb='none', Rb='none', fsb='none', Ce='none', Re='none', fse='none'):
     '''
     Simulation Function: -RC_b-RC_e-Z_D
-    
+
     This circuit has been used to study non-blocking electrodes with an ioniocally conducting electrolyte with a mobile and immobile ionic specie in bulk, this is mixed with a
     ionically conducting salt. This behavior yields in a impedance response, that consists of the interfacial impendaces -(RC_e)-, the ionically conducitng polymer -(RC_e)-,
     and the diffusional impedance from the dissolved salt.
-    
+
     Refs.:
         - Sørensen, P.R. and Jacobsen T., Electrochimica Acta, 27, 1671-1675, 1982, "Conductivity, Charge Transfer and Transport number - An AC-Investigation
         of the Polymer Electrolyte LiSCN-Poly(ethyleneoxide)"
         - MacCallum J.R., and Vincent, C.A. "Polymer Electrolyte Reviews - 1" Elsevier Applied Science Publishers LTD, London
-        Bruce, P. "Electrical Measurements on Polymer Electrolytes" 
+        Bruce, P. "Electrical Measurements on Polymer Electrolytes"
 
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
-    
+
     Inputs
     ----------
     w = Angular frequency [1/s]
@@ -500,33 +500,33 @@ def cir_RCRCZD(w, L, D_s, u1, u2, Cb='none', Rb='none', fsb='none', Ce='none', R
     alpha = ((w*1j*L**2)/D_s)**(1/2)
     Z_D = Rb * (u2/u1) * (tanh(x=alpha)/alpha)
     return Z_RCb + Z_RCe + Z_D
-    
+
 # Transmission lines
 
 def cir_RsTLsQ(w, Rs, L, Ri, Q='none', n='none'):
     '''
     Simulation Function: -Rs-TLsQ-
     TLs = Simplified Transmission Line, with a non-faradaic interfacial impedance (Q)
-    
-    The simplified transmission line assumes that Ri is much greater than Rel (electrode resistance). 
-    
+
+    The simplified transmission line assumes that Ri is much greater than Rel (electrode resistance).
+
     Ref.:
         - De Levie R., and Delahay P., Advances in Electrochemistry and Electrochemical Engineering, p. 329, Wiley-Interscience, New York (1973)
         - Bisquert J. Electrochemistry Communications 1, 1999, 429-435, "Anamalous transport effects in the impedance of porous film electrodes"
         - Bisquert J. J. Phys. Chem. B., 2000, 104, 2287-2298, "Doubling exponent models for the analysis of porous film electrodes by impedance.
         Relaxation of TiO2 nanoporous in aqueous solution"
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
-    
+
     Inputs
     -----------
     Rs = Series resistance [ohm]
-        
+
     L = Length/Thickness of porous electrode [cm]
     Ri = Ionic resistance inside of flodded pores [ohm/cm]
     Q = Interfacial capacitance of non-faradaic interface [F/cm]
     n = exponent for the interfacial capacitance [-]
-    '''    
+    '''
     Phi = 1/(Q*(w*1j)**n)
     X1 = Ri # ohm/cm
     Lam = (Phi/X1)**(1/2) #np.sqrt(Phi/X1)
@@ -537,7 +537,7 @@ def cir_RsTLsQ(w, Rs, L, Ri, Q='none', n='none'):
     for i in range(len(Lam)):
         coth_mp.append(float(mp.coth(x_mp[i]).real)+float(mp.coth(x_mp[i]).imag)*1j)  #Handles coth with x having very large or very small numbers
 
-    Z_TLsQ = Lam * X1 * coth_mp        
+    Z_TLsQ = Lam * X1 * coth_mp
 
     return Rs + Z_TLsQ
 
@@ -545,41 +545,41 @@ def cir_RsRQTLsQ(w, Rs, R1, fs1, n1, L, Ri, Q, n, Q1='none'):
     '''
     Simulation Function: -Rs-RQ-TLsQ-
     TLs = Simplified Transmission Line, with a non-faradaic interfacial impedance(Q)
-    
-    The simplified transmission line assumes that Ri is much greater than Rel (electrode resistance). 
-    
+
+    The simplified transmission line assumes that Ri is much greater than Rel (electrode resistance).
+
     Ref.:
         - De Levie R., and Delahay P., Advances in Electrochemistry and Electrochemical Engineering, p. 329, Wiley-Interscience, New York (1973)
         - Bisquert J. Electrochemistry Communications 1, 1999, 429-435, "Anamalous transport effects in the impedance of porous film electrodes"
         - Bisquert J. J. Phys. Chem. B., 2000, 104, 2287-2298, "Doubling exponent models for the analysis of porous film electrodes by impedance.
         Relaxation of TiO2 nanoporous in aqueous solution"
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
-    
+
     Inputs
     -----------
     Rs = Series resistance [ohm]
-    
+
     R1 = Charge transfer resistance of RQ circuit [ohm]
     fs1 = Summit frequency for RQ circuit [Hz]
     n1 = Exponent for RQ circuit [-]
     Q1 = Constant phase element of RQ circuit [s^n/ohm]
-    
+
     L = Length/Thickness of porous electrode [cm]
     Ri = Ionic resistance inside of flodded pores [ohm/cm]
     Q = Interfacial capacitance of non-faradaic interface [F/cm]
     n = Exponent for the interfacial capacitance [-]
-    
+
     Output
     -----------
     Impdance of Rs-(RQ)1-TLsQ
-    '''    
+    '''
     Z_RQ = cir_RQ(w=w, R=R1, Q=Q1, n=n1, fs=fs1)
-    
+
     Phi = 1/(Q*(w*1j)**n)
     X1 = Ri
     Lam = (Phi/X1)**(1/2)
-    
+
     x = L/Lam
     x_mp = mp.matrix(x) #x in mp.math format
     coth_mp = []
@@ -587,34 +587,34 @@ def cir_RsRQTLsQ(w, Rs, R1, fs1, n1, L, Ri, Q, n, Q1='none'):
         coth_mp.append(float(mp.coth(x_mp[i]).real)+float(mp.coth(x_mp[i]).imag)*1j)
 
     Z_TLsQ = Lam * X1 * coth_mp
-    
+
     return Rs + Z_RQ + Z_TLsQ
 
 def cir_RsTLs(w, Rs, L, Ri, R='none', Q='none', n='none', fs='none'):
     '''
     Simulation Function: -Rs-TLs-
     TLs = Simplified Transmission Line, with a faradaic interfacial impedance (RQ)
-    
-    The simplified transmission line assumes that Ri is much greater than Rel (electrode resistance). 
-    
+
+    The simplified transmission line assumes that Ri is much greater than Rel (electrode resistance).
+
     Ref.:
         - De Levie R., and Delahay P., Advances in Electrochemistry and Electrochemical Engineering, p. 329, Wiley-Interscience, New York (1973)
         - Bisquert J. Electrochemistry Communications 1, 1999, 429-435, "Anamalous transport effects in the impedance of porous film electrodes"
         - Bisquert J. J. Phys. Chem. B., 2000, 104, 2287-2298, "Doubling exponent models for the analysis of porous film electrodes by impedance.
         Relaxation of TiO2 nanoporous in aqueous solution"
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
-    
+
     Inputs
     -----------
     Rs = Series resistance [ohm]
-    
+
     L = Length/Thickness of porous electrode [cm]
     Ri = Ionic resistance inside of flodded pores [ohm/cm]
     R = Interfacial Charge transfer resistance [ohm*cm]
     fs = Summit frequency of interfacial RQ circuit [Hz]
     n = Exponent for interfacial RQ circuit [-]
-    Q = Constant phase element of interfacial capacitance [s^n/Ohm] 
+    Q = Constant phase element of interfacial capacitance [s^n/Ohm]
 
     Output
     -----------
@@ -622,67 +622,67 @@ def cir_RsTLs(w, Rs, L, Ri, R='none', Q='none', n='none', fs='none'):
     '''
     Phi = cir_RQ(w, R, Q, n, fs)
     X1 = Ri
-    Lam = (Phi/X1)**(1/2)    
+    Lam = (Phi/X1)**(1/2)
 
     x = L/Lam
     x_mp = mp.matrix(x) #x in mp.math format
     coth_mp = []
     for i in range(len(Lam)):
         coth_mp.append(float(mp.coth(x_mp[i]).real)+float(mp.coth(x_mp[i]).imag)*1j) #Handles coth with x having very large or very small numbers
-    
+
     Z_TLs = Lam * X1 * coth_mp
-    
+
     return Rs + Z_TLs
 
 def cir_RsRQTLs(w, Rs, L, Ri, R1, n1, fs1, R2, n2, fs2, Q1='none', Q2='none'):
     '''
     Simulation Function: -Rs-RQ-TLs-
     TLs = Simplified Transmission Line, with a faradaic interfacial impedance (RQ)
-    
-    The simplified transmission line assumes that Ri is much greater than Rel (electrode resistance). 
-    
+
+    The simplified transmission line assumes that Ri is much greater than Rel (electrode resistance).
+
     Ref.:
         - De Levie R., and Delahay P., Advances in Electrochemistry and Electrochemical Engineering, p. 329, Wiley-Interscience, New York (1973)
         - Bisquert J. Electrochemistry Communications 1, 1999, 429-435, "Anamalous transport effects in the impedance of porous film electrodes"
         - Bisquert J. J. Phys. Chem. B., 2000, 104, 2287-2298, "Doubling exponent models for the analysis of porous film electrodes by impedance.
         Relaxation of TiO2 nanoporous in aqueous solution"
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
-    
+
     Inputs
     -----------
     Rs = Series resistance [ohm]
-      
+
     R1 = Charge transfer resistance of RQ circuit [ohm]
     fs1 = Summit frequency for RQ circuit [Hz]
     n1 = Exponent for RQ circuit [-]
     Q1 = Constant phase element of RQ circuit [s^n/(ohm * cm)]
-    
+
     L = Length/Thickness of porous electrode [cm]
     Ri = Ionic resistance inside of flodded pores [ohm/cm]
     R2 = Interfacial Charge transfer resistance [ohm*cm]
     fs2 = Summit frequency of interfacial RQ circuit [Hz]
     n2 = Exponent for interfacial RQ circuit [-]
-    Q2 = Constant phase element of interfacial capacitance [s^n/Ohm] 
-    
+    Q2 = Constant phase element of interfacial capacitance [s^n/Ohm]
+
     Output
     -----------
     Impedance of Rs-(RQ)1-TLs(RQ)2
     '''
     Z_RQ = cir_RQ(w=w, R=R1, Q=Q1, n=n1, fs=fs1)
-    
+
     Phi = cir_RQ(w=w, R=R2, Q=Q2, n=n2, fs=fs2)
     X1 = Ri
-    Lam = (Phi/X1)**(1/2)    
+    Lam = (Phi/X1)**(1/2)
 
     x = L/Lam
     x_mp = mp.matrix(x) #x in mp.math format
     coth_mp = []
     for i in range(len(Lam)):
         coth_mp.append(float(mp.coth(x_mp[i]).real)+float(mp.coth(x_mp[i]).imag)*1j) #Handles coth with x having very large or very small numbers
-    
+
     Z_TLs = Lam * X1 * coth_mp
-    
+
     return Rs + Z_RQ + Z_TLs
 
 ### Support function
@@ -705,38 +705,38 @@ def cir_RsTLQ(w, L, Rs, Q, n, Rel, Ri):
     '''
     Simulation Function: -R-TLQ- (interfacial non-reacting, i.e. blocking electrode)
     Transmission line w/ full complexity, which both includes Ri and Rel
-    
+
     Ref.:
         - De Levie R., and Delahay P., Advances in Electrochemistry and Electrochemical Engineering, p. 329, Wiley-Interscience, New York (1973)
         - Bisquert J. Electrochemistry Communications 1, 1999, 429-435, "Anamalous transport effects in the impedance of porous film electrodes"
         - Bisquert J. J. Phys. Chem. B., 2000, 104, 2287-2298, "Doubling exponent models for the analysis of porous film electrodes by impedance.
         Relaxation of TiO2 nanoporous in aqueous solution"
-                
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
-    
+
     Inputs
     ------------------
     Rs = Series resistance [ohm]
 
-    Q = Constant phase element for the interfacial capacitance [s^n/ohm]        
+    Q = Constant phase element for the interfacial capacitance [s^n/ohm]
     n = exponenet for interfacial RQ element [-]
-    
+
     Rel = electronic resistance of electrode [ohm/cm]
     Ri = Ionic resistance inside of flodded pores [ohm/cm]
     L = thickness of porous electrode [cm]
-    
+
     Output
     --------------
     Impedance of Rs-TL
     '''
     #The impedance of the series resistance
     Z_Rs = Rs
-    
+
     # The Interfacial impedance is given by an -(RQ)- circuit
     Phi = elem_Q(w, Q=Q, n=n)
     X1 = Ri
     X2 = Rel
-    Lam = (Phi/(X1+X2))**(1/2)    
+    Lam = (Phi/(X1+X2))**(1/2)
 
     x = L/Lam
 #    x_mp = mp.matrix(x) #x in mp.math format
@@ -748,53 +748,53 @@ def cir_RsTLQ(w, L, Rs, Q, n, Rel, Ri):
 #    Z_TL = ((Rel*Ri)/(Rel+Ri)) * (L+((2*Lam)/np.array(sinh_mp))) + Lam * ((Rel**2 + Ri**2)/(Rel+Ri)) * np.array(coth_mp)
 
     Z_TL = ((Rel*Ri)/(Rel+Ri)) * (L+((2*Lam)/sinh(x))) + Lam * ((Rel**2 + Ri**2)/(Rel+Ri)) * coth(x)
-    
+
     return Z_Rs + Z_TL
 
 def cir_RsRQTLQ(w, L, Rs, Q, n, Rel, Ri, R1, n1, fs1, Q1='none'):
     '''
     Simulation Function: -R-RQ-TLQ- (interfacial non-reacting, i.e. blocking electrode)
     Transmission line w/ full complexity, which both includes Ri and Rel
-    
+
     Ref.:
         - De Levie R., and Delahay P., Advances in Electrochemistry and Electrochemical Engineering, p. 329, Wiley-Interscience, New York (1973)
         - Bisquert J. Electrochemistry Communications 1, 1999, 429-435, "Anamalous transport effects in the impedance of porous film electrodes"
         - Bisquert J. J. Phys. Chem. B., 2000, 104, 2287-2298, "Doubling exponent models for the analysis of porous film electrodes by impedance.
         Relaxation of TiO2 nanoporous in aqueous solution"
-                
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
-    
+
     Inputs
     ------------------
     Rs = Series resistance [ohm]
-    
+
     R1 = Charge transfer resistance of RQ circuit [ohm]
     fs1 = Summit frequency for RQ circuit [Hz]
     n1 = exponent for RQ circuit [-]
     Q1 = constant phase element of RQ circuit [s^n/(ohm * cm)]
 
-    Q = Constant phase element for the interfacial capacitance [s^n/ohm]        
+    Q = Constant phase element for the interfacial capacitance [s^n/ohm]
     n = exponenet for interfacial RQ element [-]
-    
+
     Rel = electronic resistance of electrode [ohm/cm]
     Ri = Ionic resistance inside of flodded pores [ohm/cm]
     L = thickness of porous electrode [cm]
-    
+
     Output
     --------------
     Impedance of Rs-TL
     '''
     #The impedance of the series resistance
     Z_Rs = Rs
-    
+
     #The (RQ) circuit in series with the transmission line
     Z_RQ1 = cir_RQ(w=w, R=R1, Q=Q1, n=n1, fs=fs1)
-    
+
     # The Interfacial impedance is given by an -(RQ)- circuit
     Phi = elem_Q(w, Q=Q, n=n)
     X1 = Ri
     X2 = Rel
-    Lam = (Phi/(X1+X2))**(1/2)    
+    Lam = (Phi/(X1+X2))**(1/2)
 
     x = L/Lam
 #    x_mp = mp.matrix(x) #x in mp.math format
@@ -806,47 +806,47 @@ def cir_RsRQTLQ(w, L, Rs, Q, n, Rel, Ri, R1, n1, fs1, Q1='none'):
 #    Z_TL = ((Rel*Ri)/(Rel+Ri)) * (L+((2*Lam)/np.array(sinh_mp))) + Lam * ((Rel**2 + Ri**2)/(Rel+Ri)) * np.array(coth_mp)
 
     Z_TL = ((Rel*Ri)/(Rel+Ri)) * (L+((2*Lam)/sinh(x))) + Lam * ((Rel**2 + Ri**2)/(Rel+Ri)) * coth(x)
-    
+
     return Z_Rs + Z_RQ1 + Z_TL
 
 def cir_RsTL(w, L, Rs, R, fs, n, Rel, Ri, Q='none'):
     '''
     Simulation Function: -R-TL- (interfacial reacting, i.e. non-blocking)
     Transmission line w/ full complexity, which both includes Ri and Rel
-    
+
     Ref.:
         - De Levie R., and Delahay P., Advances in Electrochemistry and Electrochemical Engineering, p. 329, Wiley-Interscience, New York (1973)
         - Bisquert J. Electrochemistry Communications 1, 1999, 429-435, "Anamalous transport effects in the impedance of porous film electrodes"
         - Bisquert J. J. Phys. Chem. B., 2000, 104, 2287-2298, "Doubling exponent models for the analysis of porous film electrodes by impedance.
         Relaxation of TiO2 nanoporous in aqueous solution"
-                
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
-    
+
     Inputs
     ------------------
     Rs = Series resistance [ohm]
-        
+
     R = Interfacial charge transfer resistance [ohm * cm]
     fs = Summit frequency for the interfacial RQ element [Hz]
     n = Exponenet for interfacial RQ element [-]
     Q = Constant phase element for the interfacial capacitance [s^n/ohm]
-    
+
     Rel = Electronic resistance of electrode [ohm/cm]
     Ri = Ionic resistance inside of flodded pores [ohm/cm]
     L = Thickness of porous electrode [cm]
-    
+
     Output
     --------------
     Impedance of Rs-TL
     '''
     #The impedance of the series resistance
     Z_Rs = Rs
-    
+
     # The Interfacial impedance is given by an -(RQ)- circuit
     Phi = cir_RQ(w, R=R, Q=Q, n=n, fs=fs)
     X1 = Ri
     X2 = Rel
-    Lam = (Phi/(X1+X2))**(1/2)    
+    Lam = (Phi/(X1+X2))**(1/2)
 
     x = L/Lam
 #    x_mp = mp.matrix(x) #x in mp.math format
@@ -865,48 +865,48 @@ def cir_RsRQTL(w, L, Rs, R1, fs1, n1, R2, fs2, n2, Rel, Ri, Q1='none', Q2='none'
     '''
     Simulation Function: -R-RQ-TL- (interfacial reacting, i.e. non-blocking)
     Transmission line w/ full complexity, which both includes Ri and Rel
-    
+
     Ref.:
         - De Levie R., and Delahay P., Advances in Electrochemistry and Electrochemical Engineering, p. 329, Wiley-Interscience, New York (1973)
         - Bisquert J. Electrochemistry Communications 1, 1999, 429-435, "Anamalous transport effects in the impedance of porous film electrodes"
         - Bisquert J. J. Phys. Chem. B., 2000, 104, 2287-2298, "Doubling exponent models for the analysis of porous film electrodes by impedance.
         Relaxation of TiO2 nanoporous in aqueous solution"
-                
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
-    
+
     Inputs
     ------------------
     Rs = Series resistance [ohm]
-        
+
     R1 = Charge transfer resistance of RQ circuit [ohm]
     fs1 = Summit frequency for RQ circuit [Hz]
     n1 = exponent for RQ circuit [-]
     Q1 = constant phase element of RQ circuit [s^n/(ohm * cm)]
-    
+
     R2 = interfacial charge transfer resistance [ohm * cm]
     fs2 = Summit frequency for the interfacial RQ element [Hz]
     n2 = exponenet for interfacial RQ element [-]
     Q2 = Constant phase element for the interfacial capacitance [s^n/ohm]
-    
+
     Rel = electronic resistance of electrode [ohm/cm]
     Ri = Ionic resistance inside of flodded pores [ohm/cm]
     L = thickness of porous electrode [cm]
-    
+
     Output
     --------------
     Impedance of Rs-TL
     '''
     #The impedance of the series resistance
     Z_Rs = Rs
-    
+
     #The (RQ) circuit in series with the transmission line
     Z_RQ1 = cir_RQ(w=w, R=R1, Q=Q1, n=n1, fs=fs1)
-    
+
     # The Interfacial impedance is given by an -(RQ)- circuit
     Phi = cir_RQ(w, R=R2, Q=Q2, n=n2, fs=fs2)
     X1 = Ri
     X2 = Rel
-    Lam = (Phi/(X1+X2))**(1/2)    
+    Lam = (Phi/(X1+X2))**(1/2)
 
     x = L/Lam
 #    x_mp = mp.matrix(x) #x in mp.math format
@@ -925,9 +925,9 @@ def cir_RsTL_1Dsolid(w, L, D, radius, Rs, R, Q, n, R_w, n_w, Rel, Ri):
     '''
     Simulation Function: -R-TL(Q(RW))-
     Transmission line w/ full complexity, which both includes Ri and Rel
-    
+
     Warburg element is specific for 1D solid-state diffusion
-    
+
     Refs:
         - De Levie R., and Delahay P., Advances in Electrochemistry and Electrochemical Engineering, p. 329, Wiley-Interscience, New York (1973)
         - Bisquert J. Electrochemistry Communications 1, 1999, 429-435, "Anamalous transport effects in the impedance of porous film electrodes"
@@ -935,37 +935,37 @@ def cir_RsTL_1Dsolid(w, L, D, radius, Rs, R, Q, n, R_w, n_w, Rel, Ri):
         Relaxation of TiO2 nanoporous in aqueous solution"
         - De Levie R., and Delahay P., Advances in Electrochemistry and Electrochemical Engineering, p. 329, Wiley-Interscience, New York (1973)
         - Illig, J., Physically based Impedance Modelling of Lithium-ion Cells, KIT Scientific Publishing (2014)
-        - Scipioni, et al., ECS Transactions, 69 (18) 71-80 (2015) 
-    
+        - Scipioni, et al., ECS Transactions, 69 (18) 71-80 (2015)
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
-    
+
     Inputs
     ------------------
     Rs = Series resistance [ohm]
-        
+
     R = particle charge transfer resistance [ohm*cm^2]
     Q = Summit frequency peak of RQ element in the modified randles element of a particle [Hz]
     n = exponenet for internal RQ element in the modified randles element of a particle [-]
-    
+
     Rel = electronic resistance of electrode [ohm/cm]
     Ri = ionic resistance of solution in flooded pores of electrode [ohm/cm]
     R_w = polarization resistance of finite diffusion Warburg element [ohm]
     n_w = exponent for Warburg element [-]
-    
+
     L = thickness of porous electrode [cm]
     D = solid-state diffusion coefficient [cm^2/s]
     radius = average particle radius [cm]
-    
+
     Output
     --------------
     Impedance of Rs-TL(Q(RW))
     '''
     #The impedance of the series resistance
     Z_Rs = Rs
-    
+
     #The impedance of a 1D Warburg Element
     time_const = (radius**2)/D
-    
+
     x = (time_const*w*1j)**n_w
     x_mp = mp.matrix(x)
     warburg_coth_mp = []
@@ -973,7 +973,7 @@ def cir_RsTL_1Dsolid(w, L, D, radius, Rs, R, Q, n, R_w, n_w, Rel, Ri):
         warburg_coth_mp.append(float(mp.coth(x_mp[i]).real)+float(mp.coth(x_mp[i]).imag)*1j)
 
     Z_w = R_w * np.array(warburg_coth_mp)/x
-    
+
     # The Interfacial impedance is given by a Randles Equivalent circuit with the finite space warburg element in series with R2
     Z_Rct = R
     Z_Q = elem_Q(w,Q=Q,n=n)
@@ -987,7 +987,7 @@ def cir_RsTL_1Dsolid(w, L, D, radius, Rs, R, Q, n, R_w, n_w, Rel, Ri):
 #    coth_mp = []
 #    for j in range(len(lamb_mp)):
 #        sinh_mp.append(float(mp.sinh(lamb_mp[j]).real)+float((mp.sinh(lamb_mp[j]).imag))*1j)
-#        coth_mp.append(float(mp.coth(lamb_mp[j]).real)+float(mp.coth(lamb_mp[j]).imag)*1j)        
+#        coth_mp.append(float(mp.coth(lamb_mp[j]).real)+float(mp.coth(lamb_mp[j]).imag)*1j)
 #    Z_TL = ((Rel*Ri)/(Rel+Ri)) * (L+((2*lamb)/np.array(sinh_mp))) + lamb * ((Rel**2 + Ri**2)/(Rel+Ri)) * np.array(coth_mp)
     Z_TL = ((Rel*Ri)/(Rel+Ri)) * (L+((2*lamb)/sinh(x))) + lamb * ((Rel**2 + Ri**2)/(Rel+Ri)) * coth(x)
     return Z_Rs + Z_TL
@@ -996,54 +996,54 @@ def cir_RsRQTL_1Dsolid(w, L, D, radius, Rs, R1, fs1, n1, R2, Q2, n2, R_w, n_w, R
     '''
     Simulation Function: -R-RQ-TL(Q(RW))-
     Transmission line w/ full complexity, which both includes Ri and Rel
-    
+
     Warburg element is specific for 1D solid-state diffusion
-    
+
     Refs:
         - De Levie R., and Delahay P., Advances in Electrochemistry and Electrochemical Engineering, p. 329, Wiley-Interscience, New York (1973)
         - Bisquert J. Electrochemistry Communications 1, 1999, 429-435, "Anamalous transport effects in the impedance of porous film electrodes"
         - Bisquert J. J. Phys. Chem. B., 2000, 104, 2287-2298, "Doubling exponent models for the analysis of porous film electrodes by impedance.
         Relaxation of TiO2 nanoporous in aqueous solution"
         - Illig, J., Physically based Impedance Modelling of Lithium-ion Cells, KIT Scientific Publishing (2014)
-        - Scipioni, et al., ECS Transactions, 69 (18) 71-80 (2015) 
-    
+        - Scipioni, et al., ECS Transactions, 69 (18) 71-80 (2015)
+
     David Brown (demoryb@berkeley.edu)
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
-    
+
     Inputs
     ------------------
     Rs = Series resistance [ohm]
-    
+
     R1 = charge transfer resistance of the interfacial RQ element [ohm*cm^2]
     fs1 = max frequency peak of the interfacial RQ element[Hz]
     n1 = exponenet for interfacial RQ element
-    
+
     R2 = particle charge transfer resistance [ohm*cm^2]
     Q2 = Summit frequency peak of RQ element in the modified randles element of a particle [Hz]
     n2 = exponenet for internal RQ element in the modified randles element of a particle [-]
-    
+
     Rel = electronic resistance of electrode [ohm/cm]
     Ri = ionic resistance of solution in flooded pores of electrode [ohm/cm]
     R_w = polarization resistance of finite diffusion Warburg element [ohm]
     n_w = exponent for Warburg element [-]
-    
+
     L = thickness of porous electrode [cm]
     D = solid-state diffusion coefficient [cm^2/s]
     radius = average particle radius [cm]
-    
+
     Output
     ------------------
     Impedance of R-RQ-TL(Q(RW))
     '''
     #The impedance of the series resistance
     Z_Rs = Rs
-    
+
     # The Interfacial impedance is given by an -(RQ)- circuit
     Z_RQ = cir_RQ(w=w, R=R1, Q=Q1, n=n1, fs=fs1)
-    
+
     #The impedance of a 1D Warburg Element
     time_const = (radius**2)/D
-    
+
     x = (time_const*w*1j)**n_w
     x_mp = mp.matrix(x)
     warburg_coth_mp = []
@@ -1051,7 +1051,7 @@ def cir_RsRQTL_1Dsolid(w, L, D, radius, Rs, R1, fs1, n1, R2, Q2, n2, R_w, n_w, R
         warburg_coth_mp.append(float(mp.coth(x_mp[i]).real)+float(mp.coth(x_mp[i]).imag)*1j)
 
     Z_w = R_w * np.array(warburg_coth_mp)/x
-    
+
     # The Interfacial impedance is given by a Randles Equivalent circuit with the finite space warburg element in series with R2
     Z_Rct = R2
     Z_Q = elem_Q(w,Q=Q2,n=n2)
@@ -1066,11 +1066,11 @@ def cir_RsRQTL_1Dsolid(w, L, D, radius, Rs, R1, fs1, n1, R2, Q2, n2, R_w, n_w, R
 #    for j in range(len(lamb_mp)):
 #        sinh_mp.append(float(mp.sinh(lamb_mp[j]).real)+float((mp.sinh(lamb_mp[j]).imag))*1j)
 #        coth_mp.append(float(mp.coth(lamb_mp[j]).real)+float(mp.coth(lamb_mp[j]).imag)*1j)
-#        
+#
 #    Z_TL = ((Rel*Ri)/(Rel+Ri)) * (L+((2*lamb)/np.array(sinh_mp))) + lamb * ((Rel**2 + Ri**2)/(Rel+Ri)) * np.array(coth_mp)
 
     Z_TL = ((Rel*Ri)/(Rel+Ri)) * (L+((2*lamb)/sinh(x))) + lamb * ((Rel**2 + Ri**2)/(Rel+Ri)) * coth(x)
-    
+
     return Z_Rs + Z_RQ + Z_TL
 
 ### Fitting Circuit Functions
@@ -1087,7 +1087,7 @@ def elem_C_fit(params, w):
 def elem_Q_fit(params, w):
     '''
     Fit Function: -Q-
-    
+
     Constant Phase Element for Fitting
     '''
     Q = params['Q']
@@ -1140,11 +1140,11 @@ def cir_RQ_fit(params, w):
     Fit Function: -RQ-
     Return the impedance of an RQ circuit:
     Z(w) = R / (1+ R*Q * (2w)^n)
-    
+
     See Explanation of equations under cir_RQ()
-    
+
     The params.keys()[10:] finds the names of the user defined parameters that should be interated over if X == -1, if the paramter is not given, it becomes equal to 'none'
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
     '''
     if str(params.keys())[10:].find("R") == -1: #if R == 'none':
@@ -1172,7 +1172,7 @@ def cir_RsRQ_fit(params, w):
     '''
     Fit Function: -Rs-RQ-
     Return the impedance of an Rs-RQ circuit. See details for RQ under cir_RsRQ_fit()
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
     '''
     if str(params.keys())[10:].find("R") == -1: #if R == 'none':
@@ -1194,7 +1194,7 @@ def cir_RsRQ_fit(params, w):
         R = params['R']
         Q = params['Q']
         n = params['n']
-        
+
     Rs = params['Rs']
     return Rs + (R/(1+R*Q*(w*1j)**n))
 
@@ -1202,7 +1202,7 @@ def cir_RsRQRQ_fit(params, w):
     '''
     Fit Function: -Rs-RQ-RQ-
     Return the impedance of an Rs-RQ circuit. See details under cir_RsRQRQ()
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
     '''
     if str(params.keys())[10:].find("'R'") == -1: #if R == 'none':
@@ -1254,7 +1254,7 @@ def cir_Randles_simplified_Fit(params, w):
     Return the impedance of a Randles circuit. See more under cir_Randles_simplified()
 
     NOTE: This Randles circuit is only meant for semi-infinate linear diffusion
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
     '''
     if str(params.keys())[10:].find("'R'") == -1: #if R == 'none':
@@ -1276,20 +1276,20 @@ def cir_Randles_simplified_Fit(params, w):
         R = params['R']
         Q = params['Q']
         n = params['n']
-    
+
     Rs = params['Rs']
     sigma = params['sigma']
-    
+
     Z_Q = 1/(Q*(w*1j)**n)
     Z_R = R
     Z_w = sigma*(w**(-0.5))-1j*sigma*(w**(-0.5))
-    
+
     return Rs + 1/(1/Z_Q + 1/(Z_R+Z_w))
 
 def cir_RsRQQ_fit(params, w):
     '''
     Fit Function: -Rs-RQ-Q-
-    
+
     See cir_RsRQQ() for details
     '''
     Rs = params['Rs']
@@ -1317,13 +1317,13 @@ def cir_RsRQQ_fit(params, w):
         n1 = params['n1']
         Q1 = params['Q1']
     Z_RQ = (R1/(1+R1*Q1*(w*1j)**n1))
-    
+
     return Rs + Z_RQ + Z_Q
 
 def cir_RsRQC_fit(params, w):
     '''
     Fit Function: -Rs-RQ-C-
-    
+
     See cir_RsRQC() for details
     '''
     Rs = params['Rs']
@@ -1350,13 +1350,13 @@ def cir_RsRQC_fit(params, w):
         n1 = params['n1']
         Q1 = params['Q1']
     Z_RQ = (R1/(1+R1*Q1*(w*1j)**n1))
-    
+
     return Rs + Z_RQ + Z_C
 
 def cir_RsRCC_fit(params, w):
     '''
     Fit Function: -Rs-RC-C-
-    
+
     See cir_RsRCC() for details
     '''
     Rs = params['Rs']
@@ -1368,7 +1368,7 @@ def cir_RsRCC_fit(params, w):
 def cir_RsRCQ_fit(params, w):
     '''
     Fit Function: -Rs-RC-Q-
-    
+
     See cir_RsRCQ() for details
     '''
     Rs = params['Rs']
@@ -1379,19 +1379,19 @@ def cir_RsRCQ_fit(params, w):
     return Rs + cir_RC(w, C=C1, R=R1, fs='none') + elem_Q(w,Q,n)
 
 # Polymer electrolytes
-    
+
 def cir_C_RC_C_fit(params, w):
     '''
     Fit Function: -C-(RC)-C-
-    
+
     See cir_C_RC_C() for details
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
     '''
     # Interfacial impedance
     Ce = params['Ce']
     Z_C = 1/(Ce*(w*1j))
-    
+
     # Bulk impendance
     if str(params.keys())[10:].find("Rb") == -1: #if R == 'none':
         Cb = params['Cb']
@@ -1405,23 +1405,23 @@ def cir_C_RC_C_fit(params, w):
         Rb = params['Rb']
         Cb = params['Cb']
     Z_RC = (Rb/(1+Rb*Cb*(w*1j)))
-    
+
 
     return Z_C + Z_RC
 
 def cir_Q_RQ_Q_Fit(params, w):
     '''
     Fit Function: -Q-(RQ)-Q-
-    
+
     See cir_Q_RQ_Q() for details
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
     '''
     # Interfacial impedance
     Qe = params['Qe']
     ne = params['ne']
     Z_Q = 1/(Qe*(w*1j)**ne)
-    
+
     # Bulk impedance
     if str(params.keys())[10:].find("Rb") == -1: #if R == 'none':
         Qb = params['Qb']
@@ -1449,7 +1449,7 @@ def cir_Q_RQ_Q_Fit(params, w):
 def cir_RCRCZD_fit(params, w):
     '''
     Fit Function: -RC_b-RC_e-Z_D
-    
+
     See cir_RCRCZD() for details
 
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
@@ -1481,13 +1481,13 @@ def cir_RCRCZD_fit(params, w):
         Rb = params['Rb']
         Cb = params['Cb']
     Z_RCb = (Rb/(1+Rb*Cb*(w*1j)))
-    
+
     # Mass transport impendance
     L = params['L']
     D_s = params['D_s']
     u1 = params['u1']
     u2 = params['u2']
-    
+
     alpha = ((w*1j*L**2)/D_s)**(1/2)
     Z_D = Rb * (u2/u1) * (tanh(alpha)/alpha)
     return Z_RCb + Z_RCe + Z_D
@@ -1499,15 +1499,15 @@ def cir_RsTLsQ_fit(params, w):
     Fit Function: -Rs-TLsQ-
     TLs = Simplified Transmission Line, with a non-faradaic interfacial impedance (Q)
     See more under cir_RsTLsQ()
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
     '''
     Rs = params['Rs']
     L = params['L']
     Ri = params['Ri']
     Q = params['Q']
-    n = params['n']    
-    
+    n = params['n']
+
     Phi = 1/(Q*(w*1j)**n)
     X1 = Ri # ohm/cm
     Lam = (Phi/X1)**(1/2) #np.sqrt(Phi/X1)
@@ -1517,8 +1517,8 @@ def cir_RsTLsQ_fit(params, w):
 #    coth_mp = []
 #    for i in range(len(Lam)):
 #        coth_mp.append(float(mp.coth(x_mp[i]).real)+float(mp.coth(x_mp[i]).imag)*1j)  #Handles coth with x having very large or very small numbers
-#    
-#    Z_TLsQ = Lam * X1 * coth_mp    
+#
+#    Z_TLsQ = Lam * X1 * coth_mp
     Z_TLsQ = Lam * X1 * coth(x)
 
     return Rs + Z_TLsQ
@@ -1528,7 +1528,7 @@ def cir_RsRQTLsQ_Fit(params, w):
     Fit Function: -Rs-RQ-TLsQ-
     TLs = Simplified Transmission Line, with a non-faradaic interfacial impedance (Q)
     See more under cir_RsRQTLsQ
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
     '''
     Rs = params['Rs']
@@ -1557,7 +1557,7 @@ def cir_RsRQTLsQ_Fit(params, w):
         n1 = params['n1']
         Q1 = params['Q1']
     Z_RQ = (R1/(1+R1*Q1*(w*1j)**n1))
-    
+
 
     Phi = 1/(Q*(w*1j)**n)
     X1 = Ri
@@ -1570,7 +1570,7 @@ def cir_RsRQTLsQ_Fit(params, w):
         coth_mp.append(float(mp.coth(x_mp[i]).real)+float(mp.coth(x_mp[i]).imag)*1j) #Handles coth with x having very large or very small numbers
 
     Z_TLsQ = Lam * X1 * coth_mp
-    
+
     return Rs + Z_RQ + Z_TLsQ
 
 def cir_RsTLs_Fit(params, w):
@@ -1578,13 +1578,13 @@ def cir_RsTLs_Fit(params, w):
     Fit Function: -Rs-RQ-TLs-
     TLs = Simplified Transmission Line, with a faradaic interfacial impedance (RQ)
     See mor under cir_RsTLs()
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
     '''
     Rs = params['Rs']
     L = params['L']
     Ri = params['Ri']
-    
+
     if str(params.keys())[10:].find("R") == -1: #if R == 'none':
         Q = params['Q']
         n = params['n']
@@ -1607,7 +1607,7 @@ def cir_RsTLs_Fit(params, w):
     Phi = R/(1+R*Q*(w*1j)**n)
 
     X1 = Ri
-    Lam = (Phi/X1)**(1/2)    
+    Lam = (Phi/X1)**(1/2)
     x = L/Lam
     x_mp = mp.matrix(x) #x in mp.math format
     coth_mp = []
@@ -1615,7 +1615,7 @@ def cir_RsTLs_Fit(params, w):
         coth_mp.append(float(mp.coth(x_mp[i]).real)+float(mp.coth(x_mp[i]).imag)*1j) #Handles coth with x having very large or very small numbers
 
     Z_TLs = Lam * X1 * coth_mp
-    
+
     return Rs + Z_TLs
 
 def cir_RsRQTLs_Fit(params, w):
@@ -1623,7 +1623,7 @@ def cir_RsRQTLs_Fit(params, w):
     Fit Function: -Rs-RQ-TLs-
     TLs = Simplified Transmission Line with a faradaic interfacial impedance (RQ)
     See more under cir_RsRQTLs()
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
     '''
     Rs = params['Rs']
@@ -1669,26 +1669,26 @@ def cir_RsRQTLs_Fit(params, w):
     if str(params.keys())[10:].find("fs2") == -1: #elif fs == 'none':
         R2 = params['R2']
         n2 = params['n2']
-        Q2 = params['Q2']    
+        Q2 = params['Q2']
     Phi = (R2/(1+R2*Q2*(w*1j)**n2))
     X1 = Ri
-    Lam = (Phi/X1)**(1/2)    
+    Lam = (Phi/X1)**(1/2)
 
     x = L/Lam
     x_mp = mp.matrix(x) #x in mp.math format
     coth_mp = []
     for i in range(len(Lam)):
         coth_mp.append(float(mp.coth(x_mp[i]).real)+float(mp.coth(x_mp[i]).imag)*1j) #Handles coth with x having very large or very small numbers
-    
+
     Z_TLs = Lam * X1 * coth_mp
-    
+
     return Rs + Z_RQ + Z_TLs
 
 def cir_RsTLQ_fit(params, w):
     '''
     Fit Function: -R-TLQ- (interface non-reacting, i.e. blocking electrode)
     Transmission line w/ full complexity, which both includes Ri and Rel
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
     '''
     Rs = params['Rs']
@@ -1697,15 +1697,15 @@ def cir_RsTLQ_fit(params, w):
     Rel = params['Rel']
     Q = params['Q']
     n = params['n']
-    
+
     #The impedance of the series resistance
     Z_Rs = Rs
-    
+
     # The Interfacial impedance is given by an -(RQ)- circuit
     Phi = elem_Q(w, Q=Q, n=n)
     X1 = Ri
     X2 = Rel
-    Lam = (Phi/(X1+X2))**(1/2)    
+    Lam = (Phi/(X1+X2))**(1/2)
 
     x = L/Lam
 #    x_mp = mp.matrix(x) #x in mp.math format
@@ -1724,7 +1724,7 @@ def cir_RsRQTLQ_fit(params, w):
     '''
     Fit Function: -R-RQ-TLQ- (interface non-reacting, i.e. blocking electrode)
     Transmission line w/ full complexity, which both includes Ri and Rel
-                
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
     '''
     Rs = params['Rs']
@@ -1733,10 +1733,10 @@ def cir_RsRQTLQ_fit(params, w):
     Rel = params['Rel']
     Q = params['Q']
     n = params['n']
-    
+
     #The impedance of the series resistance
     Z_Rs = Rs
-    
+
     #The (RQ) circuit in series with the transmission line
     if str(params.keys())[10:].find("R1") == -1: #if R == 'none':
         Q1 = params['Q1']
@@ -1758,12 +1758,12 @@ def cir_RsRQTLQ_fit(params, w):
         n1 = params['n1']
         Q1 = params['Q1']
     Z_RQ1 = (R1/(1+R1*Q1*(w*1j)**n1))
-    
+
     # The Interfacial impedance is given by an -(RQ)- circuit
     Phi = elem_Q(w, Q=Q, n=n)
     X1 = Ri
     X2 = Rel
-    Lam = (Phi/(X1+X2))**(1/2)    
+    Lam = (Phi/(X1+X2))**(1/2)
 
     x = L/Lam
 #    x_mp = mp.matrix(x) #x in mp.math format
@@ -1782,11 +1782,11 @@ def cir_RsTL_Fit(params, w):
     '''
     Fit Function: -R-TLQ- (interface reacting, i.e. non-blocking)
     Transmission line w/ full complexity, which both includes Ri and Rel
-    
+
     See cir_RsTL() for details
-            
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
-    
+
     '''
     Rs = params['Rs']
     L = params['L']
@@ -1820,7 +1820,7 @@ def cir_RsTL_Fit(params, w):
     Phi = (R/(1+R*Q*(w*1j)**n))
     X1 = Ri
     X2 = Rel
-    Lam = (Phi/(X1+X2))**(1/2)    
+    Lam = (Phi/(X1+X2))**(1/2)
 
     x = L/Lam
 #    x_mp = mp.matrix(x) #x in mp.math format
@@ -1839,7 +1839,7 @@ def cir_RsRQTL_fit(params, w):
     '''
     Fit Function: -R-RQ-TL- (interface reacting, i.e. non-blocking)
     Transmission line w/ full complexity including both includes Ri and Rel
-                
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
     '''
     Rs = params['Rs']
@@ -1871,7 +1871,7 @@ def cir_RsRQTL_fit(params, w):
         n1 = params['n1']
         Q1 = params['Q1']
     Z_RQ1 = (R1/(1+R1*Q1*(w*1j)**n1))
-#    
+#
 #    # The Interfacial impedance is given by an -(RQ)- circuit
     if str(params.keys())[10:].find("R2") == -1: #if R == 'none':
         Q2 = params['Q2']
@@ -1896,7 +1896,7 @@ def cir_RsRQTL_fit(params, w):
 
     X1 = Ri
     X2 = Rel
-    Lam = (Phi/(X1+X2))**(1/2)    
+    Lam = (Phi/(X1+X2))**(1/2)
 
     x = L/Lam
 #    x_mp = mp.matrix(x) #x in mp.math format
@@ -1916,9 +1916,9 @@ def cir_RsTL_1Dsolid_fit(params, w):
     '''
     Fit Function: -R-TL(Q(RW))-
     Transmission line w/ full complexity
-    
+
     See cir_RsTL_1Dsolid() for details
-    
+
     David Brown (demoryb@berkeley.edu)
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
     '''
@@ -1937,10 +1937,10 @@ def cir_RsTL_1Dsolid_fit(params, w):
 
     #The impedance of the series resistance
     Z_Rs = Rs
-    
+
     #The impedance of a 1D Warburg Element
     time_const = (radius**2)/D
-    
+
     x = (time_const*w*1j)**n_w
     x_mp = mp.matrix(x)
     warburg_coth_mp = []
@@ -1948,7 +1948,7 @@ def cir_RsTL_1Dsolid_fit(params, w):
         warburg_coth_mp.append(float(mp.coth(x_mp[i]).real)+float(mp.coth(x_mp[i]).imag)*1j)
 
     Z_w = R_w * np.array(warburg_coth_mp)/x
-    
+
     # The Interfacial impedance is given by a Randles Equivalent circuit with the finite space warburg element in series with R2
     Z_Rct = R
     Z_Q = elem_Q(w=w, Q=Q, n=n)
@@ -1964,18 +1964,18 @@ def cir_RsTL_1Dsolid_fit(params, w):
 #        sinh_mp.append(float(mp.sinh(lamb_mp[j]).real)+float((mp.sinh(lamb_mp[j]).imag))*1j)
 #        coth_mp.append(float(mp.coth(lamb_mp[j]).real)+float(mp.coth(lamb_mp[j]).imag)*1j)
 #    Z_TL = ((Rel*Ri)/(Rel+Ri)) * (L+((2*lamb)/np.array(sinh_mp))) + lamb * ((Rel**2 + Ri**2)/(Rel+Ri)) * np.array(coth_mp)
-    
+
     Z_TL = ((Rel*Ri)/(Rel+Ri)) * (L+((2*lamb)/sinh(x))) + lamb * ((Rel**2 + Ri**2)/(Rel+Ri)) * coth(x)
-    
+
     return Z_Rs + Z_TL
 
 def cir_RsRQTL_1Dsolid_fit(params, w):
     '''
     Fit Function: -R-RQ-TL(Q(RW))-
     Transmission line w/ full complexity, which both includes Ri and Rel. The Warburg element is specific for 1D solid-state diffusion
-    
+
     See cir_RsRQTL_1Dsolid() for details
-    
+
     David Brown (demoryb@berkeley.edu)
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
     '''
@@ -1993,7 +1993,7 @@ def cir_RsRQTL_1Dsolid_fit(params, w):
     Ri = params['Ri']
     #The impedance of the series resistance
     Z_Rs = Rs
-    
+
     # The Interfacial impedance is given by an -(RQ)- circuit
     if str(params.keys())[10:].find("R1") == -1: #if R == 'none':
         Q1 = params['Q1']
@@ -2018,7 +2018,7 @@ def cir_RsRQTL_1Dsolid_fit(params, w):
 
     #The impedance of a 1D Warburg Element
     time_const = (radius**2)/D
-    
+
     x = (time_const*w*1j)**n_w
     x_mp = mp.matrix(x)
     warburg_coth_mp = []
@@ -2026,7 +2026,7 @@ def cir_RsRQTL_1Dsolid_fit(params, w):
         warburg_coth_mp.append(float(mp.coth(x_mp[i]).real)+float(mp.coth(x_mp[i]).imag)*1j)
 
     Z_w = R_w * np.array(warburg_coth_mp)/x
-    
+
     # The Interfacial impedance is given by a Randles Equivalent circuit with the finite space warburg element in series with R2
     Z_Rct = R2
     Z_Q = elem_Q(w,Q=Q2,n=n2)
@@ -2041,11 +2041,11 @@ def cir_RsRQTL_1Dsolid_fit(params, w):
 #    for j in range(len(lamb_mp)):
 #        sinh_mp.append(float(mp.sinh(lamb_mp[j]).real)+float((mp.sinh(lamb_mp[j]).imag))*1j)
 #        coth_mp.append(float(mp.coth(lamb_mp[j]).real)+float(mp.coth(lamb_mp[j]).imag)*1j)
-#        
+#
 #    Z_TL = ((Rel*Ri)/(Rel+Ri)) * (L+((2*lamb)/np.array(sinh_mp))) + lamb * ((Rel**2 + Ri**2)/(Rel+Ri)) * np.array(coth_mp)
 
     Z_TL = ((Rel*Ri)/(Rel+Ri)) * (L+((2*lamb)/sinh(x))) + lamb * ((Rel**2 + Ri**2)/(Rel+Ri)) * coth(x)
-    
+
     return Z_Rs + Z_RQ1 + Z_TL
 
 ### Least-Squares error function
@@ -2053,14 +2053,14 @@ def leastsq_errorfunc(params, w, re, im, circuit, weight_func):
     '''
     Sum of squares error function for the complex non-linear least-squares fitting procedure (CNLS). The fitting function (lmfit) will use this function to iterate over
     until the total sum of errors is minimized.
-    
+
     During the minimization the fit is weighed, and currently three different weigh options are avaliable:
         - modulus
         - unity
         - proportional
-    
+
     Modulus is generially recommended as random errors and a bias can exist in the experimental data.
-        
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
 
     Inputs
@@ -2186,9 +2186,9 @@ def leastsq_errorfunc(params, w, re, im, circuit, weight_func):
         im_fit = -cir_RsRQTL_1Dsolid_fit(params, w).imag
     else:
         print('Circuit is not defined in leastsq_errorfunc()')
-        
+
     error = [(re-re_fit)**2, (im-im_fit)**2] #sum of squares
-    
+
     #Different Weighing options, see Lasia
     if weight_func == 'modulus':
         weight = [1/((re_fit**2 + im_fit**2)**(1/2)), 1/((re_fit**2 + im_fit**2)**(1/2))]
@@ -2201,8 +2201,8 @@ def leastsq_errorfunc(params, w, re, im, circuit, weight_func):
         weight = [unity_1s, unity_1s]
     else:
         print('weight not defined in leastsq_errorfunc()')
-        
-    S = np.array(weight) * error #weighted sum of squares 
+
+    S = np.array(weight) * error #weighted sum of squares
     return S
 
 ### Fitting Class
@@ -2216,7 +2216,7 @@ class EIS_exp:
     - EIS_plot() is used to plot experimental data with or without fit
     - Lin_KK() performs a linear Kramers-Kronig analysis of the experimental data set.
     - EIS_fit() performs complex non-linear least-squares fitting of the experimental data to an equivalent circuit
-    
+
     Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
 
     Inputs
@@ -2291,10 +2291,10 @@ class EIS_exp:
         self.df = []
         if mask == ['none','none'] and cycle == 'off':
             for i in range(len(self.df_raw.cycle_number.unique())): #includes all data
-                self.df.append(self.df_raw[self.df_raw.cycle_number == self.df_raw.cycle_number.unique()[i]])                
+                self.df.append(self.df_raw[self.df_raw.cycle_number == self.df_raw.cycle_number.unique()[i]])
         elif mask == ['none','none'] and cycle != 'off':
             for i in range(len(cycle)):
-                self.df.append(self.df_raw[self.df_raw.cycle_number == cycle[i]]) #extracting dataframe for each cycle                                
+                self.df.append(self.df_raw[self.df_raw.cycle_number == cycle[i]]) #extracting dataframe for each cycle
         elif mask[0] != 'none' and mask[1] == 'none' and cycle == 'off':
             self.df_pre = self.df_raw.mask(self.df_raw.f > mask[0])
             self.df_pre.dropna(how='all', inplace=True)
@@ -2309,7 +2309,7 @@ class EIS_exp:
             self.df_pre.dropna(how='all', inplace=True)
             for i in range(len(self.df_raw.cycle_number.unique())): #includes all data
                 self.df.append(self.df_pre[self.df_pre.cycle_number == self.df_pre.cycle_number.unique()[i]])
-        elif mask[0] == 'none' and mask[1] != 'none' and cycle != 'off': 
+        elif mask[0] == 'none' and mask[1] != 'none' and cycle != 'off':
             self.df_limited = self.df_raw.mask(self.df_raw.f < mask[1])
             for i in range(len(cycle)):
                 self.df.append(self.df_limited[self.df_limited.cycle_number == cycle[i]])
@@ -2335,14 +2335,14 @@ class EIS_exp:
 
         Ref.:
             - Schōnleber, M. et al. Electrochimica Acta 131 (2014) 20-27
-            - Boukamp, B.A. J. Electrochem. Soc., 142, 6, 1885-1894 
-        
-        The function performs the KK analysis and as default the relative residuals in each subplot        
-    
+            - Boukamp, B.A. J. Electrochem. Soc., 142, 6, 1885-1894
+
+        The function performs the KK analysis and as default the relative residuals in each subplot
+
         Note, that weigh_func should be equal to 'Boukamp'.
-        
+
         Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
-        
+
         Optional Inputs
         -----------------
         - num_RC:
@@ -2350,12 +2350,12 @@ class EIS_exp:
             that ensures no under- or over-fitting occurs
             - can be hardwired by inserting any number (RC-elements/decade)
 
-        - plot: 
+        - plot:
             - 'residuals' = plots the relative residuals in subplots correspoding to the cycle numbers picked
             - 'w_data' = plots the relative residuals with the experimental data, in Nyquist and bode plot if desired, see 'bode =' in description
-        
+
         - nyq_xlim/nyq_xlim: Change the x/y-axis limits on nyquist plot, if not equal to 'none' state [min,max] value
-        
+
         - legend:
             - 'on' = displays cycle number
             - 'potential' = displays average potential which the spectra was measured at
@@ -2364,10 +2364,10 @@ class EIS_exp:
         bode = Plots Bode Plot - options:
             'on' = re, im vs. log(freq)
             'log' = log(re, im) vs. log(freq)
-            
+
             're' = re vs. log(freq)
             'log_re' = log(re) vs. log(freq)
-            
+
             'im' = im vs. log(freq)
             'log_im' = log(im) vs. log(freq)
         '''
@@ -2382,7 +2382,7 @@ class EIS_exp:
             self.KK_R = []
             self.number_RC = []
             self.number_RC_sort = []
-    
+
             self.KK_u = []
             self.KK_Rgreater = []
             self.KK_Rminor = []
@@ -2393,7 +2393,7 @@ class EIS_exp:
                 self.number_RC_sort.append(M) #needed for self.KK_R
                 self.Rparam.append(KK_Rnam_val(re=self.df[i].re, re_start=self.df[i].re.idxmin(), num_RC=int(self.number_RC[i]))[0]) #Creates intial guesses for R's
                 self.t_const.append(KK_timeconst(w=self.df[i].w, num_RC=int(self.number_RC[i]))) #Creates time constants values for self.number_RC -(RC)- circuits
-                
+
                 self.Lin_KK_Fit.append(minimize(KK_errorfunc, self.Rparam[i], method='leastsq', args=(self.df[i].w.values, self.df[i].re.values, self.df[i].im.values, self.number_RC[i], weight_func, self.t_const[i]) )) #maxfev=99
                 self.R_names.append(KK_Rnam_val(re=self.df[i].re, re_start=self.df[i].re.idxmin(), num_RC=int(self.number_RC[i]))[1]) #creates R names
                 for j in range(len(self.R_names[i])):
@@ -2404,7 +2404,7 @@ class EIS_exp:
                 self.KK_Rgreater.append(np.where(np.array(self.KK_R)[i] >= 0, np.array(self.KK_R)[i], 0) )
                 self.KK_Rminor.append(np.where(np.array(self.KK_R)[i] < 0, np.array(self.KK_R)[i], 0) )
                 self.KK_u.append(1-(np.abs(np.sum(self.KK_Rminor[i]))/np.abs(np.sum(self.KK_Rgreater[i]))))
-            
+
             for i in range(len(self.df)):
                 while self.KK_u[i] <= 0.75 or self.KK_u[i] >= 0.88:
                     self.number_RC_sort0 = []
@@ -2422,7 +2422,7 @@ class EIS_exp:
                         for j in range(len(self.R_names[q])):
                             self.KK_R0.append(self.Lin_KK_Fit[q].params.get(self.R_names[q][j]).value)
                     self.KK_R_lim = np.cumsum(self.number_RC_sort) #used for KK_R[i]
-    
+
                     self.KK_R[i] = self.KK_R0[self.KK_R_lim[i]:self.KK_R_lim[i+1]] #assigns resistances from each spectra to their respective df
                     self.KK_Rgreater[i] = np.where(np.array(self.KK_R[i]) >= 0, np.array(self.KK_R[i]), 0)
                     self.KK_Rminor[i] = np.where(np.array(self.KK_R[i]) < 0, np.array(self.KK_R[i]), 0)
@@ -2448,13 +2448,13 @@ class EIS_exp:
                 self.Rparam.append(KK_Rnam_val(re=self.df[i].re, re_start=self.df[i].re.idxmin(), num_RC=int(self.number_RC0[i]))[0]) #Creates intial guesses for R's
                 self.t_const.append(KK_timeconst(w=self.df[i].w, num_RC=int(self.number_RC0[i]))) #Creates time constants values for self.number_RC -(RC)- circuits
                 self.Lin_KK_Fit.append(minimize(KK_errorfunc, self.Rparam[i], method='leastsq', args=(self.df[i].w.values, self.df[i].re.values, self.df[i].im.values, self.number_RC0[i], weight_func, self.t_const[i]) )) #maxfev=99
-                self.R_names.append(KK_Rnam_val(re=self.df[i].re, re_start=self.df[i].re.idxmin(), num_RC=int(self.number_RC0[i]))[1]) #creates R names            
+                self.R_names.append(KK_Rnam_val(re=self.df[i].re, re_start=self.df[i].re.idxmin(), num_RC=int(self.number_RC0[i]))[1]) #creates R names
                 for j in range(len(self.R_names[i])):
                     self.KK_R0.append(self.Lin_KK_Fit[i].params.get(self.R_names[i][j]).value)
             self.number_RC0.insert(0,0)
-    
+
     #        print(report_fit(self.Lin_KK_Fit[i])) # prints fitting report
-    
+
             self.KK_circuit_fit = []
             self.KK_rr_re = []
             self.KK_rr_im = []
@@ -2664,15 +2664,15 @@ class EIS_exp:
             ax = fig.add_subplot(311, aspect='equal')
             ax1 = fig.add_subplot(312)
             ax2 = fig.add_subplot(313)
-    
+
             colors = sns.color_palette("colorblind", n_colors=len(self.df))
             colors_real = sns.color_palette("Blues", n_colors=len(self.df)+2)
             colors_imag = sns.color_palette("Oranges", n_colors=len(self.df)+2)
-    
+
             ### Nyquist Plot
             for i in range(len(self.df)):
                 ax.plot(self.df[i].re, self.df[i].im, marker='o', ms=4, lw=2, color=colors[i], ls='-', alpha=.7, label=self.label_cycleno[i])
-    
+
             ### Bode Plot
             if bode == 'on':
                 for i in range(len(self.df)):
@@ -2713,7 +2713,7 @@ class EIS_exp:
                     ax1.set_xlabel("log(f) [Hz]")
                     ax1.set_ylabel("log(-Z'') [$\Omega$]")
                     if legend == 'on' or legend == 'potential':
-                        ax1.legend(loc='best', fontsize=10, frameon=False)      
+                        ax1.legend(loc='best', fontsize=10, frameon=False)
 
             elif bode == 'log':
                 for i in range(len(self.df)):
@@ -2724,16 +2724,16 @@ class EIS_exp:
                     if legend == 'on' or legend == 'potential':
                         ax1.legend(loc='best', fontsize=10, frameon=False)
 
-            ### Kramers-Kronig Relative Residuals    
+            ### Kramers-Kronig Relative Residuals
             for i in range(len(self.df)):
                 ax2.plot(np.log10(self.df[i].f), self.KK_rr_re[i]*100, color=colors_real[i+1], marker='D', ls='--', ms=6, alpha=.7, label=self.label_re_1[i])
                 ax2.plot(np.log10(self.df[i].f), self.KK_rr_im[i]*100, color=colors_imag[i+1], marker='s', ls='--', ms=6, alpha=.7, label=self.label_im_1[i])
                 ax2.set_xlabel("log(f) [Hz]")
                 ax2.set_ylabel("$\Delta$Z', $\Delta$-Z'' [%]")
-                if legend == 'on' or legend == 'potential': 
-                    ax2.legend(loc='best', fontsize=10, frameon=False)        
+                if legend == 'on' or legend == 'potential':
+                    ax2.legend(loc='best', fontsize=10, frameon=False)
             ax2.axhline(0, ls='--', c='k', alpha=.5)
-            
+
             ### Setting ylims and write 'KK-Test' on RR subplot
             self.KK_rr_im_min = []
             self.KK_rr_im_max = []
@@ -2743,14 +2743,14 @@ class EIS_exp:
                 self.KK_rr_im_min.append(np.min(self.KK_rr_im[i]))
                 self.KK_rr_im_max.append(np.max(self.KK_rr_im[i]))
                 self.KK_rr_re_min.append(np.min(self.KK_rr_re[i]))
-                self.KK_rr_re_max.append(np.max(self.KK_rr_re[i]))    
+                self.KK_rr_re_max.append(np.max(self.KK_rr_re[i]))
             if np.min(self.KK_rr_im_min) > np.min(self.KK_rr_re_min):
                 ax2.set_ylim(np.min(self.KK_rr_re_min)*100*1.5, np.max(np.abs(self.KK_rr_re_min))*100*1.5)
                 ax2.annotate('Lin-KK', xy=[np.min(np.log10(self.df[0].f)), np.max(self.KK_rr_re_max)*100*.9], color='k', fontweight='bold')
             elif np.min(self.KK_rr_im_min) < np.min(self.KK_rr_re_min):
                 ax2.set_ylim(np.min(self.KK_rr_im_min)*100*1.5, np.max(self.KK_rr_im_max)*100*1.5)
                 ax2.annotate('Lin-KK', xy=[np.min(np.log10(self.df[0].f)), np.max(self.KK_rr_im_max)*100*.9], color='k', fontweight='bold')
-                
+
             ### Figure specifics
             if legend == 'on' or legend == 'potential':
                 ax.legend(loc='best', fontsize=10, frameon=False)
@@ -2765,7 +2765,7 @@ class EIS_exp:
                 fig.savefig(savefig)
 
         ### Illustrating residuals only
-    
+
         elif plot == 'residuals':
             colors = sns.color_palette("colorblind", n_colors=9)
             colors_real = sns.color_palette("Blues", n_colors=9)
@@ -2781,9 +2781,9 @@ class EIS_exp:
                 ax.set_xlabel("log(f) [Hz]")
                 ax.set_ylabel("$\Delta$Z', $\Delta$-Z'' [%]")
                 if legend == 'on' or legend == 'potential':
-                    ax.legend(loc='best', fontsize=10, frameon=False)        
+                    ax.legend(loc='best', fontsize=10, frameon=False)
                 ax.axhline(0, ls='--', c='k', alpha=.5)
-                
+
                 ### Setting ylims and write 'KK-Test' on RR subplot
                 self.KK_rr_im_min = np.min(self.KK_rr_im)
                 self.KK_rr_im_max = np.max(self.KK_rr_im)
@@ -2820,14 +2820,14 @@ class EIS_exp:
                 fig.subplots_adjust(left=0.1, right=0.95, hspace=0.25, wspace=0.25, bottom=0.1, top=0.95)
                 ax1 = fig.add_subplot(231)
                 ax2 = fig.add_subplot(232)
-                
+
                 #cycle 1
                 ax1.plot(np.log10(self.df[0].f), self.KK_rr_re[0]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax1.plot(np.log10(self.df[0].f), self.KK_rr_im[0]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax1.set_xlabel("log(f) [Hz]")
                 ax1.set_ylabel("$\Delta$Z', $\Delta$-Z'' [%]", fontsize=18)
                 if legend == 'on' or legend == 'potential':
-                    ax1.legend(loc='best', fontsize=10, frameon=False)        
+                    ax1.legend(loc='best', fontsize=10, frameon=False)
                 ax1.axhline(0, ls='--', c='k', alpha=.5)
 
                 #cycle 2
@@ -2835,7 +2835,7 @@ class EIS_exp:
                 ax2.plot(np.log10(self.df[1].f), self.KK_rr_im[1]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax2.set_xlabel("log(f) [Hz]")
                 if legend == 'on' or legend == 'potential':
-                    ax2.legend(loc='best', fontsize=10, frameon=False)        
+                    ax2.legend(loc='best', fontsize=10, frameon=False)
                 ax2.axhline(0, ls='--', c='k', alpha=.5)
 
                 ### Setting ylims and labeling plot with 'KK-Test' in RR subplot
@@ -2861,19 +2861,19 @@ class EIS_exp:
 
                 if np.abs(self.KK_ymin[0]) > self.KK_ymax[0]:
                     ax1.set_ylim(self.KK_ymin[0]*100*1.5, np.abs(self.KK_ymin[0])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax1.annotate('Lin-KK, #1', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymin[0])*100*1.3], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax1.annotate('Lin-KK ('+str(np.round(np.average(self.df[0].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymin[0])*100*1.3], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[0]) < self.KK_ymax[0]:
                     ax1.set_ylim(np.negative(self.KK_ymax[0])*100*1.5, np.abs(self.KK_ymax[0])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax1.annotate('Lin-KK, #1', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymax[0])*100*1.3], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax1.annotate('Lin-KK, ('+str(np.round(np.average(self.df[0].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[0].f)), self.KK_ymax[0]*100*1.3], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[1]) > self.KK_ymax[1]:
                     ax2.set_ylim(self.KK_ymin[1]*100*1.5, np.abs(self.KK_ymin[1])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax2.annotate('Lin-KK, #2', xy=[np.min(np.log10(self.df[1].f)), np.max(np.abs(self.KK_ymin[1]))*100*1.3], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax2.annotate('Lin-KK ('+str(np.round(np.average(self.df[1].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[1].f)), np.max(np.abs(self.KK_ymin[1]))*100*1.3], color='k', fontweight='bold')
@@ -2894,14 +2894,14 @@ class EIS_exp:
                 ax1 = fig.add_subplot(231)
                 ax2 = fig.add_subplot(232)
                 ax3 = fig.add_subplot(233)
-                
+
                 #cycle 1
                 ax1.plot(np.log10(self.df[0].f), self.KK_rr_re[0]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax1.plot(np.log10(self.df[0].f), self.KK_rr_im[0]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax1.set_xlabel("log(f) [Hz]")
                 ax1.set_ylabel("$\Delta$Z', $\Delta$-Z'' [%]", fontsize=18)
                 if legend == 'on' or legend == 'potential':
-                    ax1.legend(loc='best', fontsize=10, frameon=False)        
+                    ax1.legend(loc='best', fontsize=10, frameon=False)
                 ax1.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 2
@@ -2909,7 +2909,7 @@ class EIS_exp:
                 ax2.plot(np.log10(self.df[1].f), self.KK_rr_im[1]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax2.set_xlabel("log(f) [Hz]")
                 if legend == 'on' or legend == 'potential':
-                    ax2.legend(loc='best', fontsize=10, frameon=False)        
+                    ax2.legend(loc='best', fontsize=10, frameon=False)
                 ax2.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 3
@@ -2917,9 +2917,9 @@ class EIS_exp:
                 ax3.plot(np.log10(self.df[2].f), self.KK_rr_im[2]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax3.set_xlabel("log(f) [Hz]")
                 if legend == 'on' or legend == 'potential':
-                    ax3.legend(loc='best', fontsize=10, frameon=False)        
+                    ax3.legend(loc='best', fontsize=10, frameon=False)
                 ax3.axhline(0, ls='--', c='k', alpha=.5)
-                
+
                 ### Setting ylims and labeling plot with 'KK-Test' in RR subplot
                 self.KK_rr_im_min = []
                 self.KK_rr_im_max = []
@@ -2942,19 +2942,19 @@ class EIS_exp:
                         self.KK_ymin.append(self.KK_rr_im_min[i])
                 if np.abs(self.KK_ymin[0]) > self.KK_ymax[0]:
                     ax1.set_ylim(self.KK_ymin[0]*100*1.5, np.abs(self.KK_ymin[0])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax1.annotate('Lin-KK, #1', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymin[0])*100*1.3], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax1.annotate('Lin-KK ('+str(np.round(np.average(self.df[0].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymin[0])*100*1.3], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[0]) < self.KK_ymax[0]:
                     ax1.set_ylim(np.negative(self.KK_ymax[0])*100*1.5, np.abs(self.KK_ymax[0])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax1.annotate('Lin-KK, #1', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymax[0])*100*1.3], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax1.annotate('Lin-KK, ('+str(np.round(np.average(self.df[0].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[0].f)), self.KK_ymax[0]*100*1.3], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[1]) > self.KK_ymax[1]:
                     ax2.set_ylim(self.KK_ymin[1]*100*1.5, np.abs(self.KK_ymin[1])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax2.annotate('Lin-KK, #2', xy=[np.min(np.log10(self.df[1].f)), np.max(np.abs(self.KK_ymin[1]))*100*1.3], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax2.annotate('Lin-KK ('+str(np.round(np.average(self.df[1].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[1].f)), np.max(np.abs(self.KK_ymin[1]))*100*1.3], color='k', fontweight='bold')
@@ -2966,13 +2966,13 @@ class EIS_exp:
                         ax2.annotate('Lin-KK ('+str(np.round(np.average(self.df[1].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[1].f)), self.KK_ymax[1]*100*1.3], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[2]) > self.KK_ymax[2]:
                     ax3.set_ylim(self.KK_ymin[2]*100*1.5, np.abs(self.KK_ymin[2])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax3.annotate('Lin-KK, #3', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymin[2])*100*1.3], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax3.annotate('Lin-KK ('+str(np.round(np.average(self.df[2].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymin[2])*100*1.3], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[2]) < self.KK_ymax[2]:
                     ax3.set_ylim(np.negative(self.KK_ymax[0])*100*1.5, np.abs(self.KK_ymax[2])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax3.annotate('Lin-KK, #3', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymax[2])*100*1.3], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax3.annotate('Lin-KK, ('+str(np.round(np.average(self.df[2].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[2].f)), self.KK_ymax[2]*100*1.3], color='k', fontweight='bold')
@@ -2988,13 +2988,13 @@ class EIS_exp:
                 ax2 = fig.add_subplot(222)
                 ax3 = fig.add_subplot(223)
                 ax4 = fig.add_subplot(224)
-                
+
                 #cycle 1
                 ax1.plot(np.log10(self.df[0].f), self.KK_rr_re[0]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax1.plot(np.log10(self.df[0].f), self.KK_rr_im[0]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax1.set_ylabel("$\Delta$Z', $\Delta$-Z'' [%]", fontsize=18)
                 if legend == 'on' or legend == 'potential':
-                    ax1.legend(loc='best', fontsize=10, frameon=False)        
+                    ax1.legend(loc='best', fontsize=10, frameon=False)
                 ax1.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 2
@@ -3002,7 +3002,7 @@ class EIS_exp:
                 ax2.plot(np.log10(self.df[1].f), self.KK_rr_im[1]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax2.set_xlabel("log(f) [Hz]")
                 if legend == 'on' or legend == 'potential':
-                    ax2.legend(loc='best', fontsize=10, frameon=False)        
+                    ax2.legend(loc='best', fontsize=10, frameon=False)
                 ax2.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 3
@@ -3011,7 +3011,7 @@ class EIS_exp:
                 ax3.set_xlabel("log(f) [Hz]")
                 ax3.set_ylabel("$\Delta$Z', $\Delta$-Z'' [%]", fontsize=18)
                 if legend == 'on' or legend == 'potential':
-                    ax3.legend(loc='best', fontsize=10, frameon=False)        
+                    ax3.legend(loc='best', fontsize=10, frameon=False)
                 ax3.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 4
@@ -3019,9 +3019,9 @@ class EIS_exp:
                 ax4.plot(np.log10(self.df[3].f), self.KK_rr_im[3]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax4.set_xlabel("log(f) [Hz]")
                 if legend == 'on' or legend == 'potential':
-                    ax4.legend(loc='best', fontsize=10, frameon=False)        
+                    ax4.legend(loc='best', fontsize=10, frameon=False)
                 ax4.axhline(0, ls='--', c='k', alpha=.5)
-                
+
                 ### Setting ylims and labeling plot with 'KK-Test' in RR subplot
                 self.KK_rr_im_min = []
                 self.KK_rr_im_max = []
@@ -3044,19 +3044,19 @@ class EIS_exp:
                         self.KK_ymin.append(self.KK_rr_im_min[i])
                 if np.abs(self.KK_ymin[0]) > self.KK_ymax[0]:
                     ax1.set_ylim(self.KK_ymin[0]*100*1.5, np.abs(self.KK_ymin[0])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax1.annotate('Lin-KK, #1', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymin[0])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax1.annotate('Lin-KK ('+str(np.round(np.average(self.df[0].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymin[0])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[0]) < self.KK_ymax[0]:
                     ax1.set_ylim(np.negative(self.KK_ymax[0])*100*1.5, np.abs(self.KK_ymax[0])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax1.annotate('Lin-KK, #1', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymax[0])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax1.annotate('Lin-KK, ('+str(np.round(np.average(self.df[0].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[0].f)), self.KK_ymax[0]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[1]) > self.KK_ymax[1]:
                     ax2.set_ylim(self.KK_ymin[1]*100*1.5, np.abs(self.KK_ymin[1])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax2.annotate('Lin-KK, #2', xy=[np.min(np.log10(self.df[1].f)), np.max(np.abs(self.KK_ymin[1]))*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax2.annotate('Lin-KK ('+str(np.round(np.average(self.df[1].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[1].f)), np.max(np.abs(self.KK_ymin[1]))*100*1.2], color='k', fontweight='bold')
@@ -3068,25 +3068,25 @@ class EIS_exp:
                         ax2.annotate('Lin-KK ('+str(np.round(np.average(self.df[1].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[1].f)), self.KK_ymax[1]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[2]) > self.KK_ymax[2]:
                     ax3.set_ylim(self.KK_ymin[2]*100*1.5, np.abs(self.KK_ymin[2])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax3.annotate('Lin-KK, #3', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymin[2])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax3.annotate('Lin-KK ('+str(np.round(np.average(self.df[2].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymin[2])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[2]) < self.KK_ymax[2]:
                     ax3.set_ylim(np.negative(self.KK_ymax[0])*100*1.5, np.abs(self.KK_ymax[2])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax3.annotate('Lin-KK, #3', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymax[2])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax3.annotate('Lin-KK, ('+str(np.round(np.average(self.df[2].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[2].f)), self.KK_ymax[2]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[3]) > self.KK_ymax[3]:
                     ax4.set_ylim(self.KK_ymin[3]*100*1.5, np.abs(self.KK_ymin[3])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax4.annotate('Lin-KK, #4', xy=[np.min(np.log10(self.df[3].f)), np.abs(self.KK_ymin[3])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax4.annotate('Lin-KK ('+str(np.round(np.average(self.df[3].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[3].f)), np.abs(self.KK_ymin[3])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[3]) < self.KK_ymax[3]:
                     ax4.set_ylim(np.negative(self.KK_ymax[3])*100*1.5, np.abs(self.KK_ymax[3])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax4.annotate('Lin-KK, #4', xy=[np.min(np.log10(self.df[3].f)), np.abs(self.KK_ymax[3])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax4.annotate('Lin-KK, ('+str(np.round(np.average(self.df[3].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[3].f)), self.KK_ymax[3]*100*1.2], color='k', fontweight='bold')
@@ -3104,20 +3104,20 @@ class EIS_exp:
                 ax3 = fig.add_subplot(233)
                 ax4 = fig.add_subplot(234)
                 ax5 = fig.add_subplot(235)
-                
+
                 #cycle 1
                 ax1.plot(np.log10(self.df[0].f), self.KK_rr_re[0]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax1.plot(np.log10(self.df[0].f), self.KK_rr_im[0]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax1.set_ylabel("$\Delta$Z', $\Delta$-Z'' [%]", fontsize=18)
                 if legend == 'on' or legend == 'potential':
-                    ax1.legend(loc='best', fontsize=10, frameon=False)        
+                    ax1.legend(loc='best', fontsize=10, frameon=False)
                 ax1.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 2
                 ax2.plot(np.log10(self.df[1].f), self.KK_rr_re[1]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax2.plot(np.log10(self.df[1].f), self.KK_rr_im[1]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 if legend == 'on' or legend == 'potential':
-                    ax2.legend(loc='best', fontsize=10, frameon=False)        
+                    ax2.legend(loc='best', fontsize=10, frameon=False)
                 ax2.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 3
@@ -3125,7 +3125,7 @@ class EIS_exp:
                 ax3.plot(np.log10(self.df[2].f), self.KK_rr_im[2]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax3.set_xlabel("log(f) [Hz]")
                 if legend == 'on' or legend == 'potential':
-                    ax3.legend(loc='best', fontsize=10, frameon=False)        
+                    ax3.legend(loc='best', fontsize=10, frameon=False)
                 ax3.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 4
@@ -3134,7 +3134,7 @@ class EIS_exp:
                 ax4.set_ylabel("$\Delta$Z', $\Delta$-Z'' [%]", fontsize=18)
                 ax4.set_xlabel("log(f) [Hz]")
                 if legend == 'on' or legend == 'potential':
-                    ax4.legend(loc='best', fontsize=10, frameon=False)        
+                    ax4.legend(loc='best', fontsize=10, frameon=False)
                 ax4.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 5
@@ -3142,7 +3142,7 @@ class EIS_exp:
                 ax5.plot(np.log10(self.df[4].f), self.KK_rr_im[4]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax5.set_xlabel("log(f) [Hz]")
                 if legend == 'on' or legend == 'potential':
-                    ax5.legend(loc='best', fontsize=10, frameon=False)        
+                    ax5.legend(loc='best', fontsize=10, frameon=False)
                 ax5.axhline(0, ls='--', c='k', alpha=.5)
 
                 ### Setting ylims and labeling plot with 'KK-Test' in RR subplot
@@ -3167,19 +3167,19 @@ class EIS_exp:
                         self.KK_ymin.append(self.KK_rr_im_min[i])
                 if np.abs(self.KK_ymin[0]) > self.KK_ymax[0]:
                     ax1.set_ylim(self.KK_ymin[0]*100*1.5, np.abs(self.KK_ymin[0])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax1.annotate('Lin-KK, #1', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymin[0])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax1.annotate('Lin-KK ('+str(np.round(np.average(self.df[0].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymin[0])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[0]) < self.KK_ymax[0]:
                     ax1.set_ylim(np.negative(self.KK_ymax[0])*100*1.5, np.abs(self.KK_ymax[0])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax1.annotate('Lin-KK, #1', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymax[0])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax1.annotate('Lin-KK, ('+str(np.round(np.average(self.df[0].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[0].f)), self.KK_ymax[0]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[1]) > self.KK_ymax[1]:
                     ax2.set_ylim(self.KK_ymin[1]*100*1.5, np.abs(self.KK_ymin[1])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax2.annotate('Lin-KK, #2', xy=[np.min(np.log10(self.df[1].f)), np.max(np.abs(self.KK_ymin[1]))*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax2.annotate('Lin-KK ('+str(np.round(np.average(self.df[1].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[1].f)), np.max(np.abs(self.KK_ymin[1]))*100*1.2], color='k', fontweight='bold')
@@ -3191,37 +3191,37 @@ class EIS_exp:
                         ax2.annotate('Lin-KK ('+str(np.round(np.average(self.df[1].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[1].f)), self.KK_ymax[1]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[2]) > self.KK_ymax[2]:
                     ax3.set_ylim(self.KK_ymin[2]*100*1.5, np.abs(self.KK_ymin[2])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax3.annotate('Lin-KK, #3', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymin[2])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax3.annotate('Lin-KK ('+str(np.round(np.average(self.df[2].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymin[2])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[2]) < self.KK_ymax[2]:
                     ax3.set_ylim(np.negative(self.KK_ymax[0])*100*1.5, np.abs(self.KK_ymax[2])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax3.annotate('Lin-KK, #3', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymax[2])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax3.annotate('Lin-KK, ('+str(np.round(np.average(self.df[2].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[2].f)), self.KK_ymax[2]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[3]) > self.KK_ymax[3]:
                     ax4.set_ylim(self.KK_ymin[3]*100*1.5, np.abs(self.KK_ymin[3])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax4.annotate('Lin-KK, #4', xy=[np.min(np.log10(self.df[3].f)), np.abs(self.KK_ymin[3])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax4.annotate('Lin-KK ('+str(np.round(np.average(self.df[3].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[3].f)), np.abs(self.KK_ymin[3])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[3]) < self.KK_ymax[3]:
                     ax4.set_ylim(np.negative(self.KK_ymax[3])*100*1.5, np.abs(self.KK_ymax[3])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax4.annotate('Lin-KK, #4', xy=[np.min(np.log10(self.df[3].f)), np.abs(self.KK_ymax[3])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax4.annotate('Lin-KK, ('+str(np.round(np.average(self.df[3].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[3].f)), self.KK_ymax[3]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[4]) > self.KK_ymax[4]:
                     ax5.set_ylim(self.KK_ymin[4]*100*1.5, np.abs(self.KK_ymin[4])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax5.annotate('Lin-KK, #5', xy=[np.min(np.log10(self.df[4].f)), np.abs(self.KK_ymin[4])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax5.annotate('Lin-KK ('+str(np.round(np.average(self.df[4].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[4].f)), np.abs(self.KK_ymin[4])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[4]) < self.KK_ymax[4]:
                     ax5.set_ylim(np.negative(self.KK_ymax[4])*100*1.5, np.abs(self.KK_ymax[4])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax5.annotate('Lin-KK, #5', xy=[np.min(np.log10(self.df[4].f)), np.abs(self.KK_ymax[4])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax5.annotate('Lin-KK, ('+str(np.round(np.average(self.df[4].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[4].f)), self.KK_ymax[4]*100*1.2], color='k', fontweight='bold')
@@ -3239,27 +3239,27 @@ class EIS_exp:
                 ax4 = fig.add_subplot(234)
                 ax5 = fig.add_subplot(235)
                 ax6 = fig.add_subplot(236)
-                
+
                 #cycle 1
                 ax1.plot(np.log10(self.df[0].f), self.KK_rr_re[0]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax1.plot(np.log10(self.df[0].f), self.KK_rr_im[0]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax1.set_ylabel("$\Delta$Z', $\Delta$-Z'' [%]", fontsize=15)
                 if legend == 'on' or legend == 'potential':
-                    ax1.legend(loc='best', fontsize=10, frameon=False)        
+                    ax1.legend(loc='best', fontsize=10, frameon=False)
                 ax1.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 2
                 ax2.plot(np.log10(self.df[1].f), self.KK_rr_re[1]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax2.plot(np.log10(self.df[1].f), self.KK_rr_im[1]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 if legend == 'on' or legend == 'potential':
-                    ax2.legend(loc='best', fontsize=10, frameon=False)        
+                    ax2.legend(loc='best', fontsize=10, frameon=False)
                 ax2.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 3
                 ax3.plot(np.log10(self.df[2].f), self.KK_rr_re[2]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax3.plot(np.log10(self.df[2].f), self.KK_rr_im[2]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 if legend == 'on' or legend == 'potential':
-                    ax3.legend(loc='best', fontsize=10, frameon=False)        
+                    ax3.legend(loc='best', fontsize=10, frameon=False)
                 ax3.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 4
@@ -3268,7 +3268,7 @@ class EIS_exp:
                 ax4.set_xlabel("log(f) [Hz]")
                 ax4.set_ylabel("$\Delta$Z', $\Delta$-Z'' [%]", fontsize=15)
                 if legend == 'on' or legend == 'potential':
-                    ax4.legend(loc='best', fontsize=10, frameon=False)        
+                    ax4.legend(loc='best', fontsize=10, frameon=False)
                 ax4.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 5
@@ -3276,7 +3276,7 @@ class EIS_exp:
                 ax5.plot(np.log10(self.df[4].f), self.KK_rr_im[4]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax5.set_xlabel("log(f) [Hz]")
                 if legend == 'on' or legend == 'potential':
-                    ax5.legend(loc='best', fontsize=10, frameon=False)        
+                    ax5.legend(loc='best', fontsize=10, frameon=False)
                 ax5.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 6
@@ -3284,9 +3284,9 @@ class EIS_exp:
                 ax6.plot(np.log10(self.df[5].f), self.KK_rr_im[5]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax6.set_xlabel("log(f) [Hz]")
                 if legend == 'on' or legend == 'potential':
-                    ax6.legend(loc='best', fontsize=10, frameon=False)        
+                    ax6.legend(loc='best', fontsize=10, frameon=False)
                 ax6.axhline(0, ls='--', c='k', alpha=.5)
-                
+
                 ### Setting ylims and labeling plot with 'KK-Test' in RR subplot
                 self.KK_rr_im_min = []
                 self.KK_rr_im_max = []
@@ -3309,19 +3309,19 @@ class EIS_exp:
                         self.KK_ymin.append(self.KK_rr_im_min[i])
                 if np.abs(self.KK_ymin[0]) > self.KK_ymax[0]:
                     ax1.set_ylim(self.KK_ymin[0]*100*1.5, np.abs(self.KK_ymin[0])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax1.annotate('Lin-KK, #1', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymin[0])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax1.annotate('Lin-KK ('+str(np.round(np.average(self.df[0].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymin[0])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[0]) < self.KK_ymax[0]:
                     ax1.set_ylim(np.negative(self.KK_ymax[0])*100*1.5, np.abs(self.KK_ymax[0])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax1.annotate('Lin-KK, #1', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymax[0])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax1.annotate('Lin-KK, ('+str(np.round(np.average(self.df[0].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[0].f)), self.KK_ymax[0]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[1]) > self.KK_ymax[1]:
                     ax2.set_ylim(self.KK_ymin[1]*100*1.5, np.abs(self.KK_ymin[1])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax2.annotate('Lin-KK, #2', xy=[np.min(np.log10(self.df[1].f)), np.max(np.abs(self.KK_ymin[1]))*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax2.annotate('Lin-KK ('+str(np.round(np.average(self.df[1].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[1].f)), np.max(np.abs(self.KK_ymin[1]))*100*1.2], color='k', fontweight='bold')
@@ -3333,56 +3333,56 @@ class EIS_exp:
                         ax2.annotate('Lin-KK ('+str(np.round(np.average(self.df[1].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[1].f)), self.KK_ymax[1]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[2]) > self.KK_ymax[2]:
                     ax3.set_ylim(self.KK_ymin[2]*100*1.5, np.abs(self.KK_ymin[2])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax3.annotate('Lin-KK, #3', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymin[2])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax3.annotate('Lin-KK ('+str(np.round(np.average(self.df[2].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymin[2])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[2]) < self.KK_ymax[2]:
                     ax3.set_ylim(np.negative(self.KK_ymax[0])*100*1.5, np.abs(self.KK_ymax[2])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax3.annotate('Lin-KK, #3', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymax[2])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax3.annotate('Lin-KK, ('+str(np.round(np.average(self.df[2].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[2].f)), self.KK_ymax[2]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[3]) > self.KK_ymax[3]:
                     ax4.set_ylim(self.KK_ymin[3]*100*1.5, np.abs(self.KK_ymin[3])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax4.annotate('Lin-KK, #4', xy=[np.min(np.log10(self.df[3].f)), np.abs(self.KK_ymin[3])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax4.annotate('Lin-KK ('+str(np.round(np.average(self.df[3].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[3].f)), np.abs(self.KK_ymin[3])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[3]) < self.KK_ymax[3]:
                     ax4.set_ylim(np.negative(self.KK_ymax[3])*100*1.5, np.abs(self.KK_ymax[3])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax4.annotate('Lin-KK, #4', xy=[np.min(np.log10(self.df[3].f)), np.abs(self.KK_ymax[3])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax4.annotate('Lin-KK, ('+str(np.round(np.average(self.df[3].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[3].f)), self.KK_ymax[3]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[4]) > self.KK_ymax[4]:
                     ax5.set_ylim(self.KK_ymin[4]*100*1.5, np.abs(self.KK_ymin[4])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax5.annotate('Lin-KK, #5', xy=[np.min(np.log10(self.df[4].f)), np.abs(self.KK_ymin[4])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax5.annotate('Lin-KK ('+str(np.round(np.average(self.df[4].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[4].f)), np.abs(self.KK_ymin[4])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[4]) < self.KK_ymax[4]:
                     ax5.set_ylim(np.negative(self.KK_ymax[4])*100*1.5, np.abs(self.KK_ymax[4])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax5.annotate('Lin-KK, #5', xy=[np.min(np.log10(self.df[4].f)), np.abs(self.KK_ymax[4])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax5.annotate('Lin-KK, ('+str(np.round(np.average(self.df[4].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[4].f)), self.KK_ymax[4]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[5]) > self.KK_ymax[5]:
                     ax6.set_ylim(self.KK_ymin[5]*100*1.5, np.abs(self.KK_ymin[5])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax6.annotate('Lin-KK, #6', xy=[np.min(np.log10(self.df[5].f)), np.abs(self.KK_ymin[5])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax6.annotate('Lin-KK ('+str(np.round(np.average(self.df[5].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[5].f)), np.abs(self.KK_ymin[5])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[5]) < self.KK_ymax[5]:
                     ax6.set_ylim(np.negative(self.KK_ymax[5])*100*1.5, np.abs(self.KK_ymax[5])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax6.annotate('Lin-KK, #6', xy=[np.min(np.log10(self.df[5].f)), np.abs(self.KK_ymax[5])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax6.annotate('Lin-KK, ('+str(np.round(np.average(self.df[5].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[5].f)), self.KK_ymax[5]*100*1.2], color='k', fontweight='bold')
                 #Save Figure
                 if savefig != 'none':
                     fig.savefig(savefig)
-                          
+
             ### 7 Cycles
             elif len(self.df) == 7:
                 fig = figure(figsize=(12, 5), dpi=120, facecolor='w', edgecolor='k')
@@ -3394,20 +3394,20 @@ class EIS_exp:
                 ax5 = fig.add_subplot(335)
                 ax6 = fig.add_subplot(336)
                 ax7 = fig.add_subplot(337)
-                
+
                 #cycle 1
                 ax1.plot(np.log10(self.df[0].f), self.KK_rr_re[0]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax1.plot(np.log10(self.df[0].f), self.KK_rr_im[0]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax1.set_ylabel("$\Delta$Z', $\Delta$-Z'' [%]", fontsize=15)
                 if legend == 'on' or legend == 'potential':
-                    ax1.legend(loc='best', fontsize=10, frameon=False)        
+                    ax1.legend(loc='best', fontsize=10, frameon=False)
                 ax1.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 2
                 ax2.plot(np.log10(self.df[1].f), self.KK_rr_re[1]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax2.plot(np.log10(self.df[1].f), self.KK_rr_im[1]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 if legend == 'on' or legend == 'potential':
-                    ax2.legend(loc='best', fontsize=10, frameon=False)        
+                    ax2.legend(loc='best', fontsize=10, frameon=False)
                 ax2.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 3
@@ -3450,7 +3450,7 @@ class EIS_exp:
                 if legend == 'on' or legend == 'potential':
                     ax7.legend(loc='best', fontsize=10, frameon=False)
                 ax7.axhline(0, ls='--', c='k', alpha=.5)
-                
+
                 ### Setting ylims and labeling plot with 'KK-Test' in RR subplot
                 self.KK_rr_im_min = []
                 self.KK_rr_im_max = []
@@ -3473,19 +3473,19 @@ class EIS_exp:
                         self.KK_ymin.append(self.KK_rr_im_min[i])
                 if np.abs(self.KK_ymin[0]) > self.KK_ymax[0]:
                     ax1.set_ylim(self.KK_ymin[0]*100*1.5, np.abs(self.KK_ymin[0])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax1.annotate('Lin-KK, #1', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymin[0])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax1.annotate('Lin-KK ('+str(np.round(np.average(self.df[0].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymin[0])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[0]) < self.KK_ymax[0]:
                     ax1.set_ylim(np.negative(self.KK_ymax[0])*100*1.5, np.abs(self.KK_ymax[0])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax1.annotate('Lin-KK, #1', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymax[0])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax1.annotate('Lin-KK, ('+str(np.round(np.average(self.df[0].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[0].f)), self.KK_ymax[0]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[1]) > self.KK_ymax[1]:
                     ax2.set_ylim(self.KK_ymin[1]*100*1.5, np.abs(self.KK_ymin[1])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax2.annotate('Lin-KK, #2', xy=[np.min(np.log10(self.df[1].f)), np.max(np.abs(self.KK_ymin[1]))*100*1.3], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax2.annotate('Lin-KK ('+str(np.round(np.average(self.df[1].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[1].f)), np.max(np.abs(self.KK_ymin[1]))*100*1.2], color='k', fontweight='bold')
@@ -3497,68 +3497,68 @@ class EIS_exp:
                         ax2.annotate('Lin-KK ('+str(np.round(np.average(self.df[1].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[1].f)), self.KK_ymax[1]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[2]) > self.KK_ymax[2]:
                     ax3.set_ylim(self.KK_ymin[2]*100*1.5, np.abs(self.KK_ymin[2])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax3.annotate('Lin-KK, #3', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymin[2])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax3.annotate('Lin-KK ('+str(np.round(np.average(self.df[2].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymin[2])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[2]) < self.KK_ymax[2]:
                     ax3.set_ylim(np.negative(self.KK_ymax[0])*100*1.5, np.abs(self.KK_ymax[2])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax3.annotate('Lin-KK, #3', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymax[2])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax3.annotate('Lin-KK, ('+str(np.round(np.average(self.df[2].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[2].f)), self.KK_ymax[2]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[3]) > self.KK_ymax[3]:
                     ax4.set_ylim(self.KK_ymin[3]*100*1.5, np.abs(self.KK_ymin[3])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax4.annotate('Lin-KK, #4', xy=[np.min(np.log10(self.df[3].f)), np.abs(self.KK_ymin[3])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax4.annotate('Lin-KK ('+str(np.round(np.average(self.df[3].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[3].f)), np.abs(self.KK_ymin[3])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[3]) < self.KK_ymax[3]:
                     ax4.set_ylim(np.negative(self.KK_ymax[3])*100*1.5, np.abs(self.KK_ymax[3])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax4.annotate('Lin-KK, #4', xy=[np.min(np.log10(self.df[3].f)), np.abs(self.KK_ymax[3])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax4.annotate('Lin-KK, ('+str(np.round(np.average(self.df[3].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[3].f)), self.KK_ymax[3]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[4]) > self.KK_ymax[4]:
                     ax5.set_ylim(self.KK_ymin[4]*100*1.5, np.abs(self.KK_ymin[4])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax5.annotate('Lin-KK, #5', xy=[np.min(np.log10(self.df[4].f)), np.abs(self.KK_ymin[4])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax5.annotate('Lin-KK ('+str(np.round(np.average(self.df[4].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[4].f)), np.abs(self.KK_ymin[4])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[4]) < self.KK_ymax[4]:
                     ax5.set_ylim(np.negative(self.KK_ymax[4])*100*1.5, np.abs(self.KK_ymax[4])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax5.annotate('Lin-KK, #5', xy=[np.min(np.log10(self.df[4].f)), np.abs(self.KK_ymax[4])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax5.annotate('Lin-KK, ('+str(np.round(np.average(self.df[4].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[4].f)), self.KK_ymax[4]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[5]) > self.KK_ymax[5]:
                     ax6.set_ylim(self.KK_ymin[5]*100*1.5, np.abs(self.KK_ymin[5])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax6.annotate('Lin-KK, #6', xy=[np.min(np.log10(self.df[5].f)), np.abs(self.KK_ymin[5])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax6.annotate('Lin-KK ('+str(np.round(np.average(self.df[5].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[5].f)), np.abs(self.KK_ymin[5])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[5]) < self.KK_ymax[5]:
                     ax6.set_ylim(np.negative(self.KK_ymax[5])*100*1.5, np.abs(self.KK_ymax[5])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax6.annotate('Lin-KK, #6', xy=[np.min(np.log10(self.df[5].f)), np.abs(self.KK_ymax[5])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax6.annotate('Lin-KK, ('+str(np.round(np.average(self.df[5].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[5].f)), self.KK_ymax[5]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[6]) > self.KK_ymax[6]:
                     ax7.set_ylim(self.KK_ymin[6]*100*1.5, np.abs(self.KK_ymin[6])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax7.annotate('Lin-KK, #7', xy=[np.min(np.log10(self.df[6].f)), np.abs(self.KK_ymin[6])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax7.annotate('Lin-KK ('+str(np.round(np.average(self.df[6].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[6].f)), np.abs(self.KK_ymin[6])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[6]) < self.KK_ymax[6]:
                     ax7.set_ylim(np.negative(self.KK_ymax[6])*100*1.5, np.abs(self.KK_ymax[6])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax7.annotate('Lin-KK, #7', xy=[np.min(np.log10(self.df[6].f)), np.abs(self.KK_ymax[6])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax7.annotate('Lin-KK, ('+str(np.round(np.average(self.df[6].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[6].f)), self.KK_ymax[6]*100*1.2], color='k', fontweight='bold')
                 #Save Figure
                 if savefig != 'none':
-                    fig.savefig(savefig)      
-                           
+                    fig.savefig(savefig)
+
             ### 8 Cycles
             elif len(self.df) == 8:
                 fig = figure(figsize=(12, 5), dpi=120, facecolor='w', edgecolor='k')
@@ -3571,27 +3571,27 @@ class EIS_exp:
                 ax6 = fig.add_subplot(336)
                 ax7 = fig.add_subplot(337)
                 ax8 = fig.add_subplot(338)
-                
+
                 #cycle 1
                 ax1.plot(np.log10(self.df[0].f), self.KK_rr_re[0]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax1.plot(np.log10(self.df[0].f), self.KK_rr_im[0]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax1.set_ylabel("$\Delta$Z', $\Delta$-Z'' [%]", fontsize=14)
                 if legend == 'on' or legend == 'potential':
-                    ax1.legend(loc='best', fontsize=10, frameon=False)        
+                    ax1.legend(loc='best', fontsize=10, frameon=False)
                 ax1.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 2
                 ax2.plot(np.log10(self.df[1].f), self.KK_rr_re[1]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax2.plot(np.log10(self.df[1].f), self.KK_rr_im[1]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 if legend == 'on' or legend == 'potential':
-                    ax2.legend(loc='best', fontsize=10, frameon=False)        
+                    ax2.legend(loc='best', fontsize=10, frameon=False)
                 ax2.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 3
                 ax3.plot(np.log10(self.df[2].f), self.KK_rr_re[2]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax3.plot(np.log10(self.df[2].f), self.KK_rr_im[2]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 if legend == 'on' or legend == 'potential':
-                    ax3.legend(loc='best', fontsize=10, frameon=False)        
+                    ax3.legend(loc='best', fontsize=10, frameon=False)
                 ax3.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 4
@@ -3599,14 +3599,14 @@ class EIS_exp:
                 ax4.plot(np.log10(self.df[3].f), self.KK_rr_im[3]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax4.set_ylabel("$\Delta$Z', $\Delta$-Z'' [%]", fontsize=14)
                 if legend == 'on' or legend == 'potential':
-                    ax4.legend(loc='best', fontsize=10, frameon=False)        
+                    ax4.legend(loc='best', fontsize=10, frameon=False)
                 ax4.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 5
                 ax5.plot(np.log10(self.df[4].f), self.KK_rr_re[4]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax5.plot(np.log10(self.df[4].f), self.KK_rr_im[4]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 if legend == 'on' or legend == 'potential':
-                    ax5.legend(loc='best', fontsize=10, frameon=False)        
+                    ax5.legend(loc='best', fontsize=10, frameon=False)
                 ax5.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 6
@@ -3614,16 +3614,16 @@ class EIS_exp:
                 ax6.plot(np.log10(self.df[5].f), self.KK_rr_im[5]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax6.set_xlabel("log(f) [Hz]")
                 if legend == 'on' or legend == 'potential':
-                    ax6.legend(loc='best', fontsize=10, frameon=False)        
+                    ax6.legend(loc='best', fontsize=10, frameon=False)
                 ax6.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 7
                 ax7.plot(np.log10(self.df[6].f), self.KK_rr_re[6]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax7.plot(np.log10(self.df[6].f), self.KK_rr_im[6]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax7.set_xlabel("log(f) [Hz]")
-                ax7.set_ylabel("$\Delta$Z', $\Delta$-Z'' [%]", fontsize=14)                
+                ax7.set_ylabel("$\Delta$Z', $\Delta$-Z'' [%]", fontsize=14)
                 if legend == 'on' or legend == 'potential':
-                    ax7.legend(loc='best', fontsize=10, frameon=False)        
+                    ax7.legend(loc='best', fontsize=10, frameon=False)
                 ax7.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 8
@@ -3631,7 +3631,7 @@ class EIS_exp:
                 ax8.plot(np.log10(self.df[7].f), self.KK_rr_im[7]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax8.set_xlabel("log(f) [Hz]")
                 if legend == 'on' or legend == 'potential':
-                    ax8.legend(loc='best', fontsize=10, frameon=False)        
+                    ax8.legend(loc='best', fontsize=10, frameon=False)
                 ax8.axhline(0, ls='--', c='k', alpha=.5)
 
                 ### Setting ylims and labeling plot with 'KK-Test' in RR subplot
@@ -3656,19 +3656,19 @@ class EIS_exp:
                         self.KK_ymin.append(self.KK_rr_im_min[i])
                 if np.abs(self.KK_ymin[0]) > self.KK_ymax[0]:
                     ax1.set_ylim(self.KK_ymin[0]*100*1.5, np.abs(self.KK_ymin[0])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax1.annotate('Lin-KK, #1', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymin[0])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax1.annotate('Lin-KK ('+str(np.round(np.average(self.df[0].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymin[0])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[0]) < self.KK_ymax[0]:
                     ax1.set_ylim(np.negative(self.KK_ymax[0])*100*1.5, np.abs(self.KK_ymax[0])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax1.annotate('Lin-KK, #1', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymax[0])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax1.annotate('Lin-KK, ('+str(np.round(np.average(self.df[0].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[0].f)), self.KK_ymax[0]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[1]) > self.KK_ymax[1]:
                     ax2.set_ylim(self.KK_ymin[1]*100*1.5, np.abs(self.KK_ymin[1])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax2.annotate('Lin-KK, #2', xy=[np.min(np.log10(self.df[1].f)), np.max(np.abs(self.KK_ymin[1]))*100*1.3], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax2.annotate('Lin-KK ('+str(np.round(np.average(self.df[1].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[1].f)), np.max(np.abs(self.KK_ymin[1]))*100*1.2], color='k', fontweight='bold')
@@ -3680,73 +3680,73 @@ class EIS_exp:
                         ax2.annotate('Lin-KK ('+str(np.round(np.average(self.df[1].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[1].f)), self.KK_ymax[1]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[2]) > self.KK_ymax[2]:
                     ax3.set_ylim(self.KK_ymin[2]*100*1.5, np.abs(self.KK_ymin[2])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax3.annotate('Lin-KK, #3', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymin[2])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax3.annotate('Lin-KK ('+str(np.round(np.average(self.df[2].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymin[2])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[2]) < self.KK_ymax[2]:
                     ax3.set_ylim(np.negative(self.KK_ymax[0])*100*1.5, np.abs(self.KK_ymax[2])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax3.annotate('Lin-KK, #3', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymax[2])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax3.annotate('Lin-KK, ('+str(np.round(np.average(self.df[2].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[2].f)), self.KK_ymax[2]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[3]) > self.KK_ymax[3]:
                     ax4.set_ylim(self.KK_ymin[3]*100*1.5, np.abs(self.KK_ymin[3])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax4.annotate('Lin-KK, #4', xy=[np.min(np.log10(self.df[3].f)), np.abs(self.KK_ymin[3])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax4.annotate('Lin-KK ('+str(np.round(np.average(self.df[3].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[3].f)), np.abs(self.KK_ymin[3])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[3]) < self.KK_ymax[3]:
                     ax4.set_ylim(np.negative(self.KK_ymax[3])*100*1.5, np.abs(self.KK_ymax[3])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax4.annotate('Lin-KK, #4', xy=[np.min(np.log10(self.df[3].f)), np.abs(self.KK_ymax[3])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax4.annotate('Lin-KK, ('+str(np.round(np.average(self.df[3].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[3].f)), self.KK_ymax[3]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[4]) > self.KK_ymax[4]:
                     ax5.set_ylim(self.KK_ymin[4]*100*1.5, np.abs(self.KK_ymin[4])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax5.annotate('Lin-KK, #5', xy=[np.min(np.log10(self.df[4].f)), np.abs(self.KK_ymin[4])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax5.annotate('Lin-KK ('+str(np.round(np.average(self.df[4].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[4].f)), np.abs(self.KK_ymin[4])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[4]) < self.KK_ymax[4]:
                     ax5.set_ylim(np.negative(self.KK_ymax[4])*100*1.5, np.abs(self.KK_ymax[4])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax5.annotate('Lin-KK, #5', xy=[np.min(np.log10(self.df[4].f)), np.abs(self.KK_ymax[4])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax5.annotate('Lin-KK, ('+str(np.round(np.average(self.df[4].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[4].f)), self.KK_ymax[4]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[5]) > self.KK_ymax[5]:
                     ax6.set_ylim(self.KK_ymin[5]*100*1.5, np.abs(self.KK_ymin[5])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax6.annotate('Lin-KK, #6', xy=[np.min(np.log10(self.df[5].f)), np.abs(self.KK_ymin[5])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax6.annotate('Lin-KK ('+str(np.round(np.average(self.df[5].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[5].f)), np.abs(self.KK_ymin[5])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[5]) < self.KK_ymax[5]:
                     ax6.set_ylim(np.negative(self.KK_ymax[5])*100*1.5, np.abs(self.KK_ymax[5])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax6.annotate('Lin-KK, #6', xy=[np.min(np.log10(self.df[5].f)), np.abs(self.KK_ymax[5])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax6.annotate('Lin-KK, ('+str(np.round(np.average(self.df[5].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[5].f)), self.KK_ymax[5]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[6]) > self.KK_ymax[6]:
                     ax7.set_ylim(self.KK_ymin[6]*100*1.5, np.abs(self.KK_ymin[6])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax7.annotate('Lin-KK, #7', xy=[np.min(np.log10(self.df[6].f)), np.abs(self.KK_ymin[6])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax7.annotate('Lin-KK ('+str(np.round(np.average(self.df[6].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[6].f)), np.abs(self.KK_ymin[6])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[6]) < self.KK_ymax[6]:
                     ax7.set_ylim(np.negative(self.KK_ymax[6])*100*1.5, np.abs(self.KK_ymax[6])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax7.annotate('Lin-KK, #7', xy=[np.min(np.log10(self.df[6].f)), np.abs(self.KK_ymax[6])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax7.annotate('Lin-KK, ('+str(np.round(np.average(self.df[6].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[6].f)), self.KK_ymax[6]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[7]) > self.KK_ymax[7]:
                     ax8.set_ylim(self.KK_ymin[7]*100*1.5, np.abs(self.KK_ymin[7])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax8.annotate('Lin-KK, #8', xy=[np.min(np.log10(self.df[7].f)), np.abs(self.KK_ymin[7])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax8.annotate('Lin-KK ('+str(np.round(np.average(self.df[7].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[7].f)), np.abs(self.KK_ymin[7])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[7]) < self.KK_ymax[7]:
                     ax8.set_ylim(np.negative(self.KK_ymax[7])*100*1.5, np.abs(self.KK_ymax[7])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax8.annotate('Lin-KK, #8', xy=[np.min(np.log10(self.df[7].f)), np.abs(self.KK_ymax[7])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax8.annotate('Lin-KK, ('+str(np.round(np.average(self.df[7].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[7].f)), self.KK_ymax[7]*100*1.2], color='k', fontweight='bold')
@@ -3767,49 +3767,49 @@ class EIS_exp:
                 ax7 = fig.add_subplot(337)
                 ax8 = fig.add_subplot(338)
                 ax9 = fig.add_subplot(339)
-                
+
                 #cycle 1
                 ax1.plot(np.log10(self.df[0].f), self.KK_rr_re[0]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax1.plot(np.log10(self.df[0].f), self.KK_rr_im[0]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax1.set_ylabel("$\Delta$Z', $\Delta$-Z'' [%]", fontsize=15)
-                if legend == 'on': 
-                    ax1.legend(loc='best', fontsize=10, frameon=False)        
+                if legend == 'on':
+                    ax1.legend(loc='best', fontsize=10, frameon=False)
                 ax1.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 2
                 ax2.plot(np.log10(self.df[1].f), self.KK_rr_re[1]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax2.plot(np.log10(self.df[1].f), self.KK_rr_im[1]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
-                if legend == 'on': 
-                    ax2.legend(loc='best', fontsize=10, frameon=False)        
+                if legend == 'on':
+                    ax2.legend(loc='best', fontsize=10, frameon=False)
                 ax2.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 3
                 ax3.plot(np.log10(self.df[2].f), self.KK_rr_re[2]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax3.plot(np.log10(self.df[2].f), self.KK_rr_im[2]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
-                if legend == 'on': 
-                    ax3.legend(loc='best', fontsize=10, frameon=False)        
+                if legend == 'on':
+                    ax3.legend(loc='best', fontsize=10, frameon=False)
                 ax3.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 4
                 ax4.plot(np.log10(self.df[3].f), self.KK_rr_re[3]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax4.plot(np.log10(self.df[3].f), self.KK_rr_im[3]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
                 ax4.set_ylabel("$\Delta$Z', $\Delta$-Z'' [%]", fontsize=15)
-                if legend == 'on': 
-                    ax4.legend(loc='best', fontsize=10, frameon=False)        
+                if legend == 'on':
+                    ax4.legend(loc='best', fontsize=10, frameon=False)
                 ax4.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 5
                 ax5.plot(np.log10(self.df[4].f), self.KK_rr_re[4]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax5.plot(np.log10(self.df[4].f), self.KK_rr_im[4]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
-                if legend == 'on': 
-                    ax5.legend(loc='best', fontsize=10, frameon=False)        
+                if legend == 'on':
+                    ax5.legend(loc='best', fontsize=10, frameon=False)
                 ax5.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 6
                 ax6.plot(np.log10(self.df[5].f), self.KK_rr_re[5]*100, color=colors_real[3], marker='D', ls='--', ms=6, alpha=.7, label="$\Delta$Z'")
                 ax6.plot(np.log10(self.df[5].f), self.KK_rr_im[5]*100, color=colors_imag[3], marker='s', ls='--', ms=6, alpha=.7, label="$\Delta$-Z''")
-                if legend == 'on': 
-                    ax6.legend(loc='best', fontsize=10, frameon=False)        
+                if legend == 'on':
+                    ax6.legend(loc='best', fontsize=10, frameon=False)
                 ax6.axhline(0, ls='--', c='k', alpha=.5)
 
                 # Cycle 7
@@ -3836,7 +3836,7 @@ class EIS_exp:
                 if legend == 'on':
                     ax9.legend(loc='best', fontsize=10, frameon=False)
                 ax9.axhline(0, ls='--', c='k', alpha=.5)
-                
+
                 ### Setting ylims and labeling plot with 'KK-Test' in RR subplot
                 self.KK_rr_im_min = []
                 self.KK_rr_im_max = []
@@ -3859,19 +3859,19 @@ class EIS_exp:
                         self.KK_ymin.append(self.KK_rr_im_min[i])
                 if np.abs(self.KK_ymin[0]) > self.KK_ymax[0]:
                     ax1.set_ylim(self.KK_ymin[0]*100*1.5, np.abs(self.KK_ymin[0])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax1.annotate('Lin-KK, #1', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymin[0])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax1.annotate('Lin-KK ('+str(np.round(np.average(self.df[0].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymin[0])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[0]) < self.KK_ymax[0]:
                     ax1.set_ylim(np.negative(self.KK_ymax[0])*100*1.5, np.abs(self.KK_ymax[0])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax1.annotate('Lin-KK, #1', xy=[np.min(np.log10(self.df[0].f)), np.abs(self.KK_ymax[0])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax1.annotate('Lin-KK, ('+str(np.round(np.average(self.df[0].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[0].f)), self.KK_ymax[0]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[1]) > self.KK_ymax[1]:
                     ax2.set_ylim(self.KK_ymin[1]*100*1.5, np.abs(self.KK_ymin[1])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax2.annotate('Lin-KK, #2', xy=[np.min(np.log10(self.df[1].f)), np.max(np.abs(self.KK_ymin[1]))*100*1.3], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax2.annotate('Lin-KK ('+str(np.round(np.average(self.df[1].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[1].f)), np.max(np.abs(self.KK_ymin[1]))*100*1.2], color='k', fontweight='bold')
@@ -3883,90 +3883,90 @@ class EIS_exp:
                         ax2.annotate('Lin-KK ('+str(np.round(np.average(self.df[1].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[1].f)), self.KK_ymax[1]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[2]) > self.KK_ymax[2]:
                     ax3.set_ylim(self.KK_ymin[2]*100*1.5, np.abs(self.KK_ymin[2])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax3.annotate('Lin-KK, #3', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymin[2])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax3.annotate('Lin-KK ('+str(np.round(np.average(self.df[2].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymin[2])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[2]) < self.KK_ymax[2]:
                     ax3.set_ylim(np.negative(self.KK_ymax[0])*100*1.5, np.abs(self.KK_ymax[2])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax3.annotate('Lin-KK, #3', xy=[np.min(np.log10(self.df[2].f)), np.abs(self.KK_ymax[2])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax3.annotate('Lin-KK, ('+str(np.round(np.average(self.df[2].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[2].f)), self.KK_ymax[2]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[3]) > self.KK_ymax[3]:
                     ax4.set_ylim(self.KK_ymin[3]*100*1.5, np.abs(self.KK_ymin[3])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax4.annotate('Lin-KK, #4', xy=[np.min(np.log10(self.df[3].f)), np.abs(self.KK_ymin[3])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax4.annotate('Lin-KK ('+str(np.round(np.average(self.df[3].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[3].f)), np.abs(self.KK_ymin[3])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[3]) < self.KK_ymax[3]:
                     ax4.set_ylim(np.negative(self.KK_ymax[3])*100*1.5, np.abs(self.KK_ymax[3])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax4.annotate('Lin-KK, #4', xy=[np.min(np.log10(self.df[3].f)), np.abs(self.KK_ymax[3])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax4.annotate('Lin-KK, ('+str(np.round(np.average(self.df[3].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[3].f)), self.KK_ymax[3]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[4]) > self.KK_ymax[4]:
                     ax5.set_ylim(self.KK_ymin[4]*100*1.5, np.abs(self.KK_ymin[4])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax5.annotate('Lin-KK, #5', xy=[np.min(np.log10(self.df[4].f)), np.abs(self.KK_ymin[4])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax5.annotate('Lin-KK ('+str(np.round(np.average(self.df[4].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[4].f)), np.abs(self.KK_ymin[4])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[4]) < self.KK_ymax[4]:
                     ax5.set_ylim(np.negative(self.KK_ymax[4])*100*1.5, np.abs(self.KK_ymax[4])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax5.annotate('Lin-KK, #5', xy=[np.min(np.log10(self.df[4].f)), np.abs(self.KK_ymax[4])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax5.annotate('Lin-KK, ('+str(np.round(np.average(self.df[4].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[4].f)), self.KK_ymax[4]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[5]) > self.KK_ymax[5]:
                     ax6.set_ylim(self.KK_ymin[5]*100*1.5, np.abs(self.KK_ymin[5])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax6.annotate('Lin-KK, #6', xy=[np.min(np.log10(self.df[5].f)), np.abs(self.KK_ymin[5])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax6.annotate('Lin-KK ('+str(np.round(np.average(self.df[5].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[5].f)), np.abs(self.KK_ymin[5])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[5]) < self.KK_ymax[5]:
                     ax6.set_ylim(np.negative(self.KK_ymax[5])*100*1.5, np.abs(self.KK_ymax[5])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax6.annotate('Lin-KK, #6', xy=[np.min(np.log10(self.df[5].f)), np.abs(self.KK_ymax[5])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax6.annotate('Lin-KK, ('+str(np.round(np.average(self.df[5].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[5].f)), self.KK_ymax[5]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[6]) > self.KK_ymax[6]:
                     ax7.set_ylim(self.KK_ymin[6]*100*1.5, np.abs(self.KK_ymin[6])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax7.annotate('Lin-KK, #7', xy=[np.min(np.log10(self.df[6].f)), np.abs(self.KK_ymin[6])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax7.annotate('Lin-KK ('+str(np.round(np.average(self.df[6].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[6].f)), np.abs(self.KK_ymin[6])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[6]) < self.KK_ymax[6]:
                     ax7.set_ylim(np.negative(self.KK_ymax[6])*100*1.5, np.abs(self.KK_ymax[6])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax7.annotate('Lin-KK, #7', xy=[np.min(np.log10(self.df[6].f)), np.abs(self.KK_ymax[6])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax7.annotate('Lin-KK, ('+str(np.round(np.average(self.df[6].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[6].f)), self.KK_ymax[6]*100*1.2], color='k', fontweight='bold')
                 if np.abs(self.KK_ymin[7]) > self.KK_ymax[7]:
                     ax8.set_ylim(self.KK_ymin[7]*100*1.5, np.abs(self.KK_ymin[7])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax8.annotate('Lin-KK, #8', xy=[np.min(np.log10(self.df[7].f)), np.abs(self.KK_ymin[7])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax8.annotate('Lin-KK ('+str(np.round(np.average(self.df[7].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[7].f)), np.abs(self.KK_ymin[7])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[7]) < self.KK_ymax[7]:
                     ax8.set_ylim(np.negative(self.KK_ymax[7])*100*1.5, np.abs(self.KK_ymax[7])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax8.annotate('Lin-KK, #8', xy=[np.min(np.log10(self.df[7].f)), np.abs(self.KK_ymax[7])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax8.annotate('Lin-KK, ('+str(np.round(np.average(self.df[7].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[7].f)), self.KK_ymax[7]*100*1.2], color='k', fontweight='bold')
 
                 if np.abs(self.KK_ymin[8]) > self.KK_ymax[8]:
                     ax9.set_ylim(self.KK_ymin[8]*100*1.5, np.abs(self.KK_ymin[8])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax9.annotate('Lin-KK, #9', xy=[np.min(np.log10(self.df[8].f)), np.abs(self.KK_ymin[8])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
                         ax9.annotate('Lin-KK ('+str(np.round(np.average(self.df[8].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[8].f)), np.abs(self.KK_ymin[8])*100*1.2], color='k', fontweight='bold')
                 elif np.abs(self.KK_ymin[8]) < self.KK_ymax[8]:
                     ax9.set_ylim(np.negative(self.KK_ymax[8])*100*1.5, np.abs(self.KK_ymax[8])*100*1.5)
-                    if legend == 'on': 
+                    if legend == 'on':
                         ax9.annotate('Lin-KK, #9', xy=[np.min(np.log10(self.df[8].f)), np.abs(self.KK_ymax[8])*100*1.2], color='k', fontweight='bold')
                     elif legend == 'potential':
-                        ax9.annotate('Lin-KK, ('+str(np.round(np.average(self.df[8].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[8].f)), self.KK_ymax[8]*100*1.2], color='k', fontweight='bold')  
-                        
+                        ax9.annotate('Lin-KK, ('+str(np.round(np.average(self.df[8].E_avg),2))+' V)', xy=[np.min(np.log10(self.df[8].f)), self.KK_ymax[8]*100*1.2], color='k', fontweight='bold')
+
                 #Save Figure
                 if savefig != 'none':
                     fig.savefig(savefig)
@@ -3976,9 +3976,9 @@ class EIS_exp:
     def EIS_fit(self, params, circuit, weight_func='modulus', nan_policy='raise'):
         '''
         EIS_fit() fits experimental data to an equivalent circuit model using complex non-linear least-squares (CNLS) fitting procedure and allows for batch fitting.
-        
+
         Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
-        
+
         Inputs
         ------------
         - circuit:
@@ -4009,13 +4009,13 @@ class EIS_exp:
             - modulus (default)
             - unity
             - proportional
-        
+
         - nan_policy
         How to handle Nan or missing values in dataset
             - ‘raise’ = raise a value error (default)
             - ‘propagate’ = do nothing
             - ‘omit’ = drops missing data
-        
+
         Returns
         ------------
         Returns the fitted impedance spectra(s) but also the fitted parameters that were used in the initial guesses. To call these use e.g. self.fit_Rs
@@ -4026,9 +4026,9 @@ class EIS_exp:
         for i in range(len(self.df)):
             self.Fit.append(minimize(leastsq_errorfunc, params, method='leastsq', args=(self.df[i].w.values, self.df[i].re.values, self.df[i].im.values, circuit, weight_func), nan_policy=nan_policy, maxfev=9999990))
             print(report_fit(self.Fit[i]))
-            
+
             self.fit_E.append(np.average(self.df[i].E_avg))
-            
+
         if circuit == 'C':
             self.fit_C = []
             for i in range(len(self.df)):
@@ -4380,10 +4380,10 @@ class EIS_exp:
             self.fit_Ri = []
             for i in range(len(self.df)):
                 self.circuit_fit.append(cir_RsTLQ(w=self.df[i].w, L=self.Fit[i].params.get('L').value, Rs=self.Fit[i].params.get('Rs').value, Q=self.Fit[i].params.get('Q').value, n=self.Fit[i].params.get('n').value, Rel=self.Fit[i].params.get('Rel').value, Ri=self.Fit[i].params.get('Ri').value))
-                self.fit_L.append(self.Fit[i].params.get('L').value)            
-                self.fit_Rs.append(self.Fit[i].params.get('Rs').value)            
-                self.fit_Q.append(self.Fit[i].params.get('Q').value)            
-                self.fit_n.append(self.Fit[i].params.get('n').value)            
+                self.fit_L.append(self.Fit[i].params.get('L').value)
+                self.fit_Rs.append(self.Fit[i].params.get('Rs').value)
+                self.fit_Q.append(self.Fit[i].params.get('Q').value)
+                self.fit_n.append(self.Fit[i].params.get('n').value)
                 self.fit_Rel.append(self.Fit[i].params.get('Rel').value)
                 self.fit_Ri.append(self.Fit[i].params.get('Ri').value)
         elif circuit == 'R-RQ-TLQ':
@@ -4405,7 +4405,7 @@ class EIS_exp:
                     self.fit_Q.append(self.Fit[i].params.get('Q').value)
                     self.fit_n.append(self.Fit[i].params.get('n').value)
                     self.fit_Rel.append(self.Fit[i].params.get('Rel').value)
-                    self.fit_Ri.append(self.Fit[i].params.get('Ri').value)                    
+                    self.fit_Ri.append(self.Fit[i].params.get('Ri').value)
                     self.fit_R1.append(self.Fit[i].params.get('R1').value)
                     self.fit_fs1.append(self.Fit[i].params.get('fs1').value)
                     self.fit_n1.append(self.Fit[i].params.get('n1').value)
@@ -4417,7 +4417,7 @@ class EIS_exp:
                     self.fit_n.append(self.Fit[i].params.get('n').value)
                     self.fit_Rel.append(self.Fit[i].params.get('Rel').value)
                     self.fit_Ri.append(self.Fit[i].params.get('Ri').value)
-                    self.fit_R1.append(self.Fit[i].params.get('R1').value)                    
+                    self.fit_R1.append(self.Fit[i].params.get('R1').value)
                     self.fit_Q1.append(self.Fit[i].params.get('Q1').value)
                     self.fit_n1.append(self.Fit[i].params.get('n1').value)
         elif circuit == 'R-TL':
@@ -4430,12 +4430,12 @@ class EIS_exp:
             self.fit_Ri = []
             for i in range(len(self.df)):
                 if "'fs'" in str(self.Fit[i].params.keys()):
-                    self.circuit_fit.append(cir_RsTL(w=self.df[i].w, L=self.Fit[i].params.get('L').value, Rs=self.Fit[i].params.get('Rs').value, R=self.Fit[i].params.get('R').value, fs=self.Fit[i].params.get('fs').value, n=self.Fit[i].params.get('n').value, Rel=self.Fit[i].params.get('Rel').value, Ri=self.Fit[i].params.get('Ri').value, Q='none'))                
-                    self.fit_L.append(self.Fit[i].params.get('L').value)                
-                    self.fit_Rs.append(self.Fit[i].params.get('Rs').value)                
-                    self.fit_R.append(self.Fit[i].params.get('R').value)                
-                    self.fit_fs.append(self.Fit[i].params.get('fs').value)                
-                    self.fit_n.append(self.Fit[i].params.get('n').value)                
+                    self.circuit_fit.append(cir_RsTL(w=self.df[i].w, L=self.Fit[i].params.get('L').value, Rs=self.Fit[i].params.get('Rs').value, R=self.Fit[i].params.get('R').value, fs=self.Fit[i].params.get('fs').value, n=self.Fit[i].params.get('n').value, Rel=self.Fit[i].params.get('Rel').value, Ri=self.Fit[i].params.get('Ri').value, Q='none'))
+                    self.fit_L.append(self.Fit[i].params.get('L').value)
+                    self.fit_Rs.append(self.Fit[i].params.get('Rs').value)
+                    self.fit_R.append(self.Fit[i].params.get('R').value)
+                    self.fit_fs.append(self.Fit[i].params.get('fs').value)
+                    self.fit_n.append(self.Fit[i].params.get('n').value)
                     self.fit_Rel.append(self.Fit[i].params.get('Rel').value)
                     self.fit_Ri.append(self.Fit[i].params.get('Ri').value)
         elif circuit == 'R-RQ-TL':
@@ -4454,48 +4454,48 @@ class EIS_exp:
             for i in range(len(self.df)):
                 if "'Q1'" in str(self.Fit[i].params.keys()) and "'Q2'" in str(self.Fit[i].params.keys()):
                     self.circuit_fit.append(cir_RsRQTL(w=self.df[i].w, L=self.Fit[i].params.get('L').value, Rs=self.Fit[i].params.get('Rs').value, R1=self.Fit[i].params.get('R1').value, fs1='none', Q1=self.Fit[i].params.get('Q1').value, n1=self.Fit[i].params.get('n1').value, R2=self.Fit[i].params.get('R2').value, fs2='none', Q2=self.Fit[i].params.get('Q2').value, n2=self.Fit[i].params.get('n2').value, Rel=self.Fit[i].params.get('Rel').value, Ri=self.Fit[i].params.get('Ri').value))
-                    self.fit_L.append(self.Fit[i].params.get('L').value)                    
-                    self.fit_Rs.append(self.Fit[i].params.get('Rs').value)                    
-                    self.fit_R1.append(self.Fit[i].params.get('R1').value)                    
-                    self.fit_Q1.append(self.Fit[i].params.get('Q1').value)                    
-                    self.fit_n1.append(self.Fit[i].params.get('n1').value)                    
-                    self.fit_R2.append(self.Fit[i].params.get('R2').value)                    
-                    self.fit_Q2.append(self.Fit[i].params.get('Q2').value)                    
-                    self.fit_n2.append(self.Fit[i].params.get('n2').value)                    
+                    self.fit_L.append(self.Fit[i].params.get('L').value)
+                    self.fit_Rs.append(self.Fit[i].params.get('Rs').value)
+                    self.fit_R1.append(self.Fit[i].params.get('R1').value)
+                    self.fit_Q1.append(self.Fit[i].params.get('Q1').value)
+                    self.fit_n1.append(self.Fit[i].params.get('n1').value)
+                    self.fit_R2.append(self.Fit[i].params.get('R2').value)
+                    self.fit_Q2.append(self.Fit[i].params.get('Q2').value)
+                    self.fit_n2.append(self.Fit[i].params.get('n2').value)
                     self.fit_Rel.append(self.Fit[i].params.get('Rel').value)
                     self.fit_Ri.append(self.Fit[i].params.get('Ri').value)
                 elif "'fs1'" in str(self.Fit[i].params.keys()) and "'fs2'" in str(self.Fit[i].params.keys()):
                     self.circuit_fit.append(cir_RsRQTL(w=self.df[i].w, L=self.Fit[i].params.get('L').value, Rs=self.Fit[i].params.get('Rs').value, R1=self.Fit[i].params.get('R1').value, fs1=self.Fit[i].params.get('fs1').value, Q1='none', n1=self.Fit[i].params.get('n1').value, R2=self.Fit[i].params.get('R2').value, fs2=self.Fit[i].params.get('fs2').value, Q2='none', n2=self.Fit[i].params.get('n2').value, Rel=self.Fit[i].params.get('Rel').value, Ri=self.Fit[i].params.get('Ri').value))
-                    self.fit_L.append(self.Fit[i].params.get('L').value)                
+                    self.fit_L.append(self.Fit[i].params.get('L').value)
                     self.fit_Rs.append(self.Fit[i].params.get('Rs').value)
-                    self.fit_R1.append(self.Fit[i].params.get('R1').value)                    
+                    self.fit_R1.append(self.Fit[i].params.get('R1').value)
                     self.fit_fs1.append(self.Fit[i].params.get('fs1').value)
                     self.fit_n1.append(self.Fit[i].params.get('n1').value)
-                    self.fit_R2.append(self.Fit[i].params.get('R2').value)                    
+                    self.fit_R2.append(self.Fit[i].params.get('R2').value)
                     self.fit_fs2.append(self.Fit[i].params.get('fs2').value)
                     self.fit_n2.append(self.Fit[i].params.get('n2').value)
                     self.fit_Rel.append(self.Fit[i].params.get('Rel').value)
                     self.fit_Ri.append(self.Fit[i].params.get('Ri').value)
                 elif "'Q1'" in str(self.Fit[i].params.keys()) and "'fs2'" in str(self.Fit[i].params.keys()):
                     self.circuit_fit.append(cir_RsRQTL(w=self.df[i].w, L=self.Fit[i].params.get('L').value, Rs=self.Fit[i].params.get('Rs').value, R1=self.Fit[i].params.get('R1').value, fs1='none', Q1=self.Fit[i].params.get('Q1').value, n1=self.Fit[i].params.get('n1').value, R2=self.Fit[i].params.get('R2').value, fs2=self.Fit[i].params.get('fs2').value, Q2='none', n2=self.Fit[i].params.get('n2').value, Rel=self.Fit[i].params.get('Rel').value, Ri=self.Fit[i].params.get('Ri').value))
-                    self.fit_L.append(self.Fit[i].params.get('L').value)                
+                    self.fit_L.append(self.Fit[i].params.get('L').value)
                     self.fit_Rs.append(self.Fit[i].params.get('Rs').value)
-                    self.fit_R1.append(self.Fit[i].params.get('R1').value)                    
+                    self.fit_R1.append(self.Fit[i].params.get('R1').value)
                     self.fit_Q1.append(self.Fit[i].params.get('Q1').value)
                     self.fit_n1.append(self.Fit[i].params.get('n1').value)
-                    self.fit_R2.append(self.Fit[i].params.get('R2').value)                    
+                    self.fit_R2.append(self.Fit[i].params.get('R2').value)
                     self.fit_fs2.append(self.Fit[i].params.get('fs2').value)
                     self.fit_n2.append(self.Fit[i].params.get('n2').value)
                     self.fit_Rel.append(self.Fit[i].params.get('Rel').value)
                     self.fit_Ri.append(self.Fit[i].params.get('Ri').value)
                 elif "'fs1'" in str(self.Fit[i].params.keys()) and "'Q2'" in str(self.Fit[i].params.keys()):
                     self.circuit_fit.append(cir_RsRQTL(w=self.df[i].w, L=self.Fit[i].params.get('L').value, Rs=self.Fit[i].params.get('Rs').value, R1=self.Fit[i].params.get('R1').value, fs1=self.Fit[i].params.get('fs1').value, Q1='none', n1=self.Fit[i].params.get('n1').value, R2=self.Fit[i].params.get('R2').value, fs2='none', Q2=self.Fit[i].params.get('Q2').value, n2=self.Fit[i].params.get('n2').value, Rel=self.Fit[i].params.get('Rel').value, Ri=self.Fit[i].params.get('Ri').value))
-                    self.fit_L.append(self.Fit[i].params.get('L').value)                
+                    self.fit_L.append(self.Fit[i].params.get('L').value)
                     self.fit_Rs.append(self.Fit[i].params.get('Rs').value)
-                    self.fit_R1.append(self.Fit[i].params.get('R1').value)                    
+                    self.fit_R1.append(self.Fit[i].params.get('R1').value)
                     self.fit_fs1.append(self.Fit[i].params.get('fs1').value)
                     self.fit_n1.append(self.Fit[i].params.get('n1').value)
-                    self.fit_R2.append(self.Fit[i].params.get('R2').value)                    
+                    self.fit_R2.append(self.Fit[i].params.get('R2').value)
                     self.fit_Q2.append(self.Fit[i].params.get('Q2').value)
                     self.fit_n2.append(self.Fit[i].params.get('n2').value)
                     self.fit_Rel.append(self.Fit[i].params.get('Rel').value)
@@ -4516,7 +4516,7 @@ class EIS_exp:
                 self.circuit_fit.append(cir_RsTL_1Dsolid(w=self.df[i].w, L=self.Fit[i].params.get('L').value, D=self.Fit[i].params.get('D').value, radius=self.Fit[i].params.get('radius').value, Rs=self.Fit[i].params.get('Rs').value, R=self.Fit[i].params.get('R').value, Q=self.Fit[i].params.get('Q').value, n=self.Fit[i].params.get('n').value, R_w=self.Fit[i].params.get('R_w').value, n_w=self.Fit[i].params.get('n_w').value, Rel=self.Fit[i].params.get('Rel').value, Ri=self.Fit[i].params.get('Ri').value))
                 self.fit_L.append(self.Fit[i].params.get('L').value)
                 self.fit_radius.append(self.Fit[i].params.get('radius').value)
-                self.fit_D.append(self.Fit[i].params.get('D').value)            
+                self.fit_D.append(self.Fit[i].params.get('D').value)
                 self.fit_Rs.append(self.Fit[i].params.get('Rs').value)
                 self.fit_R.append(self.Fit[i].params.get('R').value)
                 self.fit_Q.append(self.Fit[i].params.get('Q').value)
@@ -4544,25 +4544,25 @@ class EIS_exp:
             for i in range(len(self.df)):
                 if "'fs1'" in str(self.Fit[i].params.keys()):
                     self.circuit_fit.append(cir_RsRQTL_1Dsolid(w=self.df[i].w, L=self.Fit[i].params.get('L').value, D=self.Fit[i].params.get('D').value, radius=self.Fit[i].params.get('radius').value, Rs=self.Fit[i].params.get('Rs').value, R1=self.Fit[i].params.get('R1').value, Q1='none', fs1=self.Fit[i].params.get('fs1').value, n1=self.Fit[i].params.get('n1').value, R2=self.Fit[i].params.get('R2').value, Q2=self.Fit[i].params.get('Q2').value, n2=self.Fit[i].params.get('n2').value, R_w=self.Fit[i].params.get('R_w').value, n_w=self.Fit[i].params.get('n_w').value, Rel=self.Fit[i].params.get('Rel').value, Ri=self.Fit[i].params.get('Ri').value))
-                    self.fit_L.append(self.Fit[i].params.get('L').value)                    
-                    self.fit_radius.append(self.Fit[i].params.get('radius').value)                    
-                    self.fit_D.append(self.Fit[i].params.get('D').value)                                
-                    self.fit_Rs.append(self.Fit[i].params.get('Rs').value)                    
-                    self.fit_R1.append(self.Fit[i].params.get('R1').value)                    
-                    self.fit_fs1.append(self.Fit[i].params.get('fs1').value)                    
-                    self.fit_n1.append(self.Fit[i].params.get('n1').value)                    
-                    self.fit_R2.append(self.Fit[i].params.get('R2').value)                    
-                    self.fit_Q2.append(self.Fit[i].params.get('Q2').value)                    
-                    self.fit_n2.append(self.Fit[i].params.get('n2').value)                    
-                    self.fit_R_w.append(self.Fit[i].params.get('R_w').value)                    
-                    self.fit_n_w.append(self.Fit[i].params.get('n_w').value)                    
+                    self.fit_L.append(self.Fit[i].params.get('L').value)
+                    self.fit_radius.append(self.Fit[i].params.get('radius').value)
+                    self.fit_D.append(self.Fit[i].params.get('D').value)
+                    self.fit_Rs.append(self.Fit[i].params.get('Rs').value)
+                    self.fit_R1.append(self.Fit[i].params.get('R1').value)
+                    self.fit_fs1.append(self.Fit[i].params.get('fs1').value)
+                    self.fit_n1.append(self.Fit[i].params.get('n1').value)
+                    self.fit_R2.append(self.Fit[i].params.get('R2').value)
+                    self.fit_Q2.append(self.Fit[i].params.get('Q2').value)
+                    self.fit_n2.append(self.Fit[i].params.get('n2').value)
+                    self.fit_R_w.append(self.Fit[i].params.get('R_w').value)
+                    self.fit_n_w.append(self.Fit[i].params.get('n_w').value)
                     self.fit_Rel.append(self.Fit[i].params.get('Rel').value)
                     self.fit_Ri.append(self.Fit[i].params.get('Ri').value)
                 elif "'Q1'" in str(self.Fit[i].params.keys()):
                     self.circuit_fit.append(cir_RsRQTL_1Dsolid(w=self.df[i].w, L=self.Fit[i].params.get('L').value, D=self.Fit[i].params.get('D').value, radius=self.Fit[i].params.get('radius').value, Rs=self.Fit[i].params.get('Rs').value, R1=self.Fit[i].params.get('R1').value, Q1=self.Fit[i].params.get('Q1').value, fs1='none', n1=self.Fit[i].params.get('n1').value, R2=self.Fit[i].params.get('R2').value, Q2=self.Fit[i].params.get('Q2').value, n2=self.Fit[i].params.get('n2').value, R_w=self.Fit[i].params.get('R_w').value, n_w=self.Fit[i].params.get('n_w').value, Rel=self.Fit[i].params.get('Rel').value, Ri=self.Fit[i].params.get('Ri').value))
                     self.fit_L.append(self.Fit[i].params.get('L').value)
                     self.fit_radius.append(self.Fit[i].params.get('radius').value)
-                    self.fit_D.append(self.Fit[i].params.get('D').value)            
+                    self.fit_D.append(self.Fit[i].params.get('D').value)
                     self.fit_Rs.append(self.Fit[i].params.get('Rs').value)
                     self.fit_R1.append(self.Fit[i].params.get('R1').value)
                     self.fit_Q1.append(self.Fit[i].params.get('Q1').value)
@@ -4581,8 +4581,8 @@ class EIS_exp:
             self.fit_Cb = []
             for i in range(len(self.df)):
                 if "'fsb'" in str(self.Fit[i].params.keys()):
-                    self.circuit_fit.append(cir_C_RC_C(w=self.df[i].w, Ce=self.Fit[i].params.get('Ce').value, Cb='none', Rb=self.Fit[i].params.get('Rb').value, fsb=self.Fit[i].params.get('fsb').value))                    
-                    self.fit_Ce.append(self.Fit[i].params.get('Ce').value)                    
+                    self.circuit_fit.append(cir_C_RC_C(w=self.df[i].w, Ce=self.Fit[i].params.get('Ce').value, Cb='none', Rb=self.Fit[i].params.get('Rb').value, fsb=self.Fit[i].params.get('fsb').value))
+                    self.fit_Ce.append(self.Fit[i].params.get('Ce').value)
                     self.fit_Rb.append(self.Fit[i].params.get('Rb').value)
                     self.fit_fsb.append(self.Fit[i].params.get('fsb').value)
                 elif "'Cb'" in str(self.Fit[i].params.keys()):
@@ -4600,16 +4600,16 @@ class EIS_exp:
             for i in range(len(self.df)):
                 if "'fsb'" in str(self.Fit[i].params.keys()):
                     self.circuit_fit.append(cir_Q_RQ_Q(w=self.df[i].w, Qe=self.Fit[i].params.get('Qe').value, ne=self.Fit[i].params.get('ne').value, Qb='none', Rb=self.Fit[i].params.get('Rb').value, fsb=self.Fit[i].params.get('fsb').value, nb=self.Fit[i].params.get('nb').value))
-                    self.fit_Qe.append(self.Fit[i].params.get('Qe').value)                    
-                    self.fit_ne.append(self.Fit[i].params.get('ne').value)                    
-                    self.fit_Rb.append(self.Fit[i].params.get('Rb').value)                    
+                    self.fit_Qe.append(self.Fit[i].params.get('Qe').value)
+                    self.fit_ne.append(self.Fit[i].params.get('ne').value)
+                    self.fit_Rb.append(self.Fit[i].params.get('Rb').value)
                     self.fit_fsb.append(self.Fit[i].params.get('fsb').value)
                     self.fit_nb.append(self.Fit[i].params.get('nb').value)
                 elif "'Qb'" in str(self.Fit[i].params.keys()):
                     self.circuit_fit.append(cir_Q_RQ_Q(w=self.df[i].w, Qe=self.Fit[i].params.get('Qe').value, ne=self.Fit[i].params.get('ne').value, Qb=self.Fit[i].params.get('Qb').value, Rb=self.Fit[i].params.get('Rb').value, fsb='none', nb=self.Fit[i].params.get('nb').value))
                     self.fit_Qe.append(self.Fit[i].params.get('Qe').value)
                     self.fit_ne.append(self.Fit[i].params.get('ne').value)
-                    self.fit_Rb.append(self.Fit[i].params.get('Rb').value)                    
+                    self.fit_Rb.append(self.Fit[i].params.get('Rb').value)
                     self.fit_Qb.append(self.Fit[i].params.get('Qb').value)
                     self.fit_nb.append(self.Fit[i].params.get('nb').value)
         else:
@@ -4619,19 +4619,19 @@ class EIS_exp:
         '''
         Plots Experimental and fitted impedance data in three subplots:
             a) Nyquist, b) Bode, c) relative residuals between experimental and fit
-        
+
         Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
-        
+
         Optional Inputs
         -----------------
         - bode
           Plots the Bode Plot with the following possibilities
             - 'on' = re, im vs. log(freq)
             - 'log' = log(re, im) vs. log(freq)
-            
+
             - 're' = re vs. log(freq)
             - 'log_re' = log(re) vs. log(freq)
-            
+
             - 'im' = im vs. log(freq)
             - 'log_im' = log(im) vs. log(freq)
 
@@ -4640,18 +4640,18 @@ class EIS_exp:
             - 'on' = illustrates the cycle number
             - 'off' = off
             - 'potential' = illustrates the potential
-        
-        - fitting: 
+
+        - fitting:
           If EIS_fit() has been called. To plot experimental- and fitted data turn fitting on
             - 'on'
             - 'off' (default)
 
-        - rr: 
+        - rr:
          The relative residuals between fit and experimental data
          - 'on' = opens a new subplot
          - 'off' (default)
-        
-        - nyq_xlim/nyq_xlim: 
+
+        - nyq_xlim/nyq_xlim:
           x/y-axis on nyquist plot, if not equal to 'none' state [min,max] value
         '''
         if bode=='off':
@@ -4710,9 +4710,9 @@ class EIS_exp:
                     ax1.plot(np.log10(self.df[i].f), -self.circuit_fit[i].imag, lw=0, marker='s', ms=8, mec='r', mew=1, mfc='none')
                 ax1.set_xlabel("log(f) [Hz]")
                 ax1.set_ylabel("Z', -Z'' [$\Omega$]")
-                if legend == 'on' or legend == 'potential': 
+                if legend == 'on' or legend == 'potential':
                     ax1.legend(loc='best', fontsize=10, frameon=False)
-            
+
         elif bode == 're':
             for i in range(len(self.df)):
                 ax1.plot(np.log10(self.df[i].f), self.df[i].re, color=colors_real[i], marker='D', ms=3, lw=2.25, ls='-', label=self.label_cycleno[i])
@@ -4730,7 +4730,7 @@ class EIS_exp:
                     ax1.plot(np.log10(self.df[i].f), np.log10(self.circuit_fit[i].real), lw=0, marker='D', ms=8, mec='r', mew=1, mfc='none', label='')
                 ax1.set_xlabel("log(f) [Hz]")
                 ax1.set_ylabel("log(Z') [$\Omega$]")
-                if legend == 'on' or legend == 'potential': 
+                if legend == 'on' or legend == 'potential':
                     ax1.legend(loc='best', fontsize=10, frameon=False)
 
         elif bode=='im':
@@ -4790,7 +4790,7 @@ class EIS_exp:
                 self.rr_im_min = []
                 self.rr_im_max = []
                 self.rr_re_min = []
-                for i in range(len(self.df)): # needs to be within a loop if cycles have different number of data points     
+                for i in range(len(self.df)): # needs to be within a loop if cycles have different number of data points
                     self.rr_im_min = np.min(self.rr_imag[i])
                     self.rr_im_max = np.max(self.rr_imag[i])
                     self.rr_re_min = np.min(self.rr_real[i])
@@ -4808,10 +4808,10 @@ class EIS_exp:
                     ax2.annotate("$\Delta$Z'", xy=(np.log10(np.min(self.df[0].f)), np.abs(self.rr_ymin )*100*1.2), color=colors_real[-1], fontsize=12)
                     ax2.annotate("$\Delta$-Z''", xy=(np.log10(np.min(self.df[0].f)), np.abs(self.rr_ymin )*100*0.9), color=colors_imag[-1], fontsize=12)
                 elif np.abs(self.rr_ymin) < np.abs(self.rr_ymax):
-                    ax2.set_ylim(np.negative(self.rr_ymax)*100*1.5, np.abs(self.rr_ymax)*100*1.5)                    
+                    ax2.set_ylim(np.negative(self.rr_ymax)*100*1.5, np.abs(self.rr_ymax)*100*1.5)
                     ax2.annotate("$\Delta$Z'", xy=(np.log10(np.min(self.df[0].f)), np.abs(self.rr_ymax)*100*1.2), color=colors_real[-1], fontsize=12)
                     ax2.annotate("$\Delta$-Z''", xy=(np.log10(np.min(self.df[0].f)), np.abs(self.rr_ymax)*100*0.9), color=colors_imag[-1], fontsize=12)
-    
+
                 if legend == 'on' or legend == 'potential':
                     ax2.legend(loc='best', fontsize=10, frameon=False)
 
@@ -4832,16 +4832,16 @@ class EIS_exp:
     def Fit_uelectrode(self, params, circuit, D_ox, r, theta_real_red, theta_imag_red, n, T, F, R, Q='none', weight_func='modulus', nan_policy='raise'):
         '''
         Fit the reductive microdisk electrode impedance repsonse following either BV or MHC infinite kientics
-    
+
         Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
         '''
         self.Fit = []
         self.circuit_fit = []
-        
+
         for i in range(len(self.df)):
             self.Fit.append(minimize(leastsq_errorfunc_uelectrode, params, method='leastsq', args=(self.df[i].w, self.df[i].re, self.df[i].im, circuit, weight_func, np.average(self.df[i].E_avg), D_ox, r, theta_real_red, theta_imag_red, n, T, F, R), nan_policy=nan_policy, maxfev=9999990))
             print(report_fit(self.Fit[i]))
-        
+
             if circuit == 'R-(Q(RM)),BV_red':
                 if "'fs'" in str(self.Fit[i].params.keys()):
                     self.circuit_fit.append(cir_Rs_QRM_BV_red(w=self.df[i].w, E=np.average(self.df[i].E_avg), E0=self.Fit[i].params.get('E0').value, Rs=self.Fit[i].params.get('Rs').value, fs=self.Fit[i].params.get('fs').value, n_Q=self.Fit[i].params.get('n_Q').value, Q='none', Rct=self.Fit[i].params.get('Rct').value, alpha=self.Fit[i].params.get('alpha').value, C_ox=self.Fit[i].params.get('C_ox').value, D_ox=D_ox, r=r, theta_real_red=theta_real_red, theta_imag_red=theta_imag_red, n=n, T=T, F=F, R=R))
@@ -4850,9 +4850,9 @@ class EIS_exp:
 
 
     def uelectrode(self, params, circuit, E, alpha, n, C_ox, D_red, D_ox, r, theta_real_red, theta_real_ox, theta_imag_red, theta_imag_ox, F, R, T, weight_func='modulus', nan_policy='raise'):
-        '''        
+        '''
         Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
-        
+
         Inputs
         ------------
         - Rs = Series resistance [ohm]
@@ -4869,15 +4869,15 @@ class EIS_exp:
             - modulus (default)
             - unity
             - proportional
-        
+
         - nan_policy = if issues occur with this fitting due to nan values 'propagate' should be used. otherwise, 'raise' is default
-        
+
         Returns
         ------------
         Returns the fitted impedance spectra(s) but also the fitted parameters that were used in the initial guesses. To call these use e.g. self.fit_Rs
         '''
         self.Fit = []
-        self.circuit_fit = []        
+        self.circuit_fit = []
         self.fit_Rs = []
         self.fit_Q = []
         self.fit_fs = []
@@ -4910,64 +4910,64 @@ class EIS_exp:
     def uelectrode_sim_fit(self, params, circuit, E, alpha, n, C_ox, D_red, D_ox, r, theta_real_red, theta_real_ox, theta_imag_red, theta_imag_ox, F, R, T, weight_func='modulus', nan_policy='raise'):
         '''
         In development..
-        
+
         Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
-        
+
         Inputs
         ------------
         - weight_func = Weight function, Three options:
             - modulus (default)
             - unity
             - proportional
-        
+
         - nan_policy = if issues occur with this fitting due to nan values 'propagate' should be used. otherwise, 'raise' is default
-        
+
         - nyq_xlim/nyq_xlim: x/y-axis on nyquist plot, if not equal to 'none' state [min,max] value
-        
+
         - legend: Display legend
             Turn 'on', 'off'
-    
+
         - bode = Plots Bode Plot - options:
             'on' = re, im vs. log(freq)
             'log' = log(re, im) vs. log(freq)
-            
+
             're' = re vs. log(freq)
             'log_re' = log(re) vs. log(freq)
-            
+
             'im' = im vs. log(freq)
             'log_im' = log(im) vs. log(freq)
-        
+
         - fitting: if EIS_exp_fit() has been called. Plotting exp and fits by = 'on'
             Turn 'on', 'off'
-    
-        - rr: relative residuals. Gives relative residuals of fit from experimental data. 
+
+        - rr: relative residuals. Gives relative residuals of fit from experimental data.
             Turn 'on', 'off'
-    
+
         Returns
         ------------
         The fitted impedance spectra(s) but also the fitted parameters that were used in the initial guesses. To call these use e.g. self.fit_Rs
         '''
         self.Fit = minimize(leastsq_errorfunc_uelectrode, params, method='leastsq', args=(self.w, self.re, self.im, circuit, weight_func, E, alpha, n, C_ox, D_red, D_ox, r, theta_real_red, theta_real_ox, theta_imag_red, theta_imag_ox, F, R, T), nan_policy=nan_policy, maxfev=9999990)
         print(report_fit(self.Fit))
-    
+
 
     def plot_Cdl_E(self, interface, BET_Area, m_electrode):
         '''
         Normalizing Q to C_eff or Cdl using either norm_nonFara_Q_C() or norm_Fara_Q_C()
-        
+
         Refs:
             - G. J.Brug, A.L.G. vandenEeden, M.Sluyters-Rehbach, and J.H.Sluyters, J.Elec-
             troanal. Chem. Interfacial Electrochem., 176, 275 (1984)
             - B. Hirschorn, ElectrochimicaActa, 55, 6218 (2010)
-        
+
         Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
-        
+
         Inputs
         ---------
         interface = faradaic / nonfaradaic
         BET_Area = BET surface area of electrode material [cm]
         m_electrode = mass of electrode [cm2/mg]
-        
+
         Inputs
         ---------
         C_eff/C_dl = Normalized Double-layer capacitance measured from impedance [uF/cm2] (normalized by norm_nonFara_Q_C() or norm_Fara_Q_C())
@@ -4984,7 +4984,7 @@ class EIS_exp:
                 #self.Q_norm.append(norm_nonFara_Q_C(Rs=self.Fit[i].params.get('Rs').value, Q=self.Fit[i].params.get('Q').value, n=self.Fit[i].params.get('n').value, L=self.Fit[i].params.get('L').value) )
                 self.Q_norm.append(norm_nonFara_Q_C(Rs=self.Fit[i].params.get('Rs').value, Q=self.Fit[i].params.get('Q').value, n=self.Fit[i].params.get('n').value) )
                 self.E.append(np.average(self.df[i].E_avg))
-        
+
         elif interface == 'faradaic':
             self.Q_norm = []
             for j in range(len(self.df)):
@@ -5000,8 +5000,8 @@ class EIS_exp:
 class EIS_sim:
     '''
     Simulates and plots Electrochemical Impedance Spectroscopy based-on build-in equivalent cirucit models
-    
-    Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)    
+
+    Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
 
     Following circuits are implemented:
         - RC
@@ -5024,20 +5024,20 @@ class EIS_sim:
         - R-RQ-TL
         - R-TL1Dsolid (reactive interface with 1D solid-state diffusion)
         - R-RQ-TL1Dsolid
-    
+
     Inputs
     --------
-    - nyq_xlim/nyq_xlim: 
+    - nyq_xlim/nyq_xlim:
         x/y-axis on nyquist plot, if not equal to 'none' state [min,max] value
-        
+
     - bode: Plots following Bode plots
         - 'off'
         - 'on' = re, im vs. log(freq)
         - 'log' = log(re, im) vs. log(freq)
-        
+
         - 're' = re vs. log(freq)
         - 'log_re' = log(re) vs. log(freq)
-        
+
         - 'im' = im vs. log(freq)
         - 'log_im' = log(im) vs. log(freq)
     '''
@@ -5073,33 +5073,33 @@ class EIS_sim:
             ax1.set_ylabel("Z', -Z'' [$\Omega$]")
             if legend == 'on':
                 ax1.legend(loc='best', fontsize=10, frameon=False)
-            
+
         elif bode == 're':
             ax1.plot(np.log10(self.f), self.re, color=colors_real[0], marker='D', ms=3, lw=2.25, ls='-', label="Z'")
             ax1.set_xlabel("log(f) [Hz]")
             ax1.set_ylabel("Z' [$\Omega$]")
-            if legend == 'on': 
+            if legend == 'on':
                 ax1.legend(loc='best', fontsize=10, frameon=False)
 
         elif bode == 'log_re':
             ax1.plot(np.log10(self.f), np.log10(self.re), color=colors_real[0], marker='D', ms=3, lw=2.25, ls='-', label="Z''")
             ax1.set_xlabel("log(f) [Hz]")
             ax1.set_ylabel("log(Z') [$\Omega$]")
-            if legend == 'on': 
+            if legend == 'on':
                 ax1.legend(loc='best', fontsize=10, frameon=False)
 
         elif bode=='im':
             ax1.plot(np.log10(self.f), self.im, color=colors_imag[0], marker='s', ms=3, lw=2.25, ls='-', label="-Z''")
             ax1.set_xlabel("log(f) [Hz]")
             ax1.set_ylabel("-Z'' [$\Omega$]")
-            if legend == 'on': 
+            if legend == 'on':
                 ax1.legend(loc='best', fontsize=10, frameon=False)
 
         elif bode=='log_im':
             ax1.plot(np.log10(self.f), np.log10(self.im), color=colors_imag[0], marker='s', ms=3, lw=2.25, ls='-', label="-Z''")
             ax1.set_xlabel("log(f) [Hz]")
             ax1.set_ylabel("log(-Z'') [$\Omega$]")
-            if legend == 'on': 
+            if legend == 'on':
                 ax1.legend(loc='best', fontsize=10, frameon=False)
 
         elif bode == 'log':
@@ -5107,11 +5107,11 @@ class EIS_sim:
             ax1.plot(np.log10(self.f), np.log10(self.im), color=colors_imag[0], marker='s', ms=3, lw=2.25,  ls='-', label="-Z''")
             ax1.set_xlabel("log(f) [Hz]")
             ax1.set_ylabel("log(Z', -Z'') [$\Omega$]")
-            if legend == 'on': 
+            if legend == 'on':
                 ax1.legend(loc='best', fontsize=10, frameon=False)
-        
+
         ### Figure specifics
-        if legend == 'on': 
+        if legend == 'on':
             ax.legend(loc='best', fontsize=10, frameon=False)
         ax.set_xlabel("Z' [$\Omega$]")
         ax.set_ylabel("-Z'' [$\Omega$]")
@@ -5124,13 +5124,13 @@ class EIS_sim:
         if savefig != 'none':
             fig.savefig(savefig) #saves figure if fix text is given
 
-        
+
     def EIS_sim_fit(self, params, circuit, weight_func='modulus', nan_policy='raise', bode='on', nyq_xlim='none', nyq_ylim='none', legend='on', savefig='none'):
         '''
         This function fits simulations with a selected circuit. This function is mainly used to test fitting functions prior to being used on experimental data
-        
+
         Kristian B. Knudsen (kknu@berkeley.edu / kristianbknudsen@gmail.com)
-        
+
         Inputs
         ------------
         - Circuit: Equivlaent circuit models
@@ -5159,22 +5159,22 @@ class EIS_sim:
             - modulus (default)
             - unity
             - proportional
-                
+
         - nyq_xlim/nyq_xlim: x/y-axis on nyquist plot, if not equal to 'none' state [min,max] value
-        
+
         - legend: Display legend
             Turn 'on', 'off'
 
         - bode = Plots Bode Plot - options:
             'on' = re, im vs. log(freq)
             'log' = log(re, im) vs. log(freq)
-            
+
             're' = re vs. log(freq)
             'log_re' = log(re) vs. log(freq)
-            
+
             'im' = im vs. log(freq)
             'log_im' = log(im) vs. log(freq)
-        
+
         Returns
         ------------
         The fitted impedance spectra(s) but also the fitted parameters that were used in the initial guesses. To call these use e.g. self.fit_Rs
@@ -5640,9 +5640,9 @@ class EIS_sim:
         elif circuit == 'R-TL':
             if "'fs'" in str(self.Fit.params.keys()):
                 self.circuit_fit = cir_RsTL(w=self.w, L=self.Fit.params.get('L').value, Rs=self.Fit.params.get('Rs').value, R=self.Fit.params.get('R').value, fs=self.Fit.params.get('fs').value, n=self.Fit.params.get('n').value, Rel=self.Fit.params.get('Rel').value, Ri=self.Fit.params.get('Ri').value, Q='none')
-                self.fit_L = []                
+                self.fit_L = []
                 self.fit_L.append(self.Fit.params.get('L').value)
-                self.fit_Rs = []                
+                self.fit_Rs = []
                 self.fit_Rs.append(self.Fit.params.get('Rs').value)
                 self.fit_R = []
                 self.fit_R.append(self.Fit.params.get('R').value)
@@ -5656,9 +5656,9 @@ class EIS_sim:
                 self.fit_Ri.append(self.Fit.params.get('Ri').value)
             elif "'Q'" in str(self.Fit.params.keys()):
                 self.circuit_fit = cir_RsTL(w=self.w, L=self.Fit.params.get('L').value, Rs=self.Fit.params.get('Rs').value, R=self.Fit.params.get('R').value, fs='none', n=self.Fit.params.get('n').value, Rel=self.Fit.params.get('Rel').value, Ri=self.Fit.params.get('Ri').value, Q=self.Fit.params.get('Q').value)
-                self.fit_L = []                
+                self.fit_L = []
                 self.fit_L.append(self.Fit.params.get('L').value)
-                self.fit_Rs = []                
+                self.fit_Rs = []
                 self.fit_Rs.append(self.Fit.params.get('Rs').value)
                 self.fit_R = []
                 self.fit_R.append(self.Fit.params.get('R').value)
@@ -5673,9 +5673,9 @@ class EIS_sim:
         elif circuit == 'R-RQ-TL':
             if "'Q1'" in str(self.Fit.params.keys()) and "'Q2'" in str(self.Fit.params.keys()):
                 self.circuit_fit = cir_RsRQTL(w=self.w, L=self.Fit.params.get('L').value, Rs=self.Fit.params.get('Rs').value, R1=self.Fit.params.get('R1').value, fs1='none', Q1=self.Fit.params.get('Q1').value, n1=self.Fit.params.get('n1').value, R2=self.Fit.params.get('R2').value, fs2='none', Q2=self.Fit.params.get('Q2').value, n2=self.Fit.params.get('n2').value, Rel=self.Fit.params.get('Rel').value, Ri=self.Fit.params.get('Ri').value)
-                self.fit_L = []                
+                self.fit_L = []
                 self.fit_L.append(self.Fit.params.get('L').value)
-                self.fit_Rs = []                
+                self.fit_Rs = []
                 self.fit_Rs.append(self.Fit.params.get('Rs').value)
                 self.fit_R1 = []
                 self.fit_R1.append(self.Fit.params.get('R1').value)
@@ -5695,9 +5695,9 @@ class EIS_sim:
                 self.fit_Ri.append(self.Fit.params.get('Ri').value)
             elif "'fs1'" in str(self.Fit.params.keys()) and "'fs2'" in str(self.Fit.params.keys()):
                 self.circuit_fit = cir_RsRQTL(w=self.w, L=self.Fit.params.get('L').value, Rs=self.Fit.params.get('Rs').value, R1=self.Fit.params.get('R1').value, fs1=self.Fit.params.get('fs1').value, Q1='none', n1=self.Fit.params.get('n1').value, R2=self.Fit.params.get('R2').value, fs2=self.Fit.params.get('fs2').value, Q2='none', n2=self.Fit.params.get('n2').value, Rel=self.Fit.params.get('Rel').value, Ri=self.Fit.params.get('Ri').value)
-                self.fit_L = []                
+                self.fit_L = []
                 self.fit_L.append(self.Fit.params.get('L').value)
-                self.fit_Rs = []                
+                self.fit_Rs = []
                 self.fit_Rs.append(self.Fit.params.get('Rs').value)
                 self.fit_R1 = []
                 self.fit_R1.append(self.Fit.params.get('R1').value)
@@ -5717,9 +5717,9 @@ class EIS_sim:
                 self.fit_Ri.append(self.Fit.params.get('Ri').value)
             elif "'Q1'" in str(self.Fit.params.keys()) and "'fs2'" in str(self.Fit.params.keys()):
                 self.circuit_fit = cir_RsRQTL(w=self.w, L=self.Fit.params.get('L').value, Rs=self.Fit.params.get('Rs').value, R1=self.Fit.params.get('R1').value, fs1='none', Q1=self.Fit.params.get('Q1').value, n1=self.Fit.params.get('n1').value, R2=self.Fit.params.get('R2').value, fs2=self.Fit.params.get('fs2').value, Q2='none', n2=self.Fit.params.get('n2').value, Rel=self.Fit.params.get('Rel').value, Ri=self.Fit.params.get('Ri').value)
-                self.fit_L = []                
+                self.fit_L = []
                 self.fit_L.append(self.Fit.params.get('L').value)
-                self.fit_Rs = []                
+                self.fit_Rs = []
                 self.fit_Rs.append(self.Fit.params.get('Rs').value)
                 self.fit_R1 = []
                 self.fit_R1.append(self.Fit.params.get('R1').value)
@@ -5739,9 +5739,9 @@ class EIS_sim:
                 self.fit_Ri.append(self.Fit.params.get('Ri').value)
             elif "'fs1'" in str(self.Fit.params.keys()) and "'Q2'" in str(self.Fit.params.keys()):
                 self.circuit_fit = cir_RsRQTL(w=self.w, L=self.Fit.params.get('L').value, Rs=self.Fit.params.get('Rs').value, R1=self.Fit.params.get('R1').value, fs1=self.Fit.params.get('fs1').value, Q1='none', n1=self.Fit.params.get('n1').value, R2=self.Fit.params.get('R2').value, fs2='none', Q2=self.Fit.params.get('Q2').value, n2=self.Fit.params.get('n2').value, Rel=self.Fit.params.get('Rel').value, Ri=self.Fit.params.get('Ri').value)
-                self.fit_L = []                
+                self.fit_L = []
                 self.fit_L.append(self.Fit.params.get('L').value)
-                self.fit_Rs = []                
+                self.fit_Rs = []
                 self.fit_Rs.append(self.Fit.params.get('Rs').value)
                 self.fit_R1 = []
                 self.fit_R1.append(self.Fit.params.get('R1').value)
@@ -5766,7 +5766,7 @@ class EIS_sim:
                 self.fit_radius = []
                 self.fit_radius.append(self.Fit.params.get('radius').value)
                 self.fit_D = []
-                self.fit_D.append(self.Fit.params.get('D').value)            
+                self.fit_D.append(self.Fit.params.get('D').value)
                 self.fit_Rs = []
                 self.fit_Rs.append(self.Fit.params.get('Rs').value)
                 self.fit_R = []
@@ -5791,7 +5791,7 @@ class EIS_sim:
                 self.fit_radius = []
                 self.fit_radius.append(self.Fit.params.get('radius').value)
                 self.fit_D = []
-                self.fit_D.append(self.Fit.params.get('D').value)            
+                self.fit_D.append(self.Fit.params.get('D').value)
                 self.fit_Rs = []
                 self.fit_Rs.append(self.Fit.params.get('Rs').value)
                 self.fit_R1 = []
@@ -5821,7 +5821,7 @@ class EIS_sim:
                 self.fit_radius = []
                 self.fit_radius.append(self.Fit.params.get('radius').value)
                 self.fit_D = []
-                self.fit_D.append(self.Fit.params.get('D').value)            
+                self.fit_D.append(self.Fit.params.get('D').value)
                 self.fit_Rs = []
                 self.fit_Rs.append(self.Fit.params.get('Rs').value)
                 self.fit_R1 = []
@@ -5916,7 +5916,7 @@ class EIS_sim:
                 self.fit_Rb.append(self.Fit.params.get('Rb').value)
                 self.fit_Re.append(self.Fit.params.get('Re').value)
                 self.fit_Cb.append(self.Fit.params.get('Cb').value)
-                self.fit_Ce.append(self.Fit.params.get('Ce').value)                
+                self.fit_Ce.append(self.Fit.params.get('Ce').value)
             elif "'Cb'" in str(self.Fit.params.keys()) and "'fse'" in str(self.Fit.params.keys()):
                 self.circuit_fit = cir_RCRCZD(w=self.w, L=self.Fit.params.get('L').value, D_s=self.Fit.params.get('D_s').value, u1=self.Fit.params.get('u1').value, u2=self.Fit.params.get('u2').value, Cb=self.Fit.params.get('Cb').value, Rb=self.Fit.params.get('Rb').value, fsb='none', Ce='none', Re=self.Fit.params.get('Re').value, fse=self.Fit.params.get('fse').value)
                 self.fit_L.append(self.Fit.params.get('L').value)
@@ -5936,7 +5936,7 @@ class EIS_sim:
                 self.fit_Rb.append(self.Fit.params.get('Rb').value)
                 self.fit_Re.append(self.Fit.params.get('Re').value)
                 self.fit_fsb.append(self.Fit.params.get('fsb').value)
-                self.fit_Ce.append(self.Fit.params.get('Ce').value)  
+                self.fit_Ce.append(self.Fit.params.get('Ce').value)
         else:
             print('Circuit is not properly defined, see details described in definition')
 
@@ -5961,15 +5961,15 @@ class EIS_sim:
             ax1.plot(np.log10(self.f), -self.circuit_fit.imag, lw=0, marker='s', ms=8, mec='r', mew=1, mfc='none')
             ax1.set_xlabel("log(f) [Hz]")
             ax1.set_ylabel("Z', -Z'' [$\Omega$]")
-            if legend == 'on': 
+            if legend == 'on':
                 ax1.legend(loc='best', fontsize=10, frameon=False)
-            
+
         elif bode == 're':
             ax1.plot(np.log10(self.f), self.re, color=colors_real[0], marker='D', ms=3, lw=2.25, ls='-', label="Z'")
             ax1.plot(np.log10(self.f), self.circuit_fit.real, lw=0, marker='D', ms=8, mec='r', mew=1, mfc='none', label='Fit')
             ax1.set_xlabel("log(f) [Hz]")
             ax1.set_ylabel("Z' [$\Omega$]")
-            if legend == 'on': 
+            if legend == 'on':
                 ax1.legend(loc='best', fontsize=10, frameon=False)
 
         elif bode == 'log_re':
@@ -5977,7 +5977,7 @@ class EIS_sim:
             ax1.plot(np.log10(self.f), np.log10(self.circuit_fit.real), lw=0, marker='D', ms=8, mec='r', mew=1, mfc='none', label='Fit')
             ax1.set_xlabel("log(f) [Hz]")
             ax1.set_ylabel("log(Z') [$\Omega$]")
-            if legend == 'on': 
+            if legend == 'on':
                 ax1.legend(loc='best', fontsize=10, frameon=False)
 
         elif bode=='im':
@@ -5985,7 +5985,7 @@ class EIS_sim:
             ax1.plot(np.log10(self.f), -self.circuit_fit.imag, lw=0, marker='s', ms=8, mec='r', mew=1, mfc='none', label='Fit')
             ax1.set_xlabel("log(f) [Hz]")
             ax1.set_ylabel("-Z'' [$\Omega$]")
-            if legend == 'on': 
+            if legend == 'on':
                 ax1.legend(loc='best', fontsize=10, frameon=False)
 
         elif bode=='log_im':
@@ -5993,7 +5993,7 @@ class EIS_sim:
             ax1.plot(np.log10(self.f), np.log10(-self.circuit_fit.imag), lw=0, marker='s', ms=8, mec='r', mew=1, mfc='none', label='Fit')
             ax1.set_xlabel("log(f) [Hz]")
             ax1.set_ylabel("log(-Z'') [$\Omega$]")
-            if legend == 'on': 
+            if legend == 'on':
                 ax1.legend(loc='best', fontsize=10, frameon=False)
 
         elif bode == 'log':
@@ -6003,11 +6003,11 @@ class EIS_sim:
             ax1.plot(np.log10(self.f), np.log10(-self.circuit_fit.imag), lw=0, marker='s', ms=8, mec='r', mew=1, mfc='none')
             ax1.set_xlabel("log(f) [Hz]")
             ax1.set_ylabel("log(Z', -Z'') [$\Omega$]")
-            if legend == 'on': 
+            if legend == 'on':
                 ax1.legend(loc='best', fontsize=10, frameon=False)
-        
+
         ### Figure specifics
-        if legend == 'on': 
+        if legend == 'on':
             ax.legend(loc='best', fontsize=10, frameon=False)
         ax.set_xlabel("Z' [$\Omega$]")
         ax.set_ylabel("-Z'' [$\Omega$]")
