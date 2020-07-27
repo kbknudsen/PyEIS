@@ -13,7 +13,6 @@ This script contains tools for extracting impedance data from data files. Curren
 from __future__ import division
 import pandas as pd
 import numpy as np
-from scipy.constants import codata
 
 #### Extracting .mpt files with PEIS or GEIS data
 def correct_text_EIS(text_header):
@@ -142,6 +141,23 @@ def extract_solar(path, EIS_name):
     data = data.assign(cycle_number = 1.0)
     return data
 
-#
-#print()
-#print('---> Data Extraction Script Loaded (v. 0.0.2 - 06/27/18)')
+
+def extract_csv(path,  EIS_name,  sep='\t'):
+    '''
+    Extract data from simple csv style file. 
+    
+    The standard seperator is TAB and one row with column names. We want the columns 
+    to named in a unified way: f, re, im, Z_mag, Y_phase.
+    '''
+    
+    raw = pd.read_csv(path+EIS_name,  sep='\t')
+    data = raw.rename(columns={'Frequency':  'f', 
+                                            'Z_re':  're', 
+                                            'Z_img':  'im', 
+                                            'Z_E': 'Z_mag', 
+                                            'Phase_E': 'Y_phase'})
+    
+    data = data.assign(cycle_number = 1.0)
+    
+    return data
+
