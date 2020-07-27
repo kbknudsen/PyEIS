@@ -57,7 +57,7 @@ def freq_gen(f_start, f_stop, pts_decade=7):
     [1] = Angular frequency range [1/s]
     '''
     f_decades = np.log10(f_start) - np.log10(f_stop)
-    f_range = np.logspace(np.log10(f_start), np.log10(f_stop), num=np.around(pts_decade*f_decades), endpoint=True)
+    f_range = np.logspace(np.log10(f_start), np.log10(f_stop), num=np.around(pts_decade*f_decades).astype(int), endpoint=True)
     w_range = 2 * np.pi * f_range
     return f_range, w_range
 
@@ -4024,7 +4024,7 @@ class EIS_exp:
         self.circuit_fit = []
         self.fit_E = []
         for i in range(len(self.df)):
-            self.Fit.append(minimize(leastsq_errorfunc, params, method='leastsq', args=(self.df[i].w.values, self.df[i].re.values, self.df[i].im.values, circuit, weight_func), nan_policy=nan_policy, maxfev=9999990))
+            self.Fit.append(minimize(leastsq_errorfunc, params, method='leastsq', args=(self.df[i].w.values, self.df[i].re.values, self.df[i].im.values, circuit, weight_func), nan_policy=nan_policy, max_nfev=9999990))
             print(report_fit(self.Fit[i]))
             
             self.fit_E.append(np.average(self.df[i].E_avg))
@@ -4698,7 +4698,7 @@ class EIS_exp:
         for i in range(len(self.df)):
             ax.plot(self.df[i].re, self.df[i].im, marker='o', ms=4, lw=2, color=colors[i], ls='-', label=self.label_cycleno[i])
             if fitting == 'on':
-                ax.plot(self.circuit_fit[i].real, -self.circuit_fit[i].imag, lw=0, marker='o', ms=8, mec='r', mew=1, mfc='none', label='')
+                ax.plot([i.real for i in self.circuit_fit[i]], [-i.imag for i in self.circuit_fit[i]], lw=0, marker='o', ms=8, mec='r', mew=1, mfc='none', label='')
 
         ### Bode Plot
         if bode=='on':
