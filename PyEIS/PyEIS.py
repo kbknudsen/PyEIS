@@ -57,7 +57,7 @@ def freq_gen(f_start, f_stop, pts_decade=7):
     [1] = Angular frequency range [1/s]
     '''
     f_decades = np.log10(f_start) - np.log10(f_stop)
-    f_range = np.logspace(np.log10(f_start), np.log10(f_stop), num=np.around(pts_decade*f_decades), endpoint=True)
+    f_range = np.logspace(np.log10(f_start), np.log10(f_stop), num=np.around(pts_decade*f_decades).astype(int), endpoint=True)
     w_range = 2 * np.pi * f_range
     return f_range, w_range
 
