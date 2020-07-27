@@ -9,27 +9,23 @@ Created on Mon Mar  5 12:13:33 2018
 from __future__ import division
 import pandas as pd
 import numpy as np
+import mpmath as mp
+import matplotlib as mpl
+import seaborn as sns
 from scipy.constants import codata
 from pylab import *
-from scipy.optimize import curve_fit
-import mpmath as mp
-from lmfit import minimize, Minimizer, Parameters, Parameter, report_fit
+from lmfit import minimize, report_fit
+
 #from scipy.optimize import leastsq
 pd.options.mode.chained_assignment = None
 
 #Plotting
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-from matplotlib.ticker import LinearLocator, FormatStrFormatter
-import seaborn as sns
-import matplotlib.ticker as mtick
 mpl.rc('mathtext', fontset='stixsans', default='regular')
 mpl.rcParams.update({'axes.labelsize':22})
 mpl.rc('xtick', labelsize=16) 
 mpl.rc('ytick', labelsize=16)
 mpl.rc('legend',fontsize=14)
 
-from scipy.constants import codata
 F = codata.physical_constants['Faraday constant'][0]
 Rg = codata.physical_constants['molar gas constant'][0]
 
@@ -2230,22 +2226,22 @@ class EIS_exp:
     def __init__(self, path, data, cycle='off', mask=['none','none']):
         self.df_raw0 = []
         self.cycleno = []
-        for j in range(len(data)):
-            if data[j].find(".mpt") != -1: #file is a .mpt file
-                self.df_raw0.append(extract_mpt(path=path, EIS_name=data[j])) #reads all datafiles
-            elif data[j].find(".DTA") != -1: #file is a .dta file
-                self.df_raw0.append(extract_dta(path=path, EIS_name=data[j])) #reads all datafiles
-            elif data[j].find(".z") != -1: #file is a .z file
-                self.df_raw0.append(extract_solar(path=path, EIS_name=data[j])) #reads all datafiles
+        for j, f in enumerate(data, start=0):
+            if f.endswith('mpt'): #file is a .mpt file
+                self.df_raw0.append(extract_mpt(path=path, EIS_name=f)) #reads all datafiles
+            elif f.endswith('DTA'): #file is a .dta file
+                self.df_raw0.append(extract_dta(path=path, EIS_name=f)) #reads all datafiles
+            elif f.endswith('z'): #file is a .z file
+                self.df_raw0.append(extract_solar(path=path, EIS_name=f)) #reads all datafiles
+            elif f.endswith('txt'):
+                self.df_raw0.append(extract_csv(path=path,  EIS_name=f))
             else:
                 print('Data file(s) could not be identified')
-
             self.cycleno.append(self.df_raw0[j].cycle_number)
             if np.min(self.cycleno[j]) <= np.max(self.cycleno[j-1]):
                 if j > 0: #corrects cycle_number except for the first data file
                     self.df_raw0[j].update({'cycle_number': self.cycleno[j]+np.max(self.cycleno[j-1])}) #corrects cycle number
-#            else:
-#                print('__init__ Error (#1)')
+
 
         #currently need to append a cycle_number coloumn to gamry files
 
