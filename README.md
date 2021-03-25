@@ -1,6 +1,8 @@
 <p align="center">
-  <img src="https://github.com/kbknudsen/PyEIS/blob/master/pyEIS_images/PyEIS_logo.png">
+  <img src="docs/PyEIS_logo.png">
 </p>
+
+This is a fork of the currently not maintained original [repository](https://github.com/kbknudsen/PyEIS). 
 
 This repository contains PyEIS, A Python-based Electrochemical Impedance Spectroscopy analyzer and simulator. The software is designed to perform impedance simulations and analyze experimental data through the application of circuit elements. Physical processes in electrochemical systems can be represented by analog circuits containing capacitors (C), resistors (R), inductors (I), and some distributed elements such as constant-phase- (Q) and Warburg elements (W). These features make it possible to understand kinetics, double-layers, and mass-transport for a large range of electrochemical applications. 
 
@@ -15,11 +17,11 @@ PyEIS has nine main features:
 - Open-source platform that makes it feasible to include any new equivalent circuit
 - Tutorials for simulating impedance, importing experimental data, and fitting experimental data
 
+## Software and Installation
+The PyEIS on PyPI is broken and currently not maintained. Instead use this installation:
 
-Following the license agreement, please use the following citation: [![DOI](https://zenodo.org/badge/159585045.svg)](https://zenodo.org/badge/latestdoi/159585045)
-
-
-Author: Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
+    git clone https://github.com/n-bock/PyEIS.git
+    pip3 install -r requirements.txt
 
 ## How to use PyEIS
 PyEIS works in a python 3 environment. It was built, tested, and automated in Jupyter lab and Spyder. To use PyEIS, an independent interface is not available as impedance fitting and post analysis of fitted parameters would become a two-step process. Instead PyEIS works directly in a Python interface and fitted parameters are automatically output in variables directly accessible to plot or analyze vs. potential, current, state-of-charge, cycle number, time, etc. allowing for fast analysis.
@@ -27,41 +29,24 @@ PyEIS works in a python 3 environment. It was built, tested, and automated in Ju
 
 The following command overview and two notebooks are tutorials that in a step-by-step manner introduce the functionality of PyEIS:
 
-- [PyEIS command overview](https://github.com/kbknudsen/PyEIS/blob/master/Tutorials/PyEIS_command_overview.pdf)
-- [Simulations with PyEIS](https://github.com/kbknudsen/PyEIS/blob/master/Tutorials/PyEIS_simulation_tutorial.ipynb)
-- [Experimental Data Extraction and Fitting with PyEIS](https://github.com/kbknudsen/PyEIS/blob/master/Tutorials/PyEIS_experimental-data_tutorial.ipynb)
+- [PyEIS command overview](Tutorials/PyEIS_command_overview.pdf)
+- [Simulations with PyEIS](Tutorials/PyEIS_simulation_tutorial.ipynb)
+- [Experimental Data Extraction and Fitting with PyEIS](Tutorials/PyEIS_experimental-data_tutorial.ipynb)
 
-The [PyEIS command overview](https://github.com/kbknudsen/PyEIS/blob/master/Tutorials/PyEIS_command_overview.pdf) gives a brief overview of the main functionalities and their dependents. The [Simulations with PyEIS](https://github.com/kbknudsen/PyEIS/blob/master/Tutorials/PyEIS_simulation_tutorial.ipynb) notebook covers simulating and plotting impedance spectra’s with different built-in equivalent circuits, fitting generated data with equivalent circuits, and extracting fitted parameters. The [Experimental Data Extraction and Fitting with PyEIS](https://github.com/kbknudsen/PyEIS/blob/master/Tutorials/PyEIS_experimental-data_tutorial.ipynb) notebook covers how to import experimental data, perform linear Kramers-Kronig analysis of the experimental data to assess data quality, how to mask data, fitting and plotting experimental data using equivalent circuits, assessing quality of fit using relative residuals, and extracting fitted parameters such as resistors and capacitors for further post-analysis.
+The [PyEIS command overview](Tutorials/PyEIS_command_overview.pdf) gives a brief overview of the main functionalities and their dependents. The [Simulations with PyEIS](Tutorials/PyEIS_simulation_tutorial.ipynb) notebook covers simulating and plotting impedance spectra’s with different built-in equivalent circuits, fitting generated data with equivalent circuits, and extracting fitted parameters. The [Experimental Data Extraction and Fitting with PyEIS](Tutorials/PyEIS_experimental-data_tutorial.ipynb) notebook covers how to import experimental data, perform linear Kramers-Kronig analysis of the experimental data to assess data quality, how to mask data, fitting and plotting experimental data using equivalent circuits, assessing quality of fit using relative residuals, and extracting fitted parameters such as resistors and capacitors for further post-analysis.
 
 The built-in equivalent circuits are illustrated in the following figure. Here Boukamp's simple notation of circuits [5] is used in the "trivial term", while "Simulation function" describes the function that needs to be called to perform simulations, and "Fit string" describes a circuit string that needs be called in the fitting function.
 
 <p align="center">
-  <img src="https://github.com/kbknudsen/PyEIS/blob/master/pyEIS_images/Equivalent_Circuits_avaliable.png">
+  <img src="docs/Equivalent_Circuits_avaliable.png">
 </p>
 
-## Software and Installation
-PyEIS is available on PyPI and can be install using the following command
-
-> - pip install PyEIS==1.0.10
-
-### Dependencies
-The following libraries are required by PyEIS
-
-- numpy >= 1.13.3
-- scipy >= 1.0.1
-- pandas >= 0.22.0
-- mpmath >= 1.1.0
-- lmfit >= 0.9.7
-- matplotlib >= 2.2.2
-- seaborn >= 0.8.1
-
-
-### [Release history](https://github.com/kbknudsen/PyEIS/blob/master/Changes.txt)
-
-## License
-All files in this repository including code, readme, logos, and figures are released under the Apache 2.0 License. Learn more at the [Open Source Initiative](https://opensource.org/licenses/Apache-2.0).
 
 ## Acknowledgements
+Following the license agreement, please use the following citation: [![DOI](https://zenodo.org/badge/159585045.svg)](https://zenodo.org/badge/latestdoi/159585045)
+
+Author: Kristian B. Knudsen (kknu@berkeley.edu || kristianbknudsen@gmail.com)
+
 PyEIS is the accumulation of Kristian's work studying kinetics, double-layer and capacitive effects, and mass transport limitations in electrochemical cells with Electrochemical Impedance Spectroscopy during his PhD at The Technical University of Denmark, Department of Energy under the supervision of Ass. Prof. Johan Hjelm. He currently maintains a Post Doctoral position at the University of California, Berkeley at the Department of Chemical Engineering with Ass. Prof. Bryan D. McCloskey.
 
 Funding is acknowledged from NASA ARMD Convergent Aeronautics Solutions (CAS) Project (Cooperative Agreement NNX16AR82A).
