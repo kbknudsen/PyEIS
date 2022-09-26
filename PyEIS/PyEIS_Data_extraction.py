@@ -44,7 +44,7 @@ def correct_text_EIS(text_header):
         return 'Z_phase'
     elif text_header == 'time/s' or text_header == 'Time(Sec)':
         return 'times'
-    elif text_header == '<Ewe>/V' or text_header == 'Bias':
+    elif text_header == '<Ewe>/V' or text_header == 'Bias' or  text_header == 'Ecell/V':
         return 'E_avg'
     elif text_header == '<I>/mA':
         return 'I_avg'
