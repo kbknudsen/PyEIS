@@ -100,7 +100,10 @@ def extract_mpt(path, EIS_name):
     for j in range(len(EIS_test_header_names.columns)):
         names_EIS.append(correct_text_EIS(EIS_test_header_names.columns[j])) #reads coloumn text
 #    return pd.read_csv(path+EIS_name, sep='\t', skiprows=int(EIS_init.err[0][18:20]), names=names_EIS, encoding='latin1')
-    return pd.read_csv(path+EIS_name, sep='\t', skiprows=int(EIS_init.err[0][18:-1]), names=names_EIS, encoding='latin1')
+    try:
+        return pd.read_csv(path+EIS_name, sep='\t', skiprows=int(EIS_init.err[0][18:-1]), names=names_EIS, encoding='latin1')
+    else:
+        return pd.read_csv(path+EIS_name, sep='\t', decimal=',', skiprows=int(EIS_init.err[0][18:-1]), names=names_EIS, encoding='latin1')
 
 def extract_dta(path, EIS_name):
     '''
